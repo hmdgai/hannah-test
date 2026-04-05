@@ -1,0 +1,112 @@
+---
+/**
+ * TestimonialSlider.astro
+ * ─────────────────────────────────────────────────────────
+ * Reusable Swiper-powered testimonial carousel.
+ *
+ * How to use on any page:
+ *   import TestimonialSlider from '../components/TestimonialSlider.astro'
+ *   <TestimonialSlider testimonials={myArray} />
+ *
+ * Each testimonial object shape:
+ *   { name: string, role: string, body: string, rating: number }
+ */
+
+interface Testimonial {
+  name: string;
+  role: string;
+  body: string;
+  rating: number; // 1–5
+}
+
+interface Props {
+  testimonials: Testimonial[];
+}
+
+const { testimonials } = Astro.props;
+---
+
+<!-- Swiper CSS — loaded once, scoped to this component -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+<div class="relative">
+  <div class="swiper testimonial-swiper overflow-hidden rounded-[--radius-card]">
+    <div class="swiper-wrapper py-4">
+      {testimonials.map((t) => (
+        <div class="swiper-slide">
+          <div class="bg-white border border-[--color-border] rounded-[--radius-card] p-8 shadow-sm h-full flex flex-col gap-4">
+
+            <!-- Star rating -->
+            <div class="flex gap-1 text-amber-400 text-lg">
+              {Array.from({ length: t.rating }).map(() => (
+                <span>★</span>
+              ))}
+              {Array.from({ length: 5 - t.rating }).map(() => (
+                <span class="text-slate-200">★</span>
+              ))}
+            </div>
+
+            <!-- Quote -->
+            <p class="text-slate-600 leading-relaxed flex-1">"{t.body}"</p>
+
+            <!-- Author -->
+            <div class="border-t border-[--color-border] pt-4">
+              <p class="font-semibold text-[--color-headline]">{t.name}</p>
+              <p class="text-sm text-[--color-caption]">{t.role}</p>
+            </div>
+
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Pagination dots -->
+    <div class="swiper-pagination mt-6"></div>
+  </div>
+
+  <!-- Navigation arrows (outside the overflow:hidden wrapper) -->
+  <div class="swiper-button-prev !text-[--color-primary] !-left-4"></div>
+  <div class="swiper-button-next !text-[--color-primary] !-right-4"></div>
+</div>
+
+<!-- Swiper JS — initialised with this component, not globally -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+  // Wait for DOM before initialising
+  document.addEventListener("DOMContentLoaded", () => {
+    new (window as any).Swiper(".testimonial-swiper", {
+      // How many slides to show at once
+      slidesPerView: 1,
+      spaceBetween: 24,
+
+      // Loop forever — like Elementor's infinite carousel
+      loop: true,
+
+      // Dots at the bottom
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+
+      // Arrow buttons
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+
+      // Responsive breakpoints — more cards on wider screens
+      breakpoints: {
+        640: { slidesPerView: 1 },
+        768: { slidesPerView: 2 },
+        1024: { slidesPerView: 3 },
+      },
+
+      // Auto-play (optional — remove if not needed)
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true,
+      },
+    });
+  });
+</script>

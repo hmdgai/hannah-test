@@ -1,0 +1,910 @@
+---
+/**
+ * index.astro — HMDG Base Template Design System Reference
+ * ─────────────────────────────────────────────────────────
+ * Internal documentation only. Not a client-facing page.
+ * Every design token, component, and pattern is documented here.
+ *
+ * RULE: Only global CSS classes and Tailwind tokens — no new styles on this page.
+ */
+import "../styles/global.css";
+
+const colours = [
+  { label: "--color-primary",       hex: "#DB003E", desc: "Main brand colour — buttons, links, accents. Change per client.",              group: "Brand"   },
+  { label: "--color-primary-hover", hex: "#DD0D48", desc: "Hover state for all primary interactive elements.",                             group: "Brand"   },
+  { label: "--color-accent",        hex: "#FDF2F5", desc: "Light brand tint — section backgrounds and secondary fills.",                   group: "Brand"   },
+  { label: "--color-headline",      hex: "#040303", desc: "Near-black — applied to h1–h6 automatically via @layer base.",                  group: "Content" },
+  { label: "--color-body",          hex: "#151515", desc: "Near-black — paragraphs and all body text.",                                    group: "Content" },
+  { label: "--color-caption",       hex: "#94A3B8", desc: "Slate grey — captions, labels, meta text, secondary copy.",                    group: "Content" },
+  { label: "--color-muted",         hex: "#F2F2F2", desc: "Light grey — alternating section backgrounds.",                                 group: "Surface" },
+  { label: "--color-surface",       hex: "#F8FAFC", desc: "Off-white — card and form backgrounds.",                                        group: "Surface" },
+  { label: "--color-border",        hex: "#E2E8F0", desc: "Subtle border and divider colour.",                                             group: "Surface" },
+  { label: "--color-white",         hex: "#FFFFFF", desc: "Pure white — card surfaces, nav, modals.",                                      group: "Surface" },
+  { label: "--color-black",         hex: "#000000", desc: "Pure black — use sparingly.",                                                   group: "Surface" },
+];
+
+const buttons = [
+  { cls: "btn-default",     dark: false, desc: "Primary filled. Main CTAs, hero sections, form submits. Always on a light background." },
+  { cls: "btn-secondary",   dark: false, desc: "Outlined primary. Secondary actions next to btn-default. Light backgrounds only." },
+  { cls: "btn-white",       dark: true,  desc: "White filled. Use on dark or brand-coloured backgrounds only." },
+  { cls: "btn-transparent", dark: true,  desc: "Ghost white outline. Use on image overlays or dark sections only." },
+];
+
+const headings = [
+  { tag: "h1", label: "H1", size: "clamp(2.5rem → 4.5rem)",     weight: "800", lh: "1.08", use: "Hero headlines, page titles"      },
+  { tag: "h2", label: "H2", size: "clamp(2rem → 3.5rem)",       weight: "800", lh: "1.12", use: "Section headings"                 },
+  { tag: "h3", label: "H3", size: "clamp(1.5rem → 2.5rem)",     weight: "700", lh: "1.2",  use: "Sub-sections, card titles"       },
+  { tag: "h4", label: "H4", size: "clamp(1.25rem → 1.75rem)",   weight: "700", lh: "1.3",  use: "Feature names, labels"           },
+  { tag: "h5", label: "H5", size: "clamp(1.125rem → 1.375rem)", weight: "600", lh: "1.35", use: "Eyebrow labels, small headings"  },
+  { tag: "h6", label: "H6", size: "clamp(1rem → 1.125rem)",     weight: "600", lh: "1.4",  use: "Fine labels, footnote headings"  },
+];
+
+const textStyles = [
+  { token: "--text-base", px: "16px", lh: "1.75", cls: "",        label: "Base",  desc: "Default body text",              sample: "This is standard body text at 16px. Line-height 1.75 for comfortable reading. Clinic websites serve patients of all ages including older adults, so readability is always the priority. Never reduce body text below 16px." },
+  { token: "--text-lg",   px: "18px", lh: "1.8",  cls: "text-lg", label: "Large", desc: "Lead paragraphs, intros",       sample: "This is a lead paragraph at 18px. Use for the first paragraph in a section or anywhere you need more visual weight without a heading. Apply class .section-lead or text-lg." },
+  { token: "--text-sm",   px: "15px", lh: "1.6",  cls: "text-sm", label: "Small", desc: "Captions, labels, metadata",   sample: "Small text at 15px for captions, metadata, certifications, and supporting information. Use for dates, addresses, and non-critical copy." },
+];
+
+const features = [
+  { title: "HCPC Registered",   desc: "All clinicians are fully registered and hold current professional indemnity insurance." },
+  { title: "4.9 Google Rating", desc: "Over 500 verified patient reviews. Trusted by the local community for over a decade." },
+  { title: "Fast Results",      desc: "Most patients see measurable improvement within 2–3 sessions. No long waiting lists." },
+  { title: "Personal Approach", desc: "Every treatment plan is built around your specific goals, lifestyle, and recovery needs." },
+];
+
+const navLinks = [
+  { href: "#colours",    label: "Colours",     num: "01" },
+  { href: "#fonts",      label: "Fonts",       num: "02" },
+  { href: "#typography", label: "Typography",  num: "03" },
+  { href: "#body-text",  label: "Body Text",   num: "04" },
+  { href: "#buttons",    label: "Buttons",     num: "05" },
+  { href: "#forms",      label: "Forms",       num: "06" },
+  { href: "#containers", label: "Containers",  num: "07" },
+  { href: "#flex",       label: "Flex Layout", num: "08" },
+  { href: "#cards",      label: "Cards",       num: "09" },
+  { href: "#combined",   label: "Example",     num: "10" },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Inter+Tight:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <title>Design System — HMDG Base Template</title>
+    <style>
+      /* Docs page — headings render at editorial weight 400, not landing page weight */
+      h1, h2, h3, h4, h5, h6 { font-weight: 400; }
+
+      /* Typography specimen — restore natural weights inside preview wrapper */
+      .type-preview h1, .type-preview h2 { font-weight: 800; }
+      .type-preview h3, .type-preview h4 { font-weight: 700; }
+      .type-preview h5, .type-preview h6 { font-weight: 600; }
+
+      /* Sidebar active link state — toggled by IntersectionObserver */
+      .sidebar-link.is-active {
+        color: var(--color-primary);
+        background-color: var(--color-accent);
+        font-weight: 600;
+      }
+      .sidebar-link.is-active .sidebar-num {
+        color: var(--color-primary);
+      }
+    </style>
+  </head>
+
+  <body class="bg-[--color-muted] text-[--color-body]">
+
+
+    <!-- ══════════════════════════════════════════════════════
+         STICKY HEADER
+    ══════════════════════════════════════════════════════ -->
+
+
+    <!-- ══════════════════════════════════════════════════════
+         TWO-COLUMN LAYOUT: Sidebar + Main
+    ══════════════════════════════════════════════════════ -->
+    <div class="lg:flex">
+
+
+      <!-- ── LEFT SIDEBAR ──────────────────────────────────── -->
+      <aside class="hidden lg:flex flex-col w-64 xl:w-72 shrink-0 sticky top-0 h-screen bg-white border-r border-[--color-border] overflow-y-auto">
+
+        <nav class="px-4 py-6 flex-1" aria-label="Design system sections">
+          <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest px-3 mb-4">Sections</p>
+          <ul class="flex flex-col gap-0.5 list-none p-0 m-0">
+            {navLinks.map(link => (
+              <li>
+                <a
+                  href={link.href}
+                  data-nav={link.href.slice(1)}
+                  class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-[--radius-btn] text-sm text-[--color-body] hover:text-[--color-primary] hover:bg-[--color-accent] transition-all group"
+                >
+                  <span class="sidebar-num text-xs font-mono font-bold text-[--color-border] group-hover:text-[--color-primary] transition-colors w-5 shrink-0">{link.num}</span>
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div class="px-4 py-5 border-t border-[--color-border]">
+          <p class="text-xs text-[--color-caption] m-0">Internal use only</p>
+          <p class="text-xs text-[--color-caption] m-0 mt-0.5">Do not distribute</p>
+        </div>
+
+      </aside>
+
+
+      <!-- ── RIGHT: MAIN CONTENT ───────────────────────────── -->
+      <div class="flex-1 min-w-0">
+
+
+        <!-- HERO -->
+        <section class="bg-slate-900">
+          <div class="px-8 md:px-10 xl:px-14 py-16 max-w-4xl">
+
+            <div class="flex flex-col gap-6">
+              <span class="eyebrow">HMDG · Internal Documentation</span>
+              <h1 class="text-white m-0">
+                Astro + Tailwind
+              </h1>
+              <p class="text-white/70 m-0 max-w-xl leading-relaxed">
+                The global design system reference for all reusable UK clinic websites.
+                Every colour, font, heading, button, container, and component is documented below.
+              </p>
+              <p class="text-white/50 text-sm m-0">
+                Started: March 5 2026 &nbsp;·&nbsp;
+                Do not rename any CSS variable or class unless adding new ones.
+              </p>
+              <div class="flex flex-wrap gap-3">
+                <a href="#colours" class="btn btn-default">View Design System</a>
+                <a href="#combined" class="btn btn-transparent">See Example</a>
+              </div>
+            </div>
+
+            <!-- Mobile section nav pills -->
+            <nav aria-label="Jump to section" class="flex flex-wrap gap-2 mt-10 pt-8 border-t border-white/10 lg:hidden">
+              {navLinks.map(link => (
+                <a
+                  href={link.href}
+                  class="text-xs font-semibold text-[--color-caption] bg-white/10 hover:bg-white/20 hover:text-[--color-caption] border border-white/10 px-3 py-1.5 rounded-[--radius-badge] transition-colors"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </nav>
+
+          </div>
+        </section>
+
+
+        <!-- ARTICLES -->
+        <main class="px-6 md:px-8 xl:px-12 py-8 flex flex-col gap-5 w-full">
+
+
+          <!-- ───────────────────────────────────────────────────
+               01 — GLOBAL COLOUR VARIABLES
+          ─────────────────────────────────────────────────────── -->
+          <article id="colours" class="bg-white border-b border-[--color-border]">
+
+            <header class="flex items-center justify-between px-8 py-5 border-b border-[--color-border]">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-bold text-[--color-border] font-mono">01</span>
+                <h5 class="m-0">Global Colour Variables</h5>
+              </div>
+              <span class="text-xs font-semibold text-[--color-primary] bg-[--color-accent] px-3 py-1 rounded-[--radius-badge] uppercase tracking-wide">Colors</span>
+            </header>
+
+            <div class="px-8 py-6 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+              {colours.map(c => (
+                <div class="flex flex-col gap-3 p-5 rounded-[--radius-card] bg-[--color-muted] border border-[--color-border]">
+                  <div class="h-14 rounded-[--radius-btn]" data-hex={c.hex}></div>
+                  <div class="flex flex-col gap-1">
+                    <div class="flex items-center gap-2 flex-wrap">
+                      <code class="code-label">{c.label}</code>
+                      <code class="code-hex">{c.hex}</code>
+                    </div>
+                    <span class="text-xs font-semibold text-[--color-caption] uppercase tracking-wider">{c.group}</span>
+                    <p class="text-xs text-[--color-body] m-0 mt-1 leading-snug">{c.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div class="mx-8 mb-8 rounded-[--radius-card] overflow-hidden border border-[--color-border]">
+              <div class="px-5 py-3 flex items-center justify-between border-b border-[--color-border]">
+                <span class="caption-light">Claude AI Prompt — Colours</span>
+                <button class="copy-btn" type="button">Copy</button>
+              </div>
+              <div class="px-5 pt-4 pb-5">
+                <p class="prompt-text prompt-code">Update the primary brand colour to [HEX]. Change --color-primary, --color-primary-hover (slightly darker), and --color-accent (very light tint of primary). These three variables are in src/styles/global.css inside the @theme block. Do not change any other colour variables.</p>
+              </div>
+            </div>
+
+          </article>
+
+
+          <!-- ───────────────────────────────────────────────────
+               02 — FONT VARIABLES
+          ─────────────────────────────────────────────────────── -->
+          <article id="fonts" class="bg-white border-b border-[--color-border]">
+
+            <header class="flex items-center justify-between px-8 py-5 border-b border-[--color-border]">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-bold text-[--color-border] font-mono">02</span>
+                <h5 class="m-0">Font Variables</h5>
+              </div>
+              <span class="text-xs font-semibold text-[--color-primary] bg-[--color-accent] px-3 py-1 rounded-[--radius-badge] uppercase tracking-wide">Fonts</span>
+            </header>
+
+            <div class="px-8 py-6 flex flex-col gap-5">
+
+              <div class="p-6 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card] flex flex-col gap-4">
+                <div class="flex items-start justify-between flex-wrap gap-3">
+                  <div class="flex flex-col gap-1">
+                    <code class="code-label">--font-heading</code>
+                    <p class="text-sm text-[--color-body] m-0">Inter Tight · Condensed display variant · Used on all headings h1–h6</p>
+                  </div>
+                  <span class="text-xs font-semibold text-[--color-caption] bg-white border border-[--color-border] px-3 py-1 rounded-[--radius-badge] shrink-0">Heading Font</span>
+                </div>
+                <p class="font-heading text-5xl text-[--color-headline] m-0 leading-none tracking-tight">
+                  Aa Bb Cc Dd — The quick brown fox
+                </p>
+                <p class="text-xs text-[--color-caption] m-0 font-mono">font-family: 'Inter Tight', ui-sans-serif, system-ui, sans-serif</p>
+              </div>
+
+              <div class="p-6 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card] flex flex-col gap-4">
+                <div class="flex items-start justify-between flex-wrap gap-3">
+                  <div class="flex flex-col gap-1">
+                    <code class="code-label">--font-body</code>
+                    <p class="text-sm text-[--color-body] m-0">Inter · Standard reading variant · Used on all body text, inputs, and buttons</p>
+                  </div>
+                  <span class="text-xs font-semibold text-[--color-caption] bg-white border border-[--color-border] px-3 py-1 rounded-[--radius-badge] shrink-0">Body Font</span>
+                </div>
+                <p class="font-body text-2xl text-[--color-headline] m-0 leading-relaxed">
+                  Aa Bb Cc Dd — The quick brown fox jumps over the lazy dog. 1234567890
+                </p>
+                <p class="text-xs text-[--color-caption] m-0 font-mono">font-family: 'Inter', ui-sans-serif, system-ui, sans-serif</p>
+              </div>
+
+            </div>
+
+            <div class="mx-8 mb-8 rounded-[--radius-card] overflow-hidden border border-[--color-border]">
+              <div class="px-5 py-3 flex items-center justify-between border-b border-[--color-border]">
+                <span class="caption-light">Claude AI Prompt — Fonts</span>
+                <button class="copy-btn" type="button">Copy</button>
+              </div>
+              <div class="px-5 pt-4 pb-5">
+                <p class="prompt-text prompt-code">Update the heading font to [FONT NAME]. Change --font-heading in the @theme block of src/styles/global.css. Also update the Google Fonts import link in BaseLayout.astro and src/pages/index.astro to load the new font. Keep --font-body as Inter unless asked to change it.</p>
+              </div>
+            </div>
+
+          </article>
+
+
+          <!-- ───────────────────────────────────────────────────
+               03 — TYPOGRAPHY SCALE
+          ─────────────────────────────────────────────────────── -->
+          <article id="typography" class="bg-white border-b border-[--color-border]">
+
+            <header class="flex items-center justify-between px-8 py-5 border-b border-[--color-border]">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-bold text-[--color-border] font-mono">03</span>
+                <h5 class="m-0">Typography Scale — H1 to H6</h5>
+              </div>
+              <span class="text-xs font-semibold text-[--color-primary] bg-[--color-accent] px-3 py-1 rounded-[--radius-badge] uppercase tracking-wide">Type</span>
+            </header>
+
+            <div class="px-8 pt-6">
+              <pre class="code-block"><code>{"/* Applied globally via @layer base — no class needed */\nh1 { font-size: clamp(2.5rem,  3vw + 1.8rem,    4.5rem);  line-height: 1.08; letter-spacing: -0.03em;  font-weight: 800; }\nh2 { font-size: clamp(2rem,    2.25vw + 1.47rem, 3.5rem);  line-height: 1.12; letter-spacing: -0.025em; font-weight: 800; }\nh3 { font-size: clamp(1.5rem,  1.5vw + 1.15rem,  2.5rem);  line-height: 1.2;  letter-spacing: -0.02em;  font-weight: 700; }\nh4 { font-size: clamp(1.25rem, 0.75vw + 1.07rem, 1.75rem); line-height: 1.3;  letter-spacing: -0.015em; font-weight: 700; }\nh5 { font-size: clamp(1.125rem, 0.375vw + 1.04rem, 1.375rem); line-height: 1.35; font-weight: 600; }\nh6 { font-size: clamp(1rem, 0.19vw + 0.96rem, 1.125rem);    line-height: 1.4;  font-weight: 600; }\n/* Font: Inter Tight · Colour: --color-headline · Applied automatically */"}</code></pre>
+            </div>
+
+            <div class="type-preview px-8 py-2 overflow-x-hidden">
+              {headings.map((h, i) => (
+                <div class={`py-6 flex flex-col gap-2${i < headings.length - 1 ? ' border-b border-[--color-border]' : ''}`}>
+                  <div class="flex items-center gap-4 flex-wrap">
+                    <span class="text-xs font-bold font-mono text-[--color-caption] uppercase tracking-widest w-6 shrink-0">{h.label}</span>
+                    <code class="code-hex">{h.size}</code>
+                    <span class="text-xs text-[--color-caption]">weight {h.weight}</span>
+                    <span class="text-xs text-[--color-caption]">lh {h.lh}</span>
+                    <span class="text-xs text-[--color-caption] hidden sm:block ml-auto">{h.use}</span>
+                  </div>
+                  {h.tag === "h1" && <h1 class="m-0 overflow-hidden text-ellipsis">{h.label} — Expert Clinic Care</h1>}
+                  {h.tag === "h2" && <h2 class="m-0">{h.label} — Expert Clinic Care</h2>}
+                  {h.tag === "h3" && <h3 class="m-0">{h.label} — Expert Clinic Care</h3>}
+                  {h.tag === "h4" && <h4 class="m-0">{h.label} — Expert Clinic Care</h4>}
+                  {h.tag === "h5" && <h5 class="m-0">{h.label} — Expert Clinic Care</h5>}
+                  {h.tag === "h6" && <h6 class="m-0">{h.label} — Expert Clinic Care</h6>}
+                </div>
+              ))}
+            </div>
+
+            <div class="mx-8 mb-8 rounded-[--radius-card] overflow-hidden border border-[--color-border]">
+              <div class="px-5 py-3 flex items-center justify-between border-b border-[--color-border]">
+                <span class="caption-light">Claude AI Prompt — Headings</span>
+                <button class="copy-btn" type="button">Copy</button>
+              </div>
+              <div class="px-5 pt-4 pb-5">
+                <p class="prompt-text prompt-code">Update the H1 heading size. Change --text-h1 in the @theme block of src/styles/global.css. Use the clamp() format: clamp(min, preferred, max). Also update --text-h1--line-height and --text-h1--letter-spacing if needed. Do not change any other heading variables unless asked.</p>
+              </div>
+            </div>
+
+          </article>
+
+
+          <!-- ───────────────────────────────────────────────────
+               04 — BODY TEXT SYSTEM
+          ─────────────────────────────────────────────────────── -->
+          <article id="body-text" class="bg-white border-b border-[--color-border]">
+
+            <header class="flex items-center justify-between px-8 py-5 border-b border-[--color-border]">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-bold text-[--color-border] font-mono">04</span>
+                <h5 class="m-0">Body Text System</h5>
+              </div>
+              <span class="text-xs font-semibold text-[--color-primary] bg-[--color-accent] px-3 py-1 rounded-[--radius-badge] uppercase tracking-wide">Body</span>
+            </header>
+
+            <div class="px-8 py-6 flex flex-col gap-0">
+              {textStyles.map((t, i) => (
+                <div class={`flex flex-col gap-3 py-6${i < textStyles.length - 1 ? ' border-b border-[--color-border]' : ''}`}>
+                  <div class="flex items-center gap-3 flex-wrap">
+                    <code class="code-label">{t.token}</code>
+                    <span class="text-xs text-[--color-caption]">{t.px} · lh {t.lh}</span>
+                    <span class="text-xs font-medium text-[--color-caption]">{t.label} — {t.desc}</span>
+                  </div>
+                  <p class={`m-0 text-[--color-body] ${t.cls}`}>{t.sample}</p>
+                </div>
+              ))}
+            </div>
+
+            <div class="mx-8 mb-8 rounded-[--radius-card] overflow-hidden border border-[--color-border]">
+              <div class="px-5 py-3 flex items-center justify-between border-b border-[--color-border]">
+                <span class="caption-light">Claude AI Prompt — Body Text</span>
+                <button class="copy-btn" type="button">Copy</button>
+              </div>
+              <div class="px-5 pt-4 pb-5">
+                <p class="prompt-text prompt-code">The body text uses --text-base (16px) and --color-body (#151515) set globally in src/styles/global.css. Paragraphs inherit these automatically via @layer base. To change colour update --color-body. To change size update --text-base. Do not go below 16px. Line-height is --text-base--line-height (1.75).</p>
+              </div>
+            </div>
+
+          </article>
+
+
+          <!-- ───────────────────────────────────────────────────
+               05 — BUTTON SYSTEM
+          ─────────────────────────────────────────────────────── -->
+          <article id="buttons" class="bg-white border-b border-[--color-border]">
+
+            <header class="flex items-center justify-between px-8 py-5 border-b border-[--color-border]">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-bold text-[--color-border] font-mono">05</span>
+                <h5 class="m-0">Button System</h5>
+              </div>
+              <span class="text-xs font-semibold text-[--color-primary] bg-[--color-accent] px-3 py-1 rounded-[--radius-badge] uppercase tracking-wide">Buttons</span>
+            </header>
+
+            <div class="px-8 py-6 flex flex-col gap-6">
+
+              <!-- Light zone -->
+              <div class="flex flex-col gap-3">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">On Light Backgrounds</p>
+                <div class="bg-[--color-surface] border border-[--color-border] rounded-[--radius-card] p-6 flex flex-col gap-5">
+                  {buttons.filter(b => !b.dark).map(b => (
+                    <div class="flex items-start gap-5 flex-wrap">
+                      <div class="shrink-0 min-w-[10rem]">
+                        <a href="#" class={`btn ${b.cls}`}>.{b.cls}</a>
+                      </div>
+                      <div class="flex flex-col gap-1 flex-1">
+                        <code class="code-label">.btn .{b.cls}</code>
+                        <p class="m-0 text-sm text-[--color-body]">{b.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <!-- Dark zone -->
+              <div class="flex flex-col gap-3">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">On Dark Backgrounds</p>
+                <div class="bg-slate-900 rounded-xl p-6 flex flex-col gap-5">
+                  {buttons.filter(b => b.dark).map(b => (
+                    <div class="flex items-start gap-5 flex-wrap">
+                      <div class="shrink-0 min-w-[10rem]">
+                        <a href="#" class={`btn ${b.cls}`}>.{b.cls}</a>
+                      </div>
+                      <div class="flex flex-col gap-1 flex-1">
+                        <code class="code-label">.btn .{b.cls}</code>
+                        <p class="m-0 text-sm text-white/60">{b.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <!-- Usage -->
+              <div class="border-t border-[--color-border] pt-5">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest mb-3">Usage</p>
+                <pre class="code-block"><code>&lt;a href="#" class="btn btn-default"&gt;Book Appointment&lt;/a&gt;       /* light bg */
+&lt;a href="#" class="btn btn-secondary"&gt;Learn More&lt;/a&gt;          /* light bg */
+&lt;a href="#" class="btn btn-white"&gt;View Services&lt;/a&gt;           /* dark bg  */
+&lt;a href="#" class="btn btn-transparent"&gt;Read More&lt;/a&gt;         /* dark bg  */
+&lt;button type="submit" class="btn btn-default w-full"&gt;Send&lt;/button&gt;</code></pre>
+              </div>
+
+            </div>
+
+            <div class="mx-8 mb-8 rounded-[--radius-card] overflow-hidden border border-[--color-border]">
+              <div class="px-5 py-3 flex items-center justify-between border-b border-[--color-border]">
+                <span class="caption-light">Claude AI Prompt — Buttons</span>
+                <button class="copy-btn" type="button">Copy</button>
+              </div>
+              <div class="px-5 pt-4 pb-5">
+                <p class="prompt-text prompt-code">Add a [BUTTON TYPE] button to [SECTION NAME]. Always use both .btn base and a variant class (btn-default, btn-secondary, btn-white, or btn-transparent). Never create new button styles. Buttons are in src/styles/global.css @layer components. Height is 48px and radius is 10px — do not change these.</p>
+              </div>
+            </div>
+
+          </article>
+
+
+          <!-- ───────────────────────────────────────────────────
+               06 — FORM ELEMENTS
+          ─────────────────────────────────────────────────────── -->
+          <article id="forms" class="bg-white border-b border-[--color-border]">
+
+            <header class="flex items-center justify-between px-8 py-5 border-b border-[--color-border]">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-bold text-[--color-border] font-mono">06</span>
+                <h5 class="m-0">Form Elements</h5>
+              </div>
+              <span class="text-xs font-semibold text-[--color-primary] bg-[--color-accent] px-3 py-1 rounded-[--radius-badge] uppercase tracking-wide">Forms</span>
+            </header>
+
+            <div class="px-8 py-6 flex flex-col gap-6">
+
+              <p class="m-0 text-[--color-body]">All form inputs use the <code class="code-label">.input</code> class. Radius matches buttons (10px). Focus ring uses <code class="code-hex">--color-primary</code> with a 3px offset ring.</p>
+
+              <div class="bg-[--color-surface] border border-[--color-border] rounded-[--radius-card] p-6 flex flex-col gap-5">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-[--color-headline]">Full Name</label>
+                    <input type="text" class="input" placeholder="Jane Smith" />
+                  </div>
+                  <div class="flex flex-col gap-2">
+                    <label class="text-sm font-semibold text-[--color-headline]">Email Address</label>
+                    <input type="email" class="input" placeholder="jane@example.com" />
+                  </div>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <label class="text-sm font-semibold text-[--color-headline]">Phone Number</label>
+                  <input type="tel" class="input" placeholder="+44 7700 000000" />
+                </div>
+                <div class="flex flex-col gap-2">
+                  <label class="text-sm font-semibold text-[--color-headline]">Select a Service</label>
+                  <select class="input">
+                    <option value="">Choose a service...</option>
+                    <option>Physiotherapy</option>
+                    <option>Sports Massage</option>
+                    <option>Pilates</option>
+                  </select>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <label class="text-sm font-semibold text-[--color-headline]">Your Message</label>
+                  <textarea class="input" rows="3" placeholder="Tell us about your condition..."></textarea>
+                </div>
+                <div>
+                  <button type="button" class="btn btn-default">Send Enquiry</button>
+                </div>
+              </div>
+
+              <div class="border-t border-[--color-border] pt-5">
+                <pre class="code-block"><code>&lt;label class="text-sm font-semibold text-[--color-headline]"&gt;Label&lt;/label&gt;
+&lt;input  type="text"  class="input" placeholder="..." /&gt;
+&lt;select              class="input"&gt;...&lt;/select&gt;
+&lt;textarea            class="input" rows="4"&gt;&lt;/textarea&gt;</code></pre>
+              </div>
+
+            </div>
+
+            <div class="mx-8 mb-8 rounded-[--radius-card] overflow-hidden border border-[--color-border]">
+              <div class="px-5 py-3 flex items-center justify-between border-b border-[--color-border]">
+                <span class="caption-light">Claude AI Prompt — Forms</span>
+                <button class="copy-btn" type="button">Copy</button>
+              </div>
+              <div class="px-5 pt-4 pb-5">
+                <p class="prompt-text prompt-code">Add a [FORM NAME] form with fields for [FIELDS]. Use the .input class on all inputs, selects, and textareas. Labels use class="text-sm font-semibold text-[--color-headline]". Wrap each label + input in a flex flex-col gap-2 div. Submit uses .btn.btn-default. Do not create new form styles.</p>
+              </div>
+            </div>
+
+          </article>
+
+
+          <!-- ───────────────────────────────────────────────────
+               07 — CONTAINER SYSTEM
+          ─────────────────────────────────────────────────────── -->
+          <article id="containers" class="bg-white border-b border-[--color-border]">
+
+            <header class="flex items-center justify-between px-8 py-5 border-b border-[--color-border]">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-bold text-[--color-border] font-mono">07</span>
+                <h5 class="m-0">Container System</h5>
+              </div>
+              <span class="text-xs font-semibold text-[--color-primary] bg-[--color-accent] px-3 py-1 rounded-[--radius-badge] uppercase tracking-wide">Layout</span>
+            </header>
+
+            <div class="px-8 py-6 flex flex-col gap-6">
+
+              <div class="border-2 border-dashed border-[--color-caption]/40 rounded-[--radius-card] p-4">
+                <p class="text-xs font-mono text-[--color-caption] m-0 mb-3">&lt;section&gt; — Full page width · background colour lives here</p>
+                <div class="border-2 border-dashed border-[--color-primary]/50 rounded-[--radius-card] p-4">
+                  <p class="text-xs font-mono text-[--color-primary] m-0 mb-3">.container-main — max-width 1340px · padding: 90px/30px desktop · 70px/30px mobile</p>
+                  <div class="bg-[--color-muted] border-2 border-dashed border-[--color-headline]/40 rounded-[--radius-card] p-4">
+                    <p class="text-xs font-mono text-[--color-headline] m-0">.container-inner — no padding · content sits flush</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex flex-col gap-3">
+                {[
+                  { cls: ".container-main",  desc: "Primary section wrapper. Max-width 1340px, centred. Padding: 90px 30px desktop, 70px 30px mobile." },
+                  { cls: ".container-inner", desc: "Inner content wrapper. No padding. Always nest inside .container-main." },
+                  { cls: ".section",         desc: "Alias for .container-main. Use on semantic <section> elements." },
+                  { cls: ".container",       desc: "Max-width 1340px, centred, no padding. Use in nav, footer, and already-padded wrappers." },
+                ].map(item => (
+                  <div class="flex items-start gap-3 p-4 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                    <div class="icon-dot-offset"></div>
+                    <div class="flex flex-col gap-1">
+                      <code class="code-label">{item.cls}</code>
+                      <p class="m-0 text-sm text-[--color-body]">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+            </div>
+
+            <div class="mx-8 mb-8 rounded-[--radius-card] overflow-hidden border border-[--color-border]">
+              <div class="px-5 py-3 flex items-center justify-between border-b border-[--color-border]">
+                <span class="caption-light">Claude AI Prompt — Containers</span>
+                <button class="copy-btn" type="button">Copy</button>
+              </div>
+              <div class="px-5 pt-4 pb-5">
+                <p class="prompt-text prompt-code">Build a new [SECTION NAME] section using the global container system. Wrap in &lt;section class="bg-[COLOUR]"&gt;. Inside use &lt;div class="container-main"&gt; for padding and max-width. Inside that use &lt;div class="container-inner"&gt; for content. Max-width 1340px. Do not add custom padding — use the container system only.</p>
+              </div>
+            </div>
+
+          </article>
+
+
+          <!-- ───────────────────────────────────────────────────
+               08 — FLEX LAYOUT SYSTEM
+          ─────────────────────────────────────────────────────── -->
+          <article id="flex" class="bg-white border-b border-[--color-border]">
+
+            <header class="flex items-center justify-between px-8 py-5 border-b border-[--color-border]">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-bold text-[--color-border] font-mono">08</span>
+                <h5 class="m-0">Flex Layout System</h5>
+              </div>
+              <span class="text-xs font-semibold text-[--color-primary] bg-[--color-accent] px-3 py-1 rounded-[--radius-badge] uppercase tracking-wide">Flex</span>
+            </header>
+
+            <div class="px-8 py-6 flex flex-col gap-6">
+
+              <p class="m-0 text-[--color-body]">Flexbox is the default layout system. Use <code class="code-label">.flex-layout</code> for all rows. Default gap is 15px (<code class="code-hex">--spacing-gap</code>). Override only when needed.</p>
+
+              <div class="flex flex-col gap-4">
+                {[
+                  { cls: ".flex-layout",                    desc: "Default · 15px gap · wraps",               items: ["Item A", "Item B", "Item C", "Item D"],  mod: "flex-layout" },
+                  { cls: ".flex-layout.flex-layout--center", desc: "Centre-aligned · trust badges, CTA rows", items: ["Trust A", "Trust B", "Trust C"],          mod: "flex-layout flex-layout--center" },
+                  { cls: ".flex-layout.flex-layout--between",desc: "Space-between · nav, header bars",        items: ["Logo", "Nav Links", "CTA Button"],        mod: "flex-layout flex-layout--between" },
+                  { cls: ".flex-layout.flex-layout--col",   desc: "Vertical stack · form fields, sidebar",    items: ["Stack 1", "Stack 2", "Stack 3"],           mod: "flex-layout flex-layout--col" },
+                ].map(demo => (
+                  <div class="flex flex-col gap-2">
+                    <div class="flex items-center gap-3 flex-wrap">
+                      <code class="code-label">{demo.cls}</code>
+                      <span class="text-xs text-[--color-caption]">{demo.desc}</span>
+                    </div>
+                    <div class={`${demo.mod} p-4 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]`}>
+                      {demo.items.map(item => (
+                        <div class="bg-[--color-accent] text-[--color-primary] text-xs font-semibold px-3 py-2 rounded border border-[--color-primary]/20">{item}</div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div class="border-t border-[--color-border] pt-5">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest mb-4">Gap Scale</p>
+                <div class="flex flex-col gap-2">
+                  {[
+                    { token: "--spacing-gap",    px: "15px", use: "Default (set automatically)" },
+                    { token: "--spacing-gap-md", px: "24px", use: "Cards, grids — override: gap-[--spacing-gap-md]" },
+                    { token: "--spacing-gap-lg", px: "32px", use: "Section columns — override: gap-[--spacing-gap-lg]" },
+                  ].map(g => (
+                    <div class="flex items-center gap-4 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card] flex-wrap">
+                      <code class="code-label">{g.token}</code>
+                      <code class="code-hex">{g.px}</code>
+                      <span class="text-sm text-[--color-body]">{g.use}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+            </div>
+
+            <div class="mx-8 mb-8 rounded-[--radius-card] overflow-hidden border border-[--color-border]">
+              <div class="px-5 py-3 flex items-center justify-between border-b border-[--color-border]">
+                <span class="caption-light">Claude AI Prompt — Flex Layout</span>
+                <button class="copy-btn" type="button">Copy</button>
+              </div>
+              <div class="px-5 pt-4 pb-5">
+                <p class="prompt-text prompt-code">Build a [DESCRIPTION] layout inside [SECTION]. Use &lt;div class="flex-layout"&gt; for the container. Default gap is 15px. Override with gap-[--spacing-gap-md] for 24px or gap-[--spacing-gap-lg] for 32px. Add .flex-layout--center, --between, --col, or --start modifiers as needed. Do not create new flex classes.</p>
+              </div>
+            </div>
+
+          </article>
+
+
+          <!-- ───────────────────────────────────────────────────
+               09 — CARD COMPONENT
+          ─────────────────────────────────────────────────────── -->
+          <article id="cards" class="bg-white border-b border-[--color-border]">
+
+            <header class="flex items-center justify-between px-8 py-5 border-b border-[--color-border]">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-bold text-[--color-border] font-mono">09</span>
+                <h5 class="m-0">Card Component</h5>
+              </div>
+              <span class="text-xs font-semibold text-[--color-primary] bg-[--color-accent] px-3 py-1 rounded-[--radius-badge] uppercase tracking-wide">Cards</span>
+            </header>
+
+            <div class="bg-[--color-accent] px-8 py-8 border-b border-[--color-border]">
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                {features.map(f => (
+                  <div class="card">
+                    <div class="icon-dot mb-4"></div>
+                    <h5 class="mt-0 mb-2">{f.title}</h5>
+                    <p class="m-0 text-sm text-[--color-body]">{f.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div class="px-8 py-6 flex flex-col gap-5">
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {[
+                  { prop: "background",    val: "#ffffff" },
+                  { prop: "border",        val: "1px solid var(--color-border)" },
+                  { prop: "border-radius", val: "var(--radius-card) · 12px" },
+                  { prop: "padding",       val: "var(--spacing-card-p) · 28px" },
+                  { prop: "box-shadow",    val: "var(--shadow-card)" },
+                  { prop: "hover",         val: "translateY(-2px) + shadow-raised + border-primary" },
+                ].map(p => (
+                  <div class="flex items-center gap-3 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                    <code class="code-label shrink-0">{p.prop}</code>
+                    <span class="text-xs text-[--color-caption]">{p.val}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div class="border-t border-[--color-border] pt-5">
+                <pre class="code-block"><code>&lt;div class="card"&gt;
+  &lt;h4&gt;Card Title&lt;/h4&gt;
+  &lt;p&gt;Card description.&lt;/p&gt;
+&lt;/div&gt;
+/* Always place .card on a muted/accent background — never on white */
+/* Hover animation is built in — no extra classes needed            */</code></pre>
+              </div>
+
+            </div>
+
+            <div class="mx-8 mb-8 rounded-[--radius-card] overflow-hidden border border-[--color-border]">
+              <div class="px-5 py-3 flex items-center justify-between border-b border-[--color-border]">
+                <span class="caption-light">Claude AI Prompt — Cards</span>
+                <button class="copy-btn" type="button">Copy</button>
+              </div>
+              <div class="px-5 pt-4 pb-5">
+                <p class="prompt-text prompt-code">Add a [N]-card grid to [SECTION]. Use &lt;div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"&gt; as the wrapper. Each card uses &lt;div class="card"&gt;. Place the grid inside a muted or accent background section. Do not add custom card styles — .card handles all styling and hover.</p>
+              </div>
+            </div>
+
+          </article>
+
+
+          <!-- ───────────────────────────────────────────────────
+               10 — COMBINED EXAMPLE
+          ─────────────────────────────────────────────────────── -->
+          <article id="combined" class="border-b border-[--color-border]">
+
+            <header class="flex items-start justify-between px-8 py-5 border-b border-[--color-border] bg-white flex-wrap gap-3">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-bold text-[--color-border] font-mono">10</span>
+                <div class="flex flex-col gap-0.5">
+                  <h5 class="m-0">Combined Example — Real Clinic Section</h5>
+                  <p class="text-sm text-[--color-caption] m-0">Every part of the design system working together.</p>
+                </div>
+              </div>
+            </header>
+
+            <section class="bg-[--color-accent]">
+              <div class="container-main">
+                <div class="container-inner">
+                  <div class="section-header">
+                    <span class="eyebrow">Why Choose Us</span>
+                    <h2>Expert Care You Can Trust</h2>
+                    <p class="section-lead">Our team of HCPC-registered physiotherapists bring decades of combined experience helping patients recover faster, move better, and live without pain.</p>
+                  </div>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
+                    {features.map(f => (
+                      <div class="card">
+                        <div class="icon-dot mb-3"></div>
+                        <h4 class="mt-0 mb-2">{f.title}</h4>
+                        <p class="m-0 text-sm">{f.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div class="flex-layout flex-layout--center gap-4">
+                    <a href="#" class="btn btn-default">Book Your Appointment</a>
+                    <a href="#" class="btn btn-secondary">View All Services</a>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <div class="bg-white border-t border-[--color-border] px-8 py-6">
+              <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest mb-3">Source Structure</p>
+              <pre class="code-block"><code>&lt;section class="bg-[--color-accent]"&gt;
+  &lt;div class="container-main"&gt;
+    &lt;div class="container-inner"&gt;
+      &lt;div class="section-header"&gt;
+        &lt;span class="eyebrow"&gt;Why Choose Us&lt;/span&gt;
+        &lt;h2&gt;Expert Care You Can Trust&lt;/h2&gt;
+        &lt;p class="section-lead"&gt;...&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"&gt;
+        &lt;div class="card"&gt;...&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="flex-layout flex-layout--center gap-4"&gt;
+        &lt;a class="btn btn-default"&gt;Book&lt;/a&gt;
+        &lt;a class="btn btn-secondary"&gt;Learn More&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+            </div>
+
+            <div class="bg-white px-8 pb-8">
+              <div class="rounded-[--radius-card] overflow-hidden">
+                <div class="px-5 py-3 flex items-center justify-between border-b border-[--color-border]">
+                  <span class="caption-light">Claude AI Prompt — New Section</span>
+                  <button class="copy-btn" type="button">Copy</button>
+                </div>
+                <div class="px-5 pt-4 pb-5">
+                  <p class="prompt-text prompt-code">Build a new [SECTION NAME] section for the clinic website. Use the global design system only — no new CSS classes. Structure: &lt;section class="bg-[COLOUR]"&gt; wrapping .container-main wrapping .container-inner. Use .section-header with .eyebrow for the intro. Use .card for features. Use .btn.btn-default for primary CTA and .btn.btn-secondary for secondary. Use existing colour variables only.</p>
+                </div>
+              </div>
+            </div>
+
+          </article>
+
+
+        </main><!-- end articles -->
+
+
+        <!-- FOOTER -->
+        <footer class="bg-slate-900">
+
+          <div class="px-[30px] py-8 flex-layout flex-layout--between gap-4">
+            <span class="text-sm font-semibold text-white">HMDG Base Template</span>
+          </div>
+
+          <div class="border-t border-white/10">
+            <div class="px-[30px] py-4 flex-layout flex-layout--between gap-4">
+              <div class="flex-layout items-center gap-5 flex-wrap">
+                <span class="text-sm text-white">© Copyright HMDG {new Date().getFullYear()}</span>
+                <span class="text-sm text-white">
+                  Designed &amp; Developed by
+                  <a href="https://hmdg.co.uk/" target="_blank" rel="noopener noreferrer" class="font-semibold text-white hover:text-white/70 transition-colors">HMDG</a>
+                </span>
+              </div>
+              <nav class="flex-layout items-center gap-5 flex-wrap" aria-label="Legal">
+                <a href="/privacy-policy"   class="text-sm text-white/70 hover:text-white transition-colors">Privacy Policy</a>
+                <a href="/terms-conditions" class="text-sm text-white/70 hover:text-white transition-colors">Terms &amp; Conditions</a>
+                <a href="/cookie-policy"    class="text-sm text-white/70 hover:text-white transition-colors">Cookie Policy</a>
+              </nav>
+            </div>
+          </div>
+
+        </footer>
+
+
+      </div><!-- end right panel -->
+    </div><!-- end two-column layout -->
+
+
+  <script>
+    // ── Colour swatches: apply data-hex as background via JS (dynamic values) ──
+    (document.querySelectorAll('[data-hex]') as NodeListOf<HTMLElement>).forEach(el => {
+      const v = el.getAttribute('data-hex');
+      if (!v) return;
+      el.style.background = v;
+      // Add a subtle border so white/light swatches are always visible
+      el.style.border = '1px solid rgba(0,0,0,0.08)';
+    });
+
+    // ── Copy-to-clipboard for AI Prompt boxes ──
+    (document.querySelectorAll('.copy-btn') as NodeListOf<HTMLButtonElement>).forEach(btn => {
+      btn.addEventListener('click', () => {
+        let el: HTMLElement | null = btn.parentElement;
+        let promptEl: Element | null = null;
+        while (el && !promptEl) {
+          promptEl = el.querySelector('.prompt-text');
+          el = el.parentElement;
+        }
+        if (!promptEl) return;
+        const text = (promptEl.textContent ?? '').trim();
+
+        const onSuccess = () => {
+          btn.textContent = '✓ Copied';
+          btn.style.color = '#4ade80';
+          btn.style.borderColor = 'rgba(74,222,128,0.35)';
+          btn.style.background = 'rgba(74,222,128,0.08)';
+          setTimeout(() => {
+            btn.textContent = 'Copy';
+            btn.style.color = '';
+            btn.style.borderColor = '';
+            btn.style.background = '';
+          }, 2000);
+        };
+
+        if (navigator.clipboard?.writeText) {
+          navigator.clipboard.writeText(text).then(onSuccess).catch(() => fallbackCopy(promptEl as Element, onSuccess));
+        } else {
+          fallbackCopy(promptEl, onSuccess);
+        }
+      });
+    });
+
+    function fallbackCopy(el: Element, onSuccess: () => void) {
+      const range = document.createRange();
+      range.selectNodeContents(el);
+      const sel = window.getSelection();
+      if (!sel) return;
+      sel.removeAllRanges();
+      sel.addRange(range);
+      try { document.execCommand('copy'); onSuccess(); } catch { /* silent */ }
+      sel.removeAllRanges();
+    }
+
+    // ── Sidebar active state via IntersectionObserver ──
+    const sections = document.querySelectorAll('article[id]') as NodeListOf<HTMLElement>;
+    const sidebarLinks = document.querySelectorAll('[data-nav]') as NodeListOf<HTMLElement>;
+
+    if (sections.length && sidebarLinks.length) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              sidebarLinks.forEach(link => {
+                const id = link.getAttribute('data-nav');
+                link.classList.toggle('is-active', id === entry.target.id);
+              });
+            }
+          });
+        },
+        { rootMargin: '-20% 0px -75% 0px', threshold: 0 }
+      );
+      sections.forEach(s => observer.observe(s));
+    }
+  </script>
+
+  </body>
+</html>

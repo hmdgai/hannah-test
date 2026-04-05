@@ -1,0 +1,806 @@
+{
+  "totalStyles": 87,
+  "categories": {
+    "margins": [
+      {
+        "pattern": "margin: 0",
+        "frequency": 8,
+        "semanticClassName": ".m-reset",
+        "exampleValues": ["0"]
+      }
+    ],
+    "typography": [
+      {
+        "pattern": "font-family: monospace",
+        "frequency": 12,
+        "semanticClassName": ".font-mono",
+        "exampleValues": ["monospace"]
+      },
+      {
+        "pattern": "font-size: 0.6875rem",
+        "frequency": 6,
+        "semanticClassName": ".text-xs-label",
+        "exampleValues": ["0.6875rem"]
+      },
+      {
+        "pattern": "font-size: 0.75rem",
+        "frequency": 6,
+        "semanticClassName": ".text-xs",
+        "exampleValues": ["0.75rem"]
+      },
+      {
+        "pattern": "font-size: 0.8125rem",
+        "frequency": 6,
+        "semanticClassName": ".text-sm-code",
+        "exampleValues": ["0.8125rem"]
+      },
+      {
+        "pattern": "font-weight: 700",
+        "frequency": 5,
+        "semanticClassName": ".font-bold",
+        "exampleValues": ["700"]
+      },
+      {
+        "pattern": "font-weight: 600",
+        "frequency": 5,
+        "semanticClassName": ".font-semibold",
+        "exampleValues": ["600"]
+      },
+      {
+        "pattern": "text-transform: uppercase",
+        "frequency": 3,
+        "semanticClassName": ".text-uppercase",
+        "exampleValues": ["uppercase"]
+      },
+      {
+        "pattern": "line-height: 1.7",
+        "frequency": 2,
+        "semanticClassName": ".leading-relaxed-code",
+        "exampleValues": ["1.7"]
+      },
+      {
+        "pattern": "line-height: 1.8",
+        "frequency": 3,
+        "semanticClassName": ".leading-relaxed-lg",
+        "exampleValues": ["1.8"]
+      },
+      {
+        "pattern": "letter-spacing: 0.08em",
+        "frequency": 3,
+        "semanticClassName": ".tracking-widest-label",
+        "exampleValues": ["0.08em"]
+      },
+      {
+        "pattern": "letter-spacing: 0.04em",
+        "frequency": 2,
+        "semanticClassName": ".tracking-wider-button",
+        "exampleValues": ["0.04em"]
+      }
+    ],
+    "flexbox": [
+      {
+        "pattern": "align-items: center",
+        "frequency": 5,
+        "semanticClassName": ".ai-center",
+        "exampleValues": ["center"]
+      },
+      {
+        "pattern": "align-items: baseline",
+        "frequency": 1,
+        "semanticClassName": ".ai-baseline",
+        "exampleValues": ["baseline"]
+      },
+      {
+        "pattern": "align-items: flex-start",
+        "frequency": 2,
+        "semanticClassName": ".ai-start",
+        "exampleValues": ["flex-start"]
+      },
+      {
+        "pattern": "flex-wrap: wrap",
+        "frequency": 2,
+        "semanticClassName": ".flex-wrap",
+        "exampleValues": ["wrap"]
+      },
+      {
+        "pattern": "justify-content: space-between",
+        "frequency": 1,
+        "semanticClassName": ".justify-between",
+        "exampleValues": ["space-between"]
+      }
+    ],
+    "spacing": [
+      {
+        "pattern": "gap: 0.375rem",
+        "frequency": 3,
+        "semanticClassName": ".gap-xs",
+        "exampleValues": ["0.375rem"]
+      },
+      {
+        "pattern": "gap: 0.5rem",
+        "frequency": 2,
+        "semanticClassName": ".gap-sm",
+        "exampleValues": ["0.5rem"]
+      },
+      {
+        "pattern": "gap: 0.75rem",
+        "frequency": 2,
+        "semanticClassName": ".gap-md",
+        "exampleValues": ["0.75rem"]
+      },
+      {
+        "pattern": "gap: 0.875rem",
+        "frequency": 2,
+        "semanticClassName": ".gap-base",
+        "exampleValues": ["0.875rem"]
+      },
+      {
+        "pattern": "gap: 1rem",
+        "frequency": 4,
+        "semanticClassName": ".gap-lg",
+        "exampleValues": ["1rem"]
+      },
+      {
+        "pattern": "gap: 1.25rem",
+        "frequency": 2,
+        "semanticClassName": ".gap-xl",
+        "exampleValues": ["1.25rem"]
+      },
+      {
+        "pattern": "gap: 1.5rem",
+        "frequency": 2,
+        "semanticClassName": ".gap-2xl",
+        "exampleValues": ["1.5rem"]
+      },
+      {
+        "pattern": "gap: 2rem",
+        "frequency": 1,
+        "semanticClassName": ".gap-3xl",
+        "exampleValues": ["2rem"]
+      },
+      {
+        "pattern": "padding: 1.25rem 1.5rem",
+        "frequency": 3,
+        "semanticClassName": ".p-code-block",
+        "exampleValues": ["1.25rem 1.5rem"]
+      },
+      {
+        "pattern": "padding: 0.875rem 1.25rem",
+        "frequency": 1,
+        "semanticClassName": ".p-button-preview",
+        "exampleValues": ["0.875rem 1.25rem"]
+      }
+    ],
+    "backgrounds": [
+      {
+        "pattern": "background: var(--color-headline)",
+        "frequency": 3,
+        "semanticClassName": ".bg-headline",
+        "exampleValues": ["var(--color-headline)"]
+      },
+      {
+        "pattern": "background: var(--color-muted)",
+        "frequency": 2,
+        "semanticClassName": ".bg-muted",
+        "exampleValues": ["var(--color-muted)"]
+      },
+      {
+        "pattern": "background: rgba(255,255,255,0.07)",
+        "frequency": 2,
+        "semanticClassName": ".bg-white-dim",
+        "exampleValues": ["rgba(255,255,255,0.07)"]
+      },
+      {
+        "pattern": "background: rgba(255,255,255,0.04)",
+        "frequency": 2,
+        "semanticClassName": ".bg-white-xdim",
+        "exampleValues": ["rgba(255,255,255,0.04)"]
+      },
+      {
+        "pattern": "background: rgba(255,255,255,0.02)",
+        "frequency": 1,
+        "semanticClassName": ".bg-white-ultralight",
+        "exampleValues": ["rgba(255,255,255,0.02)"]
+      },
+      {
+        "pattern": "background: var(--color-primary)",
+        "frequency": 2,
+        "semanticClassName": ".bg-primary",
+        "exampleValues": ["var(--color-primary)"]
+      },
+      {
+        "pattern": "background: white",
+        "frequency": 1,
+        "semanticClassName": ".bg-white",
+        "exampleValues": ["white"]
+      }
+    ],
+    "borders": [
+      {
+        "pattern": "border-radius: var(--radius-btn)",
+        "frequency": 4,
+        "semanticClassName": ".rounded-btn",
+        "exampleValues": ["var(--radius-btn)"]
+      },
+      {
+        "pattern": "border-radius: var(--radius-card)",
+        "frequency": 5,
+        "semanticClassName": ".rounded-card",
+        "exampleValues": ["var(--radius-card)"]
+      },
+      {
+        "pattern": "border: 1px solid var(--color-border)",
+        "frequency": 3,
+        "semanticClassName": ".border-default",
+        "exampleValues": ["1px solid var(--color-border)"]
+      },
+      {
+        "pattern": "border: 1px solid rgba(255,255,255,0.15)",
+        "frequency": 2,
+        "semanticClassName": ".border-white-light",
+        "exampleValues": ["1px solid rgba(255,255,255,0.15)"]
+      },
+      {
+        "pattern": "border-top: 1px solid var(--color-border)",
+        "frequency": 2,
+        "semanticClassName": ".border-t-default",
+        "exampleValues": ["1px solid var(--color-border)"]
+      },
+      {
+        "pattern": "border-bottom: 1px solid var(--color-border)",
+        "frequency": 2,
+        "semanticClassName": ".border-b-default",
+        "exampleValues": ["1px solid var(--color-border)"]
+      },
+      {
+        "pattern": "border-top: 1px solid rgba(255,255,255,0.08)",
+        "frequency": 1,
+        "semanticClassName": ".border-t-white-ultralight",
+        "exampleValues": ["1px solid rgba(255,255,255,0.08)"]
+      },
+      {
+        "pattern": "border-right: none",
+        "frequency": 1,
+        "semanticClassName": ".border-r-none",
+        "exampleValues": ["none"]
+      }
+    ],
+    "sizing": [
+      {
+        "pattern": "width: 2rem; height: 2rem",
+        "frequency": 3,
+        "semanticClassName": ".icon-square-md",
+        "exampleValues": ["2rem (both width and height)"]
+      },
+      {
+        "pattern": "width: 2.5rem",
+        "frequency": 1,
+        "semanticClassName": ".w-label-badge",
+        "exampleValues": ["2.5rem"]
+      },
+      {
+        "pattern": "flex-shrink: 0",
+        "frequency": 4,
+        "semanticClassName": ".flex-no-shrink",
+        "exampleValues": ["0"]
+      },
+      {
+        "pattern": "min-width: 14rem",
+        "frequency": 2,
+        "semanticClassName": ".min-w-card",
+        "exampleValues": ["14rem"]
+      },
+      {
+        "pattern": "width: 11rem",
+        "frequency": 1,
+        "semanticClassName": ".w-token-label",
+        "exampleValues": ["11rem"]
+      }
+    ],
+    "transforms": [
+      {
+        "pattern": "margin-left: auto",
+        "frequency": 2,
+        "semanticClassName": ".ml-auto",
+        "exampleValues": ["auto"]
+      }
+    ],
+    "colors": [
+      {
+        "pattern": "color: var(--color-primary)",
+        "frequency": 6,
+        "semanticClassName": ".text-primary",
+        "exampleValues": ["var(--color-primary)"]
+      },
+      {
+        "pattern": "color: var(--color-headline)",
+        "frequency": 4,
+        "semanticClassName": ".text-headline",
+        "exampleValues": ["var(--color-headline)"]
+      },
+      {
+        "pattern": "color: var(--color-muted)",
+        "frequency": 2,
+        "semanticClassName": ".text-muted",
+        "exampleValues": ["var(--color-muted)"]
+      },
+      {
+        "pattern": "color: #cbd5e1",
+        "frequency": 3,
+        "semanticClassName": ".text-slate-300",
+        "exampleValues": ["#cbd5e1"]
+      },
+      {
+        "pattern": "color: #94a3b8",
+        "frequency": 3,
+        "semanticClassName": ".text-slate-400",
+        "exampleValues": ["#94a3b8"]
+      },
+      {
+        "pattern": "color: #e2e8f0",
+        "frequency": 3,
+        "semanticClassName": ".text-slate-100",
+        "exampleValues": ["#e2e8f0"]
+      },
+      {
+        "pattern": "color: #86efac",
+        "frequency": 2,
+        "semanticClassName": ".text-green-300",
+        "exampleValues": ["#86efac"]
+      },
+      {
+        "pattern": "color: white",
+        "frequency": 2,
+        "semanticClassName": ".text-white",
+        "exampleValues": ["white"]
+      },
+      {
+        "pattern": "color: var(--color-caption)",
+        "frequency": 2,
+        "semanticClassName": ".text-caption",
+        "exampleValues": ["var(--color-caption)"]
+      }
+    ],
+    "miscellaneous": [
+      {
+        "pattern": "cursor: pointer",
+        "frequency": 2,
+        "semanticClassName": ".cursor-pointer",
+        "exampleValues": ["pointer"]
+      },
+      {
+        "pattern": "transition: color 0.15s, background 0.15s, border-color 0.15s",
+        "frequency": 2,
+        "semanticClassName": ".transition-all-fast",
+        "exampleValues": ["color 0.15s, background 0.15s, border-color 0.15s"]
+      },
+      {
+        "pattern": "overflow-x: auto",
+        "frequency": 2,
+        "semanticClassName": ".overflow-x-auto",
+        "exampleValues": ["auto"]
+      },
+      {
+        "pattern": "display: block",
+        "frequency": 1,
+        "semanticClassName": ".block",
+        "exampleValues": ["block"]
+      },
+      {
+        "pattern": "display: flex",
+        "frequency": 1,
+        "semanticClassName": ".flex",
+        "exampleValues": ["flex"]
+      }
+    ]
+  },
+  "repeatedPatterns": [
+    {
+      "rank": 1,
+      "pattern": "font-family: monospace",
+      "frequency": 12,
+      "category": "typography",
+      "suggestedClass": ".font-mono",
+      "impact": "CRITICAL - Highest consolidation opportunity",
+      "affectedElements": "code blocks, labels, prompts, documentation examples"
+    },
+    {
+      "rank": 2,
+      "pattern": "margin: 0",
+      "frequency": 8,
+      "category": "margins",
+      "suggestedClass": ".m-reset",
+      "impact": "CRITICAL - Standard margin reset",
+      "affectedElements": "headings, paragraphs, containers"
+    },
+    {
+      "rank": 3,
+      "pattern": "border-radius: var(--radius-card)",
+      "frequency": 5,
+      "category": "borders",
+      "suggestedClass": ".rounded-card",
+      "impact": "HIGH - Card element borders",
+      "affectedElements": "card containers, rounded sections"
+    },
+    {
+      "rank": 4,
+      "pattern": "font-size: 0.6875rem + font-weight: 700 + letter-spacing: 0.08em + text-transform: uppercase",
+      "frequency": 3,
+      "category": "typography",
+      "suggestedClass": ".label-xs-uppercase",
+      "impact": "MEDIUM - Complex but reusable pattern",
+      "affectedElements": "section labels, uppercase headings"
+    },
+    {
+      "rank": 5,
+      "pattern": "font-family: monospace + font-size: 0.75rem",
+      "frequency": 5,
+      "category": "typography",
+      "suggestedClass": ".code-xs",
+      "impact": "MEDIUM - Code typography pattern",
+      "affectedElements": "code samples, monospace text"
+    },
+    {
+      "rank": 6,
+      "pattern": "color: var(--color-primary)",
+      "frequency": 6,
+      "category": "colors",
+      "suggestedClass": ".text-primary",
+      "impact": "MEDIUM - Primary brand color",
+      "affectedElements": "links, labels, accents"
+    },
+    {
+      "rank": 7,
+      "pattern": "flex-shrink: 0",
+      "frequency": 4,
+      "category": "flexbox",
+      "suggestedClass": ".flex-no-shrink",
+      "impact": "MEDIUM - Flex layout utility",
+      "affectedElements": "flex items that shouldn't shrink"
+    },
+    {
+      "rank": 8,
+      "pattern": "gap: 1rem",
+      "frequency": 4,
+      "category": "spacing",
+      "suggestedClass": ".gap-lg",
+      "impact": "MEDIUM - Large gap utility",
+      "affectedElements": "flex containers, layout rows"
+    },
+    {
+      "rank": 9,
+      "pattern": "align-items: center",
+      "frequency": 5,
+      "category": "flexbox",
+      "suggestedClass": ".ai-center",
+      "impact": "MEDIUM - Vertical centering",
+      "affectedElements": "flex items, centered layouts"
+    },
+    {
+      "rank": 10,
+      "pattern": "font-size: 0.75rem",
+      "frequency": 6,
+      "category": "typography",
+      "suggestedClass": ".text-xs",
+      "impact": "MEDIUM - Extra small text size",
+      "affectedElements": "labels, captions, small text"
+    }
+  ],
+  "semanticClasses": {
+    "typography": {
+      ".font-mono": {
+        "properties": "font-family: monospace;",
+        "frequency": 12,
+        "recommendedPriority": "CRITICAL",
+        "usage": "Code blocks, monospace labels, documentation examples"
+      },
+      ".text-xs": {
+        "properties": "font-size: 0.75rem;",
+        "frequency": 6,
+        "recommendedPriority": "HIGH",
+        "usage": "Small text, captions, metadata labels"
+      },
+      ".text-xs-label": {
+        "properties": "font-size: 0.6875rem;",
+        "frequency": 6,
+        "recommendedPriority": "HIGH",
+        "usage": "Section labels, uppercase headings"
+      },
+      ".text-sm-code": {
+        "properties": "font-size: 0.8125rem;",
+        "frequency": 6,
+        "recommendedPriority": "HIGH",
+        "usage": "Code labels, technical documentation"
+      },
+      ".font-bold": {
+        "properties": "font-weight: 700;",
+        "frequency": 5,
+        "recommendedPriority": "MEDIUM",
+        "usage": "Bold text emphasis"
+      },
+      ".font-semibold": {
+        "properties": "font-weight: 600;",
+        "frequency": 5,
+        "recommendedPriority": "MEDIUM",
+        "usage": "Semi-bold text emphasis"
+      },
+      ".text-uppercase": {
+        "properties": "text-transform: uppercase;",
+        "frequency": 3,
+        "recommendedPriority": "MEDIUM",
+        "usage": "Uppercase labels and headings"
+      },
+      ".label-xs-uppercase": {
+        "properties": "font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;",
+        "frequency": 3,
+        "recommendedPriority": "HIGH",
+        "usage": "Section labels, prompt headers (compound pattern)"
+      },
+      ".code-xs": {
+        "properties": "font-family: monospace; font-size: 0.75rem;",
+        "frequency": 5,
+        "recommendedPriority": "HIGH",
+        "usage": "Inline code, monospace labels (compound pattern)"
+      }
+    },
+    "spacing": {
+      ".m-reset": {
+        "properties": "margin: 0;",
+        "frequency": 8,
+        "recommendedPriority": "CRITICAL",
+        "usage": "Reset margins on headings, paragraphs, containers"
+      },
+      ".gap-xs": {
+        "properties": "gap: 0.375rem;",
+        "frequency": 3,
+        "recommendedPriority": "MEDIUM",
+        "usage": "Tight spacing between flex items"
+      },
+      ".gap-sm": {
+        "properties": "gap: 0.5rem;",
+        "frequency": 2,
+        "recommendedPriority": "LOW",
+        "usage": "Small spacing in flex layouts"
+      },
+      ".gap-md": {
+        "properties": "gap: 0.75rem;",
+        "frequency": 2,
+        "recommendedPriority": "LOW",
+        "usage": "Medium spacing in flex layouts"
+      },
+      ".gap-base": {
+        "properties": "gap: 0.875rem;",
+        "frequency": 2,
+        "recommendedPriority": "LOW",
+        "usage": "Default spacing in flex layouts"
+      },
+      ".gap-lg": {
+        "properties": "gap: 1rem;",
+        "frequency": 4,
+        "recommendedPriority": "MEDIUM",
+        "usage": "Large spacing between flex items"
+      },
+      ".gap-xl": {
+        "properties": "gap: 1.25rem;",
+        "frequency": 2,
+        "recommendedPriority": "LOW",
+        "usage": "Extra large spacing in layouts"
+      },
+      ".gap-2xl": {
+        "properties": "gap: 1.5rem;",
+        "frequency": 2,
+        "recommendedPriority": "LOW",
+        "usage": "Very large spacing between sections"
+      },
+      ".p-code-block": {
+        "properties": "padding: 1.25rem 1.5rem;",
+        "frequency": 3,
+        "recommendedPriority": "MEDIUM",
+        "usage": "Code block padding (pre/code elements)"
+      }
+    },
+    "colors": {
+      ".text-primary": {
+        "properties": "color: var(--color-primary);",
+        "frequency": 6,
+        "recommendedPriority": "HIGH",
+        "usage": "Primary brand color text (links, labels, accents)"
+      },
+      ".text-headline": {
+        "properties": "color: var(--color-headline);",
+        "frequency": 4,
+        "recommendedPriority": "HIGH",
+        "usage": "Headline/heading text color"
+      },
+      ".text-muted": {
+        "properties": "color: var(--color-muted);",
+        "frequency": 2,
+        "recommendedPriority": "MEDIUM",
+        "usage": "Muted/secondary text color"
+      },
+      ".text-slate-300": {
+        "properties": "color: #cbd5e1;",
+        "frequency": 3,
+        "recommendedPriority": "MEDIUM",
+        "usage": "Light slate grey text"
+      },
+      ".text-slate-400": {
+        "properties": "color: #94a3b8;",
+        "frequency": 3,
+        "recommendedPriority": "MEDIUM",
+        "usage": "Medium slate grey text"
+      },
+      ".text-slate-100": {
+        "properties": "color: #e2e8f0;",
+        "frequency": 3,
+        "recommendedPriority": "MEDIUM",
+        "usage": "Very light slate text (on dark backgrounds)"
+      },
+      ".text-green-300": {
+        "properties": "color: #86efac;",
+        "frequency": 2,
+        "recommendedPriority": "LOW",
+        "usage": "Code syntax highlight color"
+      },
+      ".text-white": {
+        "properties": "color: white;",
+        "frequency": 2,
+        "recommendedPriority": "LOW",
+        "usage": "White text on dark backgrounds"
+      },
+      ".text-caption": {
+        "properties": "color: var(--color-caption);",
+        "frequency": 2,
+        "recommendedPriority": "LOW",
+        "usage": "Caption/fine print text color"
+      }
+    },
+    "backgrounds": {
+      ".bg-headline": {
+        "properties": "background: var(--color-headline);",
+        "frequency": 3,
+        "recommendedPriority": "MEDIUM",
+        "usage": "Dark background sections"
+      },
+      ".bg-muted": {
+        "properties": "background: var(--color-muted);",
+        "frequency": 2,
+        "recommendedPriority": "MEDIUM",
+        "usage": "Light grey background sections"
+      },
+      ".bg-white-dim": {
+        "properties": "background: rgba(255,255,255,0.07);",
+        "frequency": 2,
+        "recommendedPriority": "LOW",
+        "usage": "Semi-transparent white overlay"
+      },
+      ".bg-white-xdim": {
+        "properties": "background: rgba(255,255,255,0.04);",
+        "frequency": 2,
+        "recommendedPriority": "LOW",
+        "usage": "Very subtle white overlay"
+      },
+      ".bg-white-ultralight": {
+        "properties": "background: rgba(255,255,255,0.02);",
+        "frequency": 1,
+        "recommendedPriority": "LOW",
+        "usage": "Ultra-subtle white overlay"
+      }
+    },
+    "borders": {
+      ".rounded-btn": {
+        "properties": "border-radius: var(--radius-btn);",
+        "frequency": 4,
+        "recommendedPriority": "MEDIUM",
+        "usage": "Button border radius"
+      },
+      ".rounded-card": {
+        "properties": "border-radius: var(--radius-card);",
+        "frequency": 5,
+        "recommendedPriority": "HIGH",
+        "usage": "Card element border radius (most common)"
+      },
+      ".border-default": {
+        "properties": "border: 1px solid var(--color-border);",
+        "frequency": 3,
+        "recommendedPriority": "MEDIUM",
+        "usage": "Standard border on light backgrounds"
+      },
+      ".border-white-light": {
+        "properties": "border: 1px solid rgba(255,255,255,0.15);",
+        "frequency": 2,
+        "recommendedPriority": "LOW",
+        "usage": "Light border on dark backgrounds"
+      },
+      ".border-t-default": {
+        "properties": "border-top: 1px solid var(--color-border);",
+        "frequency": 2,
+        "recommendedPriority": "LOW",
+        "usage": "Top border only on cards"
+      },
+      ".border-b-default": {
+        "properties": "border-bottom: 1px solid var(--color-border);",
+        "frequency": 2,
+        "recommendedPriority": "LOW",
+        "usage": "Bottom border only on cards"
+      }
+    },
+    "flexbox": {
+      ".ai-center": {
+        "properties": "align-items: center;",
+        "frequency": 5,
+        "recommendedPriority": "MEDIUM",
+        "usage": "Vertically center flex items"
+      },
+      ".flex-no-shrink": {
+        "properties": "flex-shrink: 0;",
+        "frequency": 4,
+        "recommendedPriority": "MEDIUM",
+        "usage": "Prevent flex item shrinking"
+      },
+      ".flex-wrap": {
+        "properties": "flex-wrap: wrap;",
+        "frequency": 2,
+        "recommendedPriority": "LOW",
+        "usage": "Allow flex items to wrap"
+      }
+    },
+    "interactions": {
+      ".cursor-pointer": {
+        "properties": "cursor: pointer;",
+        "frequency": 2,
+        "recommendedPriority": "LOW",
+        "usage": "Pointer cursor for clickable elements"
+      },
+      ".transition-all-fast": {
+        "properties": "transition: color 0.15s, background 0.15s, border-color 0.15s;",
+        "frequency": 2,
+        "recommendedPriority": "MEDIUM",
+        "usage": "Quick transitions on button hover/interactions"
+      }
+    }
+  },
+  "consolidationMetrics": {
+    "totalInlineStylesFound": 87,
+    "uniqueCSSProperties": 28,
+    "estimatedPropertiesIfConsolidated": 35,
+    "estimatedReduction": "60%",
+    "topThreeCandidates": [
+      {
+        "rank": 1,
+        "class": ".font-mono",
+        "currentOccurrences": 12,
+        "estimatedSavings": "12 inline styles"
+      },
+      {
+        "rank": 2,
+        "class": ".m-reset",
+        "currentOccurrences": 8,
+        "estimatedSavings": "8 inline styles"
+      },
+      {
+        "rank": 3,
+        "class": ".rounded-card",
+        "currentOccurrences": 5,
+        "estimatedSavings": "5 inline styles"
+      }
+    ],
+    "implementationPhases": {
+      "phase1": {
+        "name": "Critical (1-2 hours)",
+        "classes": [".font-mono", ".m-reset", ".rounded-card"],
+        "estimatedSavings": "~25 inline styles"
+      },
+      "phase2": {
+        "name": "Medium-term (2-4 hours)",
+        "classes": "All remaining utilities (30+ classes)",
+        "estimatedSavings": "~40-50 inline styles"
+      },
+      "phase3": {
+        "name": "Long-term",
+        "action": "Design system documentation and standardization",
+        "estimatedSavings": "Ongoing maintenance benefits"
+      }
+    }
+  }
+}
