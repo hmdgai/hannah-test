@@ -92,6 +92,11 @@ const navLinks = [
       .type-preview h3, .type-preview h4 { font-weight: 700; }
       .type-preview h5, .type-preview h6 { font-weight: 600; }
 
+      /* Design token radius demos — border-radius set via JS CSS variable */
+      .radius-demo {
+        border-radius: var(--demo-radius, 0px);
+      }
+
       /* Sidebar active link state — toggled by IntersectionObserver */
       .sidebar-link.is-active {
         color: var(--color-headline);
@@ -836,7 +841,7 @@ const navLinks = [
                 <div class="flex items-start gap-5 p-4 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card] flex-wrap">
                   <div class="shrink-0 min-w-[9rem] flex items-center">
                     {u.preview === "eyebrow"       && <span class="eyebrow">Eyebrow</span>}
-                    {u.preview === "section-lead"  && <p class="section-lead m-0" style="font-size:0.875rem">Lead text sample.</p>}
+                    {u.preview === "section-lead"  && <p class="section-lead text-sm m-0">Lead text sample.</p>}
                     {u.preview === "caption-light" && <span class="caption-light">Caption text</span>}
                     {u.preview === "code-label"    && <code class="code-label">.class-name</code>}
                     {u.preview === "#DB003E"        && <code class="code-hex">#DB003E</code>}
@@ -897,7 +902,7 @@ const navLinks = [
                     { token: "--radius-btn",   val: "10px",   label: ".btn, .input, sidebar links" },
                     { token: "--radius-badge", val: "999px",  label: ".eyebrow, badges, pills, tags" },
                   ].map(r => (
-                    <div class="flex flex-col gap-3 p-4 bg-[--color-muted] border border-[--color-border]" style={`border-radius: ${r.val}`}>
+                    <div class="radius-demo flex flex-col gap-3 p-4 bg-[--color-muted] border border-[--color-border]" data-radius={r.val}>
                       <code class="code-label">{r.token}</code>
                       <code class="code-hex">{r.val}</code>
                       <p class="text-xs text-[--color-caption] m-0">{r.label}</p>
@@ -1319,6 +1324,12 @@ BaseLayout.astro    → CSP meta tag in &lt;head&gt; for all pages
 
 
   <script>
+    // ── Radius demos: set --demo-radius CSS variable from data-radius attribute ──
+    (document.querySelectorAll('[data-radius]') as NodeListOf<HTMLElement>).forEach(el => {
+      const v = el.getAttribute('data-radius');
+      if (v) el.style.setProperty('--demo-radius', v);
+    });
+
     // ── Colour swatches: apply data-hex as background via JS (dynamic values) ──
     (document.querySelectorAll('[data-hex]') as NodeListOf<HTMLElement>).forEach(el => {
       const v = el.getAttribute('data-hex');
