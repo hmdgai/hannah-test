@@ -157,14 +157,58 @@ Never let adjacent text elements be similar in size. Hierarchy must be obvious a
 
 ---
 
+## Typography Pairing
+
+The default fonts are Inter Tight (headings) and Inter (body). For premium client builds, consider upgrading the font pairing to match the clinic's brand personality:
+
+- **Clinical and modern** — Inter Tight + Inter (default, always works)
+- **Premium and editorial** — Satoshi + Inter or DM Sans
+- **Warm and human** — Plus Jakarta Sans + Inter
+- **High-end and elegant** — General Sans + Inter
+
+Never use more than two typefaces on a single site. Always verify the font pair looks intentional and premium at every heading size — not just body text.
+
+---
+
+## Micro-Interaction Design
+
+Premium sites feel alive. Plan these for every build:
+
+- **Buttons** — background transitions on hover (200ms), slight scale-down on click (`scale(0.97)`)
+- **Cards** — subtle translateY(-3px) and shadow increase on hover
+- **Nav links** — colour transition and optional underline grow animation
+- **Form inputs** — focus ring with smooth colour transition, label lift on focus if floating labels are used
+- **Hero CTA** — consider a subtle pulse or glow animation on the primary CTA button to draw attention (use sparingly)
+- **Review carousel** — pause on hover, smooth slide transitions
+- **Service icons or tiles** — colour or scale change on hover
+- **Scroll progress bar** — on long legal or content pages (already implemented in this template)
+
+All micro-interactions must feel intentional and refined — not playful or gimmicky. They should make the user feel the site is high quality, not distract them from the content.
+
+---
+
+## Image Composition Guidance
+
+Hero and section background images make or break the design. When selecting or specifying images:
+
+- **Hero images** — should show a real patient outcome or a clinic environment (not stock smiles)
+- **Subject position** — leave space on one side for text overlay (rule of thirds)
+- **Colour tone** — slightly cool or neutral tones photograph well with overlays
+- **Overlay strength** — test at 30–50% opacity; enough to protect text, not so much it kills the image
+- **Avoid** — generic stock imagery (smiling patient in white background), cliché medical imagery (stethoscopes, white coats unless genuinely relevant)
+- **Prefer** — treatment in action, clinic space, team at work, patient movement
+
+---
+
 ## Interaction and Animation Direction
 
 - Hover states must exist on every interactive element: buttons, cards, nav links, service tiles, carousel controls
 - Use subtle entrance animations on scroll for sections (fade up — not dramatic slide or zoom effects)
 - Transition standard: `200ms ease` for hover states, `300ms ease-out` for scroll reveals
+- Micro-interactions should make the site feel premium and responsive to touch/mouse
 - Sticky behaviour for: legal page sidebar nav, service category tabs, long-page navigation
 - Never use motion that distracts from the conversion goal or content readability
-- Animations must respect `prefers-reduced-motion`
+- All animations must respect `prefers-reduced-motion` — plan a static fallback for every animation
 
 ---
 
@@ -180,11 +224,14 @@ Before handing off to frontend-builder, verify every point:
 - Are headings noticeably larger than body text at every level?
 - Is the primary CTA colour-contrasted from its section background?
 - Does the mobile layout work cleanly at 375px without horizontal scroll?
-- Do hover states exist on all interactive elements?
+- Do hover states and micro-interactions exist on all interactive elements?
 - Are carousels visually signalling that more content exists?
-- Does the design feel composed by a real designer — not generated automatically?
+- Is the font pairing intentional and premium — not just the default?
+- Does the image composition support the text — not fight it?
+- Would a senior human web designer be proud to put this in their portfolio?
+- Does this design clearly exceed what an Elementor template would produce?
 
-If any answer is no, refine the plan before handoff.
+If any answer is no, refine the plan before handoff. Do not hand weak designs to the frontend-builder.
 
 ---
 
