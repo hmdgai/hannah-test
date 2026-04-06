@@ -94,12 +94,12 @@ const navLinks = [
 
       /* Sidebar active link state — toggled by IntersectionObserver */
       .sidebar-link.is-active {
-        color: var(--color-primary);
+        color: var(--color-headline);
         background-color: var(--color-accent);
         font-weight: 600;
       }
       .sidebar-link.is-active .sidebar-num {
-        color: var(--color-primary);
+        color: var(--color-headline);
       }
     </style>
   </head>
@@ -129,9 +129,9 @@ const navLinks = [
                 <a
                   href={link.href}
                   data-nav={link.href.slice(1)}
-                  class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-[--radius-btn] text-sm text-[--color-body] hover:text-[--color-primary] hover:bg-[--color-accent] transition-all group"
+                  class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-[--radius-btn] text-sm text-[--color-body] hover:text-[--color-headline] hover:bg-[--color-accent] transition-all group"
                 >
-                  <span class="sidebar-num text-xs font-mono font-bold text-[--color-border] group-hover:text-[--color-primary] transition-colors w-5 shrink-0">{link.num}</span>
+                  <span class="sidebar-num text-xs font-mono font-bold text-[--color-caption] group-hover:text-[--color-headline] transition-colors w-5 shrink-0">{link.num}</span>
                   {link.label}
                 </a>
               </li>
@@ -1016,27 +1016,27 @@ const navLinks = [
               <div class="border-t border-[--color-border] pt-5">
                 <pre class="code-block"><code>/* src/styles/global.css — structure overview */
 
-@theme {
+@theme &lbrace;
   /* ── Tokens: colours, fonts, radius, shadows, spacing ── */
   --color-primary: #DB003E;
   --font-heading: 'Inter Tight', sans-serif;
   --radius-card: 12px;
-}
+&rbrace;
 
-@layer base {
+@layer base &lbrace;
   /* ── Global element defaults (h1–h6, p, a, input) ── */
-  h1 { font-size: clamp(...); }
-}
+  h1 &lbrace; font-size: clamp(...); &rbrace;
+&rbrace;
 
-@layer components {
+@layer components &lbrace;
   /* ── Reusable classes (.btn, .card, .input, etc.) ── */
-  .btn { ... }
-  .card { ... }
-}
+  .btn &lbrace; ... &rbrace;
+  .card &lbrace; ... &rbrace;
+&rbrace;
 
-@layer utilities {
+@layer utilities &lbrace;
   /* ── Custom utilities (use sparingly) ── */
-}</code></pre>
+&rbrace;</code></pre>
               </div>
 
             </div>
