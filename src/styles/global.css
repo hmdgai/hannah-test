@@ -229,6 +229,9 @@
 
   *, *::before, *::after {
     box-sizing: border-box;
+    /* Firefox — apply thin custom scrollbar to every scroll container */
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
   }
 
   html {
@@ -240,6 +243,40 @@
     -webkit-font-smoothing:   antialiased;
     -moz-osx-font-smoothing:  grayscale;
     text-rendering:           optimizeLegibility;
+  }
+
+  /* ── Custom Scrollbar — WebKit (Chrome, Safari, Edge) ────
+     Thin, rounded, and minimal. Matches the design system.
+     Track is transparent to avoid visual weight.
+     Thumb uses soft neutral slate tones that lift on hover
+     and confirm the grab on active — without competing with
+     the brand colour or adding visual noise to the layout. */
+
+  ::-webkit-scrollbar {
+    width:  6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background:    transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius:    999px;
+    transition:       background-color 0.2s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #94a3b8;
+  }
+
+  ::-webkit-scrollbar-thumb:active {
+    background-color: #64748b;
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: transparent;
   }
 
   /* ── Headings ─────────────────────────────────────────────

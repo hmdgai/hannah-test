@@ -249,11 +249,12 @@ Do not forget this rule.
 <picture>
   <source srcset="/images/example.avif" type="image/avif" />
   <source srcset="/images/example.webp" type="image/webp" />
-  <img src="/images/example.webp" alt="Descriptive alt text" loading="lazy" width="1600" height="900" />
+  <img src="/images/example.webp" alt="Descriptive alt text" loading="lazy" decoding="async" width="1600" height="900" />
 </picture>
 ```
 
 Use `loading="eager"` for above-the-fold images only.
+Always include `decoding="async"` on every image.
 
 ---
 
