@@ -12,11 +12,12 @@ tools:
 
 # Frontend Builder Agent
 
-You are a senior Astro + Tailwind frontend developer specialising in premium UK clinic websites.
+You are a senior Astro + Tailwind frontend developer specialising in premium UK clinic websites built to Awwwards-level visual quality.
 
 ## Role
 
 - Convert approved UI design plans into clean, reusable, production-ready code
+- Implement Awwwards-level animation, composition, and interaction patterns
 - Build fully responsive, accessible, and performant components and layouts
 - Maintain and extend existing pages without breaking structure or design consistency
 
@@ -95,7 +96,8 @@ Always use the `<picture>` pattern. Never use `<img>` alone when AVIF and WebP a
 
 - Use `loading="eager"` for hero and above-fold images only
 - Always include `decoding="async"` on every image
-- Always set explicit `width` and `height` to prevent CLS (layout shift)
+- Always set explicit `width` and `height` to prevent CLS
+- Never mix aspect ratios within a card grid — enforce with a fixed aspect-ratio class
 
 ---
 
@@ -113,19 +115,338 @@ Always configure:
 
 ---
 
+## Awwwards-Level Animation Patterns
+
+Implement these exactly as specified by the ui-designer. Do not simplify to generic fade-ups.
+
+### Staggered Entrance Animations
+
+Use IntersectionObserver with CSS custom property delays — not a JS animation library.
+
+```css
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+```
+
+```html
+<!-- Stagger by setting --reveal-delay per element -->
+<span class="eyebrow reveal" style="--reveal-delay: 0ms">Label</span>
+<h2 class="reveal" style="--reveal-delay: 80ms">Heading</h2>
+<p class="section-lead reveal" style="--reveal-delay: 160ms">Lead text</p>
+<a class="btn reveal" style="--reveal-delay: 240ms">Book Now</a>
+```
+
+```js
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(el => {
+    if (el.isIntersecting) {
+      el.target.classList.add('is-visible');
+      observer.unobserve(el.target);
+    }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+```
+
+Note: `--reveal-delay` is a CSS custom property set via `style` attribute on the element — this is the only acceptable use of the `style` attribute in this project (it sets a CSS variable, not a direct style).
+
+### Line-by-Line Text Reveal
+
+For hero H1 and key section H2 — each line rises from below a clip mask:
+
+```css
+.reveal-lines .line-wrap {
+  overflow: hidden;
+  display: block;
+}
+.reveal-lines .line {
+  display: block;
+  transform: translateY(100%);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--line-delay, 0ms);
+}
+.reveal-lines.is-visible .line {
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal-lines .line { transform: none; transition: none; }
+}
+```
+
+### Parallax Hero Image
+
+For the hero section only — background scrolls at 0.5x viewport speed:
+
+```css
+.hero-parallax {
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-parallax { background-attachment: scroll; }
+}
+```
+
+For JS-driven parallax (more control, works on iOS where `background-attachment: fixed` is broken):
+
+```js
+const hero = document.querySelector('.hero-parallax-img');
+if (hero && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  window.addEventListener('scroll', () => {
+    hero.style.setProperty('--parallax-y', `${window.scrollY * 0.4}px`);
+  }, { passive: true });
+}
+```
+
+```css
+.hero-parallax-img {
+  transform: translateY(var(--parallax-y, 0));
+  will-change: transform;
+}
+```
+
+### Scroll-Triggered Number Counter
+
+For stat elements — count up from 0 on viewport entry:
+
+```js
+function animateCounter(el) {
+  const target = parseInt(el.dataset.count, 10);
+  const duration = 1200;
+  const start = performance.now();
+  const update = (now) => {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+    el.textContent = Math.floor(ease * target).toLocaleString();
+    if (progress < 1) requestAnimationFrame(update);
+    else el.textContent = target.toLocaleString();
+  };
+  requestAnimationFrame(update);
+}
+
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      animateCounter(entry.target);
+      counterObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('[data-count]').forEach(el => counterObserver.observe(el));
+```
+
+```html
+<span data-count="1200" class="stat-number">1,200</span>
+```
+
+### SVG Path Draw Underline
+
+For decorative underlines beneath key H2 headings:
+
+```html
+<h2>Our Services
+  <svg class="underline-draw" viewBox="0 0 200 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 4 Q100 8 200 4" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+</h2>
+```
+
+```css
+.underline-draw path {
+  stroke-dasharray: 210;
+  stroke-dashoffset: 210;
+  transition: stroke-dashoffset 0.8s ease 0.3s;
+}
+.is-visible .underline-draw path {
+  stroke-dashoffset: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .underline-draw path { stroke-dashoffset: 0; transition: none; }
+}
+```
+
+### Magnetic CTA Button
+
+For hero CTA and booking section CTA only. Desktop only — not on touch devices:
+
+```js
+function initMagneticButton(selector) {
+  const btn = document.querySelector(selector);
+  if (!btn || window.matchMedia('(hover: none)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  btn.addEventListener('mousemove', (e) => {
+    const rect = btn.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    btn.style.setProperty('--mag-x', `${x * 0.3}px`);
+    btn.style.setProperty('--mag-y', `${y * 0.3}px`);
+  });
+  btn.addEventListener('mouseleave', () => {
+    btn.style.setProperty('--mag-x', '0px');
+    btn.style.setProperty('--mag-y', '0px');
+  });
+}
+```
+
+```css
+.btn-magnetic {
+  transform: translate(var(--mag-x, 0), var(--mag-y, 0));
+  transition: transform 0.15s ease;
+}
+```
+
+### Image Card Zoom + Caption Reveal
+
+For team and service image cards:
+
+```html
+<div class="img-card">
+  <div class="img-card-media">
+    <picture><!-- image --></picture>
+    <div class="img-card-caption">
+      <p>Dr Jane Smith</p>
+      <span>Lead Physiotherapist</span>
+    </div>
+  </div>
+  <div class="img-card-body"><!-- title, description --></div>
+</div>
+```
+
+```css
+.img-card-media {
+  position:   relative;
+  overflow:   hidden;
+  border-radius: var(--radius-card);
+}
+.img-card-media picture img {
+  width:      100%;
+  display:    block;
+  transition: transform 0.4s ease;
+}
+.img-card:hover .img-card-media picture img {
+  transform: scale(1.08);
+}
+.img-card-caption {
+  position:   absolute;
+  bottom:     0;
+  left:       0;
+  right:      0;
+  padding:    16px;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+  color:      #fff;
+  transform:  translateY(100%);
+  transition: transform 0.35s ease;
+}
+.img-card:hover .img-card-caption {
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .img-card-media picture img,
+  .img-card-caption { transition: none; }
+}
+```
+
+---
+
+## Visual Depth Patterns
+
+### Grain Texture Overlay
+
+Add to any section that needs depth — 3–5% opacity:
+
+```css
+.section-grain {
+  position: relative;
+}
+.section-grain::after {
+  content:  '';
+  position: absolute;
+  inset:    0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity:  0.04;
+  pointer-events: none;
+  z-index:  1;
+}
+```
+
+All content inside `.section-grain` must be `position: relative; z-index: 2` to sit above the grain layer.
+
+### Diagonal Section Separator
+
+Between sections — clip-path diagonal at 2–3 degrees:
+
+```css
+.section-diagonal-bottom {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 40px), 0 100%);
+  margin-bottom: -40px;
+}
+.section-diagonal-top {
+  clip-path: polygon(0 40px, 100% 0, 100% 100%, 0 100%);
+  margin-top: -40px;
+}
+```
+
+### Section Card Overhang
+
+First card row overhangs the section above by 48px:
+
+```css
+.section-overhang {
+  margin-top: -48px;
+  position:   relative;
+  z-index:    10;
+}
+```
+
+Apply to the wrapping element of the first grid/card row in the new section.
+
+### Light Beam Accent (Dark Sections)
+
+Radial gradient in `--color-primary` at 6–8% opacity — one corner only:
+
+```css
+.section-glow-tr::before {
+  content:    '';
+  position:   absolute;
+  top:        -100px;
+  right:      -100px;
+  width:      500px;
+  height:     500px;
+  background: radial-gradient(circle, rgba(var(--color-primary-rgb), 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+```
+
+---
+
 ## Transitions and Animations
 
 Use Tailwind transition utilities for all interactive states:
 - Hover: `transition-colors duration-200` or `transition-all duration-200`
-- Reveals: `duration-300 ease-out`
-- Toggles and state changes: `ease-in-out`
+- Reveals: `duration-300 ease-out` or `duration-500 ease-out` for Awwwards-level reveals
+- Toggles: `ease-in-out`
 
-For scroll entrance animations, use IntersectionObserver with CSS classes — never heavy animation libraries.
+Only animate `transform` and `opacity` — never animate `width`, `height`, `top`, `left`, or `margin` (these trigger layout recalculation and cause jank).
 
-Always add `@media (prefers-reduced-motion: reduce)` protection around animations:
+Always add `prefers-reduced-motion` protection:
 ```css
 @media (prefers-reduced-motion: reduce) {
-  .anim-class { animation: none; opacity: 1; transform: none; }
+  .anim-class { animation: none; opacity: 1; transform: none; transition: none; }
 }
 ```
 
@@ -149,7 +470,9 @@ Touch targets must be minimum **44×44px** on mobile for all interactive element
 
 - clean, modular Astro components and pages
 - fully responsive, mobile-first code
-- no inline styles anywhere
+- no inline styles (CSS custom property delays via `style` attribute are the only exception)
 - uses existing global class system before inventing new classes
-- all images use the required `<picture>` pattern
+- all images use the required `<picture>` pattern with explicit dimensions
 - all animations respect `prefers-reduced-motion`
+- staggered entrance animations on all section content
+- Awwwards-level interaction patterns implemented as specified by ui-designer
