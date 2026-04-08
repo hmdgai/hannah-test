@@ -34,7 +34,7 @@ Instructions:
    - plan the section structure, layout, typography, spacing, interactions, and animation direction
    - define section backgrounds using the design token system
    - apply mobile-first thinking
-   - keep the design at high-end Webflow quality
+   - keep the design at Awwwards + Webflow + Oxygen Builder standard (three-builder synthesis)
    - do NOT write code
 
 3. Then use frontend-builder
