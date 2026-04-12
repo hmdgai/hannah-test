@@ -111,6 +111,214 @@ Use `.webp` as the default image format. No dual-format `<picture>` source switc
 
 ---
 
+## Mobile Menu — Full-Screen White Overlay System
+
+This is the standard mobile navigation pattern for all HMDG builds. Use this exactly — do not reinvent mobile navigation.
+
+### Key design decisions
+
+| Feature | Implementation |
+|---|---|
+| Overlay type | Full-screen white (`100dvh` with `100vh` fallback for iOS) |
+| Hamburger → X | CSS transforms on 3 bars: bar 1 rotates +45deg, bar 2 scales to 0, bar 3 rotates -45deg |
+| Logo swap | White logo fades out, coloured logo fades in (both absolutely positioned, opacity transition) |
+| Topbar | Collapses to `max-height: 0` + `opacity: 0` when menu opens |
+| Body scroll lock | `document.body.style.overflow = 'hidden'` on open, cleared on close |
+| Nav scroll | `#mobile-nav` gets `flex: 1` + `overflow-y: auto` so items scroll within overlay |
+| Keyboard | Escape closes the menu |
+| Outside click | Clicking outside nav and toggle closes the menu |
+| Accordion | Toggle `hidden` class + rotate chevron icon 180deg |
+| Reduced motion | All toggle bar transitions disabled via `prefers-reduced-motion: reduce` |
+| Touch target | Hamburger is 44x44px minimum (WCAG 2.5.5) |
+| Breakpoint | Desktop nav at `xl:` (1280px), hamburger + mobile nav below `xl:` |
+
+### HTML — Hamburger button
+
+```html
+<button
+  id="mobile-menu-toggle"
+  class="xl:hidden flex flex-col justify-center gap-[5px] p-2 min-w-[44px] min-h-[44px] items-center"
+  aria-label="Open navigation menu"
+  aria-expanded="false"
+  aria-controls="mobile-nav"
+>
+  <span class="mobile-toggle-bar block w-5 h-0.5 bg-white rounded-full"></span>
+  <span class="mobile-toggle-bar block w-5 h-0.5 bg-white rounded-full"></span>
+  <span class="mobile-toggle-bar block w-5 h-0.5 bg-white rounded-full"></span>
+</button>
+```
+
+- Place hamburger BEFORE the header CTA in DOM order
+- 3 bars: `w-5 h-0.5` (20px x 2px), `gap-[5px]` between them
+- Bars are white by default (transparent header), swap to headline colour on scroll/menu-open via CSS
+
+### HTML — Mobile navigation drawer
+
+```html
+<div
+  id="mobile-nav"
+  class="xl:hidden hidden bg-white border-t border-(--color-border) overflow-y-auto"
+  aria-hidden="true"
+>
+  <nav class="px-(--spacing-section-x) py-2" aria-label="Mobile navigation">
+    <!-- Nav items and accordions here -->
+    <div class="py-4">
+      <a href="/booking/" class="btn btn-default w-full justify-center">Book Now</a>
+    </div>
+  </nav>
+</div>
+```
+
+### HTML — Accordion pattern (for dropdowns)
+
+```html
+<div class="mobile-accordion">
+  <button class="mobile-nav-item w-full flex items-center justify-between" aria-expanded="false">
+    Menu Label
+    <svg><!-- ChevronDown icon --></svg>
+  </button>
+  <div class="mobile-accordion-panel hidden pl-3 pb-2 space-y-0.5">
+    <a href="/page/" class="mobile-sub-item">Sub Item</a>
+  </div>
+</div>
+```
+
+### CSS — Toggle bar transitions (inside `@layer components`)
+
+```css
+.mobile-toggle-bar {
+  transition: background-color 0.3s ease, transform 0.25s ease, opacity 0.2s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .mobile-toggle-bar { transition: none; }
+}
+```
+
+### CSS — Full-screen overlay (UNLAYERED — must beat Tailwind utilities)
+
+```css
+#site-header-wrapper.menu-open {
+  background-color: var(--color-white);
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+#site-header-wrapper.menu-open #header-nav-inner {
+  background-color: var(--color-white);
+  box-shadow: none;
+}
+#site-header-wrapper.menu-open #header-topbar {
+  max-height: 0; padding-top: 0; padding-bottom: 0; opacity: 0;
+}
+#site-header-wrapper.menu-open #header-divider { display: none; }
+#site-header-wrapper.menu-open #logo-white   { opacity: 0; }
+#site-header-wrapper.menu-open #logo-coloured { opacity: 1; }
+#site-header-wrapper.menu-open .mobile-toggle-bar {
+  background-color: var(--color-headline);
+}
+#site-header-wrapper.menu-open #mobile-nav {
+  flex: 1; max-height: none; overflow-y: auto; box-shadow: none;
+}
+
+/* Hamburger → X transforms */
+#site-header-wrapper.menu-open .mobile-toggle-bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+#site-header-wrapper.menu-open .mobile-toggle-bar:nth-child(2) {
+  opacity: 0; transform: scaleX(0);
+}
+#site-header-wrapper.menu-open .mobile-toggle-bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+```
+
+### JavaScript — Open/close + accordion
+
+```ts
+const wrapper = document.getElementById('site-header-wrapper') as HTMLElement;
+const headerCta = document.getElementById('header-cta') as HTMLElement;
+const mobileToggle = document.getElementById('mobile-menu-toggle') as HTMLButtonElement;
+const mobileNav = document.getElementById('mobile-nav') as HTMLElement;
+
+// Scroll state
+function applyScrollState(scrolled: boolean) {
+  if (wrapper?.classList.contains('menu-open')) return;
+  if (scrolled) {
+    wrapper?.classList.add('is-scrolled');
+    headerCta?.classList.remove('btn-ghost-white');
+    headerCta?.classList.add('btn-default');
+  } else {
+    wrapper?.classList.remove('is-scrolled');
+    headerCta?.classList.remove('btn-default');
+    headerCta?.classList.add('btn-ghost-white');
+  }
+}
+applyScrollState(window.scrollY > 60);
+window.addEventListener('scroll', () => applyScrollState(window.scrollY > 60), { passive: true });
+
+// Menu open / close
+function openMenu() {
+  wrapper?.classList.add('menu-open');
+  mobileNav?.classList.remove('hidden');
+  mobileNav?.setAttribute('aria-hidden', 'false');
+  mobileToggle?.setAttribute('aria-expanded', 'true');
+  mobileToggle?.setAttribute('aria-label', 'Close navigation menu');
+  headerCta?.classList.remove('btn-ghost-white');
+  headerCta?.classList.add('btn-default');
+  document.body.style.overflow = 'hidden';
+}
+function closeMenu() {
+  wrapper?.classList.remove('menu-open');
+  mobileNav?.classList.add('hidden');
+  mobileNav?.setAttribute('aria-hidden', 'true');
+  mobileToggle?.setAttribute('aria-expanded', 'false');
+  mobileToggle?.setAttribute('aria-label', 'Open navigation menu');
+  document.body.style.overflow = '';
+  applyScrollState(window.scrollY > 60);
+}
+mobileToggle?.addEventListener('click', () => {
+  wrapper?.classList.contains('menu-open') ? closeMenu() : openMenu();
+});
+
+// Close on Escape
+document.addEventListener('keydown', (e: KeyboardEvent) => {
+  if (e.key === 'Escape' && wrapper?.classList.contains('menu-open')) closeMenu();
+});
+
+// Close on outside click
+document.addEventListener('click', (e) => {
+  const target = e.target as Node;
+  if (mobileNav && !mobileNav.classList.contains('hidden') &&
+      !mobileNav.contains(target) && !mobileToggle?.contains(target)) {
+    closeMenu();
+  }
+});
+
+// Mobile accordion
+document.querySelectorAll('.mobile-accordion').forEach((acc) => {
+  const trigger = acc.querySelector('button');
+  const panel = acc.querySelector('.mobile-accordion-panel');
+  const icon = trigger?.querySelector('svg');
+  trigger?.addEventListener('click', () => {
+    const isOpen = !panel?.classList.contains('hidden');
+    panel?.classList.toggle('hidden', isOpen);
+    trigger.setAttribute('aria-expanded', String(!isOpen));
+    if (icon) icon.style.transform = isOpen ? '' : 'rotate(180deg)';
+  });
+});
+```
+
+### Rules
+
+- All `menu-open` CSS must be **unlayered** (outside `@layer`) to beat Tailwind utilities
+- The scroll state guard (`if wrapper.classList.contains('menu-open') return`) prevents the scroll listener from fighting the menu-open state
+- `closeMenu()` calls `applyScrollState()` to restore the correct header style after closing
+- This is the standard mobile menu for all HMDG builds — do not reinvent it
+
+---
+
 ## Carousels
 
 This project uses **Swiper.js** for all carousels. Do not build custom carousel logic.
