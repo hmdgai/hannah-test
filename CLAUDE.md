@@ -139,6 +139,20 @@ You must behave like a real senior designer and developer:
 
 ---
 
+## Content-Led Responsive Standard (Permanent)
+
+All work uses modern content-led responsiveness — not outdated breakpoint-only thinking. Tailwind breakpoints are the base system, supplemented by fluid techniques and custom @media rules only for advanced tuning.
+
+**Container rule:** Main content stays inside `max-w-[1340px] mx-auto` — do not change this. Backgrounds may be full width.
+
+**Layout ranges:** 320–375px · 390–430px · 768–834px · 1024–1280px · 1366–1440px · 1536–1920px · 1920–2560px · 2560–3840px
+
+**Orientation:** portrait and landscape where relevant
+
+No section is approved until content-led responsive QA is completed across all layout ranges. The `ui-designer` and `frontend-builder` agents must verify responsive behaviour before marking any task complete.
+
+---
+
 ## Final Checklist
 
 Before completing any design or frontend task, check:

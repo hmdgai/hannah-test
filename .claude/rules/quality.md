@@ -41,6 +41,29 @@ description: Accessibility, performance, security, SEO, marketing, and conversio
 - Avoid layout shift
 - For legal and policy pages: use the project primary colour for active states, accents, and highlights
 
+## Responsive QA (Mandatory — Non-Optional)
+
+Every section, component, page, and layout change must pass content-led responsive review before completion.
+
+**Container rule:** Main content stays inside `max-w-[1340px]` — do not change this. Backgrounds may be full width.
+
+**Layout ranges:** 320–375px · 390–430px · 768–834px · 1024–1280px · 1366–1440px · 1536–1920px · 1920–2560px · 2560–3840px
+
+**Orientation:** portrait and landscape where relevant
+
+**Content-led checks:**
+- Text wrapping, spacing rhythm, content density, container behaviour
+- Image scaling, CTA usability, overflow, overlap, layout pressure
+- Visual balance and 4K composition
+- 320px small mobile usability
+
+**Rules:**
+- No section is approved until responsive QA is completed across all layout ranges
+- Fix all issues before marking complete
+- Report layout range coverage in every final output
+- Do not allow default-looking layouts, weak spacing, or fragile breakpoint patches
+- Use Tailwind breakpoints as base, fluid techniques where appropriate, custom @media only for advanced tuning
+
 ## Marketing and Conversion
 - Every important page must have a single, clear conversion goal
 - Messaging must be clear, confident, and credible — avoid vague filler copy
