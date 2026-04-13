@@ -1,5 +1,16 @@
 @import "tailwindcss";
 
+/* ── Self-hosted fonts ─────────────────────────────────────────
+   Inter + Inter Tight served from Netlify's CDN with immutable
+   cache headers. No Google Fonts round-trips, no data sent to
+   Google on page load. Variable fonts = one file per subset covers
+   the full weight range 100-900 (we use 400-800).
+───────────────────────────────────────────────────────────────── */
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/inter/wght-italic.css";
+@import "@fontsource-variable/inter-tight";
+@import "@fontsource-variable/inter-tight/wght-italic.css";
+
 /* ============================================================
    GLOBAL DESIGN SYSTEM
    Reusable Clinic Website Base Template
@@ -79,9 +90,12 @@
        'Playfair Display' can give a more traditional medical
        or luxury feel if the brief calls for it.
      ────────────────────────────────────────────────────────── */
-  --font-heading:  'Inter Tight', ui-sans-serif, system-ui, sans-serif;
-  --font-body:     'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-sans:     'Inter', ui-sans-serif, system-ui, sans-serif;
+  /* Primary family is the self-hosted variable font from @fontsource.
+     'Inter Tight' / 'Inter' fallbacks cover any env where the variable
+     font isn't loaded yet; system fallbacks last. */
+  --font-heading:  'Inter Tight Variable', 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
+  --font-body:     'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-sans:     'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif;
 
   /* ──────────────────────────────────────────────────────────
      TYPOGRAPHY — RESPONSIVE HEADING SIZES (clamp)

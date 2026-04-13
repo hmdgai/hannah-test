@@ -25,6 +25,9 @@ const {
   heroImage,
 } = Astro.props;
 
+// Self-hosted fonts are imported inside global.css via @fontsource,
+// so every page that loads global.css (which is all of them) gets
+// Inter + Inter Tight without Google Fonts round-trips.
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
@@ -59,37 +62,12 @@ const cfg = cookieConsentConfig;
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
     <link rel="dns-prefetch" href="https://www.google-analytics.com" />
 
-    <!-- ── Google Fonts ─────────────────────────────────────────
-         Inter Tight — headings (compact, strong, high impact)
-         Inter        — body text (comfortable, highly readable)
-
-         Both loaded in a single request for performance.
-         Weights: 400 (normal) · 500 (medium) · 600 (semibold)
-                  700 (bold) · 800 (extrabold)
-
-         GDPR / Production note:
-         For live UK clinic sites, consider self-hosting these
-         fonts via @fontsource packages to avoid Google tracking:
-           npm install @fontsource/inter @fontsource/inter-tight
-         Then import in global.css instead of loading from CDN.
+    <!-- ── Fonts ────────────────────────────────────────────────
+         Inter + Inter Tight are self-hosted via @fontsource-variable
+         (imported in the frontmatter). Served from Netlify's CDN with
+         immutable cache headers. No Google Fonts round-trips, no GDPR
+         concerns about data sent to Google.
     ──────────────────────────────────────────────────────────── -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Non-blocking font load: media="print" trick swaps to "all" once loaded,
-         so fonts never block the render path. display=swap prevents FOIT.
-         The <noscript> fallback ensures fonts load without JS. -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Inter+Tight:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-      media="print"
-      onload="this.media='all'"
-    />
-    <noscript>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Inter+Tight:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet"
-      />
-    </noscript>
     <title>{title}</title>
     {noindex && <meta name="robots" content="noindex, nofollow" />}
 
@@ -167,8 +145,8 @@ const cfg = cookieConsentConfig;
     <meta http-equiv="Content-Security-Policy" content="
       default-src 'self';
       script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://maps.googleapis.com;
-      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-      font-src 'self' https://fonts.gstatic.com;
+      style-src 'self' 'unsafe-inline';
+      font-src 'self';
       img-src 'self' data: https://images.unsplash.com https://maps.gstatic.com https://maps.googleapis.com https://*.googleapis.com;
       frame-src 'self' https://www.google.com https://*.cliniko.com;
       connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com;

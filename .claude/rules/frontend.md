@@ -20,6 +20,14 @@ description: Frontend code rules — Astro, Tailwind, images, header, footer, an
 - Prefer modular Astro components for all repeated sections (hero, services, team, reviews, booking CTA)
 - Use `<slot />` and named slots correctly
 
+## Production HTML Hygiene (Permanent)
+- HTML comments (`<!-- ... -->`) are automatically stripped from production output by the `stripHtmlComments` integration in `astro.config.mjs`.
+- Source files may freely use `<!-- -->` for readability — they will never leak to view-source.
+- **Never remove the `stripHtmlComments` integration** — it is a permanent template feature that every client clone inherits.
+- Internal-only routes go under `src/pages/_dev/` (Astro excludes underscore-prefixed paths from routing).
+- Use `{/* ... */}` JSX-style comments in template blocks if you want the comment stripped at compile time rather than at build time.
+- Never hardcode secrets or internal API paths into page markup — keep them in `.env` (non-`PUBLIC_` prefix) and access only from server-side code.
+
 ## Image Rules
 
 ### Default format

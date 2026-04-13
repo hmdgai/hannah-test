@@ -7,21 +7,35 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 /**
- * stripHtmlComments — tiny inline Astro integration.
- * Removes HTML comments (<!-- ... -->) from every built .html file so
- * internal notes never leak to production view-source. Preserves IE
- * conditional comments (<!--[if IE]> ... <![endif]-->) in case any
- * third-party script relies on them.
- * Runs after the build completes, so only the output is touched —
- * source files keep their comments for developer clarity.
+ * htmlProductionHygiene — tiny inline Astro integration.
+ * Two jobs, both run at astro:build:done against every built .html:
+ *
+ *   1. Strip HTML comments (<!-- ... -->) so internal notes never leak
+ *      to production view-source. Preserves IE conditional comments.
+ *
+ *   2. Defer the CookieConsent stylesheet so it does not block render.
+ *      The cookie banner lives below the fold and is hidden on first
+ *      paint (opacity:0, visibility:hidden, transform:translateY(100%)),
+ *      so blocking paint for its CSS is wasted time. We also inline a
+ *      tiny critical rule in <head> that keeps the banner hidden in
+ *      the unlikely edge case where markup renders before the CSS
+ *      arrives (no FOUC).
+ *
+ * Source files are untouched — only the built output is rewritten.
  */
-function stripHtmlComments() {
+function htmlProductionHygiene() {
+  // Critical CSS injected into <head> to prevent any flash-of-unstyled-
+  // content before the deferred CookieConsent stylesheet loads.
+  const CC_CRITICAL = '<style>.hmdg-banner,.hmdg-modal{visibility:hidden!important}</style>';
+
   return {
-    name: 'strip-html-comments',
+    name: 'html-production-hygiene',
     hooks: {
-      'astro:build:done': ({ dir }) => {
+      'astro:build:done': (/** @type {{ dir: URL }} */ { dir }) => {
         const root = fileURLToPath(dir);
+        /** @type {(d: string) => string[]} */
         const walk = (d) => {
+          /** @type {string[]} */
           const out = [];
           for (const e of readdirSync(d, { withFileTypes: true })) {
             const p = join(d, e.name);
@@ -30,10 +44,32 @@ function stripHtmlComments() {
           }
           return out;
         };
+        // Matches <link rel="stylesheet" href="/_astro/CookieConsent*.css">
+        // regardless of attribute order or hashed filename.
+        const ccLinkRe = /<link\b[^>]*rel=["']stylesheet["'][^>]*href=["'](\/_astro\/CookieConsent[^"']+\.css)["'][^>]*>/i;
+
         for (const file of walk(root)) {
-          const html = readFileSync(file, 'utf8');
-          const cleaned = html.replace(/<!--(?!\[if)[\s\S]*?-->/g, '');
-          if (cleaned !== html) writeFileSync(file, cleaned);
+          let html = readFileSync(file, 'utf8');
+          const original = html;
+
+          // 1. Strip HTML comments (keep IE conditional).
+          html = html.replace(/<!--(?!\[if)[\s\S]*?-->/g, '');
+
+          // 2. Defer CookieConsent CSS + inline critical hide rule.
+          const m = html.match(ccLinkRe);
+          if (m) {
+            const href = m[1];
+            const deferred =
+              `<link rel="stylesheet" href="${href}" media="print" onload="this.media='all'">` +
+              `<noscript><link rel="stylesheet" href="${href}"></noscript>`;
+            html = html.replace(ccLinkRe, deferred);
+            // Inject critical CSS just before </head> (exactly once).
+            if (!html.includes('.hmdg-banner,.hmdg-modal')) {
+              html = html.replace('</head>', `${CC_CRITICAL}</head>`);
+            }
+          }
+
+          if (html !== original) writeFileSync(file, html);
         }
       },
     },
@@ -43,7 +79,7 @@ function stripHtmlComments() {
 // https://astro.build/config
 export default defineConfig({
   adapter: netlify(),   // Enables Netlify Functions for API routes (export const prerender = false)
-  integrations: [stripHtmlComments()],
+  integrations: [htmlProductionHygiene()],
   vite: {
     plugins: [tailwindcss()]
   }
