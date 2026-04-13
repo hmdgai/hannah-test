@@ -26,9 +26,6 @@ interface Props {
 const { testimonials } = Astro.props;
 ---
 
-<!-- Swiper CSS — loaded once, scoped to this component -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-
 <div class="relative">
   <div class="swiper testimonial-swiper overflow-hidden rounded-[--radius-card]">
     <div class="swiper-wrapper py-4">
@@ -69,44 +66,41 @@ const { testimonials } = Astro.props;
   <div class="swiper-button-next !text-[--color-primary] !-right-4"></div>
 </div>
 
-<!-- Swiper JS — initialised with this component, not globally -->
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
-  // Wait for DOM before initialising
-  document.addEventListener("DOMContentLoaded", () => {
-    new (window as any).Swiper(".testimonial-swiper", {
-      // How many slides to show at once
-      slidesPerView: 1,
-      spaceBetween: 24,
+  // Import only the Swiper modules this component actually uses.
+  // Tree-shaken by Vite at build time — no full bundle loaded.
+  // Swiper CSS is imported here so Vite bundles and hashes it with the JS,
+  // rather than a render-blocking CDN <link> in the document <head>.
+  // Swiper 12 — module-only imports (tree-shaken by Vite, no full bundle).
+  // CSS paths use the package's "./css/*" export map — same paths as Swiper 11.
+  import Swiper from 'swiper';
+  import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+  import 'swiper/css';
+  import 'swiper/css/navigation';
+  import 'swiper/css/pagination';
 
-      // Loop forever — like Elementor's infinite carousel
-      loop: true,
-
-      // Dots at the bottom
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
-
-      // Arrow buttons
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-
-      // Responsive breakpoints — more cards on wider screens
-      breakpoints: {
-        640: { slidesPerView: 1 },
-        768: { slidesPerView: 2 },
-        1024: { slidesPerView: 3 },
-      },
-
-      // Auto-play (optional — remove if not needed)
-      autoplay: {
-        delay: 5000,
-        disableOnInteraction: false,
-        pauseOnMouseEnter: true,
-      },
-    });
+  new Swiper(".testimonial-swiper", {
+    modules: [Navigation, Pagination, Autoplay],
+    slidesPerView: 1,
+    spaceBetween: 24,
+    loop: true,
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    breakpoints: {
+      640: { slidesPerView: 1 },
+      768: { slidesPerView: 2 },
+      1024: { slidesPerView: 3 },
+    },
+    autoplay: {
+      delay: 5000,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: true,
+    },
   });
 </script>

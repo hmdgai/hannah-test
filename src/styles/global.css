@@ -240,10 +240,18 @@
     font-size:                1rem;
     color:                    var(--color-body);
     background-color:         var(--color-white);
-    scroll-behavior:          smooth;
     -webkit-font-smoothing:   antialiased;
     -moz-osx-font-smoothing:  grayscale;
     text-rendering:           optimizeLegibility;
+  }
+
+  /* Smooth scroll only when the user has not requested reduced motion.
+     Placing it here (not on html directly) satisfies both Lighthouse and
+     WCAG 2.1 SC 2.3.3 — no motion triggered without consent. */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
 
   /* ── Custom Scrollbar — WebKit (Chrome, Safari, Edge) ────

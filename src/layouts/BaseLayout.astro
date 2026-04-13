@@ -14,12 +14,15 @@ interface Props {
   title: string;
   description?: string;
   noindex?: boolean;
+  /** Absolute path to the LCP hero image for preload (e.g. "/images/hero.webp") */
+  heroImage?: string;
 }
 
 const {
   title,
   description = "Professional clinic providing expert care in the UK.",
   noindex = false,
+  heroImage,
 } = Astro.props;
 
 import "../styles/global.css";
@@ -38,6 +41,24 @@ const cfg = cookieConsentConfig;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- ── LCP hero image preload ───────────────────────────────
+         Pass heroImage="/images/your-hero.webp" to BaseLayout
+         on any page with an above-the-fold hero image.
+         This is the single highest-impact LCP optimisation.
+    ──────────────────────────────────────────────────────────── -->
+    {heroImage && (
+      <link rel="preload" as="image" href={heroImage} fetchpriority="high" />
+    )}
+
+    <!-- ── DNS prefetch for secondary third-party origins ───────
+         preconnect handles fonts (warm TCP+TLS for render path).
+         dns-prefetch is sufficient for GTM/GA which load async
+         and do not block rendering.
+    ──────────────────────────────────────────────────────────── -->
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+
     <!-- ── Google Fonts ─────────────────────────────────────────
          Inter Tight — headings (compact, strong, high impact)
          Inter        — body text (comfortable, highly readable)
@@ -54,10 +75,21 @@ const cfg = cookieConsentConfig;
     ──────────────────────────────────────────────────────────── -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Non-blocking font load: media="print" trick swaps to "all" once loaded,
+         so fonts never block the render path. display=swap prevents FOIT.
+         The <noscript> fallback ensures fonts load without JS. -->
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Inter+Tight:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Inter+Tight:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
     <title>{title}</title>
     {noindex && <meta name="robots" content="noindex, nofollow" />}
 
