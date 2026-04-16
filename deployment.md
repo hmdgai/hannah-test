@@ -207,29 +207,141 @@ https://client-project-name.pages.dev
 
 ---
 
-## Part 4 — Custom Domain (Optional)
+## Part 4 — Move Domain DNS to Cloudflare
 
-### Step 13: Add a custom domain
+Before connecting a custom domain to your Pages project, the domain must be on Cloudflare DNS. This gives you full control over DNS records, automatic SSL, DDoS protection, and caching — all from one dashboard.
 
-1. In the Cloudflare Pages project dashboard, click **Custom domains**.
-2. Click **Set up a custom domain**.
-3. Enter the client's domain: `yourclinic.co.uk`.
+> **Already on Cloudflare?** If the client's domain is already managed by Cloudflare DNS, skip to Part 5 (Step 17).
+
+### Step 13: Add the domain to Cloudflare
+
+1. Log into [dash.cloudflare.com](https://dash.cloudflare.com).
+2. Click **Add a domain** (or **Add a site** on the home page).
+3. Enter the client's domain: `yourclinic.co.uk` (the root domain, not a subdomain).
 4. Click **Continue**.
 
-**If the domain is already on Cloudflare DNS:**
-- Cloudflare adds the CNAME record automatically. Done.
+### Step 14: Choose a plan
 
-**If the domain is NOT on Cloudflare DNS:**
-- Cloudflare will show you a CNAME record to add at the client's domain registrar:
-  - Type: `CNAME`
-  - Name: `@` (or `yourclinic.co.uk`)
-  - Target: `client-project-name.pages.dev`
-- Add this record at the registrar, then click **Check DNS** in Cloudflare.
+1. Select the **Free** plan (scroll down — it is at the bottom).
+2. Click **Continue**.
 
-5. Cloudflare provisions a free SSL certificate automatically (usually within minutes).
-6. Once active, the site will be live at `https://yourclinic.co.uk`.
+### Step 15: Review and copy DNS records
 
-### Step 14: Update Web3Forms domain
+Cloudflare scans the domain's existing DNS records and imports them automatically.
+
+1. **Review the list carefully.** Make sure all existing records are present:
+   - `A` records (pointing to the old host — you will change these later)
+   - `MX` records (email — **critical**, do not lose these)
+   - `TXT` records (SPF, DKIM, domain verification — **critical**)
+   - `CNAME` records (subdomains like `www`)
+
+2. If any records are missing, add them manually now. Check the current registrar's DNS panel to compare.
+
+3. **Do not change anything yet** — just confirm everything is present.
+
+4. Click **Continue**.
+
+> **Warning:** If MX or TXT records are missing, email will break after the nameserver switch. Always double-check email records before proceeding.
+
+### Step 16: Change nameservers at the domain registrar
+
+Cloudflare will show you **two nameservers** to set at the domain registrar. They look like:
+
+```
+ada.ns.cloudflare.com
+bob.ns.cloudflare.com
+```
+
+*(Your actual nameservers will be different — use the ones Cloudflare shows you.)*
+
+Now go to the **domain registrar** (where the domain was purchased — e.g. GoDaddy, Namecheap, 123 Reg, Fasthosts, IONOS, Google Domains, etc.):
+
+1. Log into the registrar's dashboard.
+2. Find the domain → **DNS settings** or **Nameservers**.
+3. Switch from the registrar's default nameservers to **Custom nameservers**.
+4. Replace the existing nameservers with the two Cloudflare nameservers.
+5. Save.
+
+**Common registrar locations:**
+
+| Registrar | Where to find nameserver settings |
+|---|---|
+| GoDaddy | My Products → Domain → DNS → Nameservers → Change |
+| Namecheap | Domain List → Manage → Nameservers → Custom DNS |
+| 123 Reg | Control Panel → Domain → Manage → Nameservers |
+| Fasthosts | Control Panel → Domains → DNS/Nameservers |
+| IONOS | Domains & SSL → DNS → Nameservers |
+| Google Domains | My Domains → DNS → Custom name servers |
+
+### Step 16b: Wait for propagation
+
+1. Go back to Cloudflare and click **Done, check nameservers**.
+2. Cloudflare will check periodically. This usually takes **5 minutes to 2 hours**, but can take up to 24 hours in rare cases.
+3. You will receive an email from Cloudflare when the domain is active:
+
+```
+Subject: "yourclinic.co.uk" has been added to your Cloudflare account
+```
+
+4. In the Cloudflare dashboard, the domain status will change from **"Pending"** to **"Active"**.
+
+> **While waiting:** The existing site continues to work normally. Nothing breaks until you change the DNS records themselves (which you do in Part 5).
+
+### Step 16c: Verify email still works
+
+After the nameservers propagate and the domain shows **Active** in Cloudflare:
+
+1. Send a test email to the client's domain email (e.g. `hello@yourclinic.co.uk`).
+2. Confirm it arrives.
+3. If email breaks, check the **MX** and **TXT** records in Cloudflare DNS — compare them with the old registrar records and fix any missing ones.
+
+---
+
+## Part 5 — Connect Custom Domain to Pages
+
+### Step 17: Add the custom domain to the Pages project
+
+1. Go to **Workers & Pages** → click on your Pages project.
+2. Click **Custom domains** tab.
+3. Click **Set up a custom domain**.
+4. Enter the client's domain: `yourclinic.co.uk`.
+5. Click **Continue**.
+
+Since the domain is now on Cloudflare DNS, Cloudflare adds the required CNAME record **automatically**. You should see:
+
+```
+CNAME   yourclinic.co.uk → client-project-name.pages.dev
+```
+
+6. Click **Activate domain**.
+
+### Step 17b: Add www subdomain (recommended)
+
+Repeat the same process for the `www` version:
+
+1. Click **Set up a custom domain** again.
+2. Enter: `www.yourclinic.co.uk`.
+3. Cloudflare adds the CNAME automatically.
+4. Click **Activate domain**.
+
+Now both `yourclinic.co.uk` and `www.yourclinic.co.uk` point to your Pages project.
+
+> **Redirect www → root (or vice versa):** In Cloudflare, go to **Rules → Redirect Rules** and create a rule:
+> - If hostname equals `www.yourclinic.co.uk`
+> - Then redirect to `https://yourclinic.co.uk` (301 permanent)
+
+### Step 18: SSL certificate
+
+Cloudflare provisions a free SSL certificate automatically after the domain is activated. This usually happens within minutes.
+
+Verify:
+1. Open `https://yourclinic.co.uk` in a browser.
+2. Check the padlock icon — it should show a valid Cloudflare certificate.
+3. Try `http://yourclinic.co.uk` — it should redirect to `https://` automatically.
+
+If SSL is not ready yet, wait 15 minutes and try again. Edge certificates can take up to 24 hours in rare cases.
+
+### Step 19: Update Web3Forms domain
 
 Now that you have a live domain:
 
@@ -237,7 +349,7 @@ Now that you have a live domain:
 2. Find the form you created in Step 5.
 3. Update the **Domain name** from `localhost` to `yourclinic.co.uk`.
 
-### Step 15: Update SITE_ORIGIN
+### Step 20: Update SITE_ORIGIN
 
 In Cloudflare Pages:
 
@@ -247,7 +359,7 @@ In Cloudflare Pages:
 
 ---
 
-## Part 5 — Post-Launch Checklist
+## Part 6 — Post-Launch Checklist
 
 After the site is live on the custom domain, verify everything:
 
@@ -292,7 +404,7 @@ After the site is live on the custom domain, verify everything:
 
 ---
 
-## Part 6 — Ongoing Workflow
+## Part 7 — Ongoing Workflow
 
 ### Making changes
 
