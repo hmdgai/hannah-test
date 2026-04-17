@@ -54,7 +54,8 @@ interface Props {
 
 // Auto-detect site name from env var. Set PUBLIC_SITE_NAME once in .env +
 // Cloudflare Pages — every form on the site uses it automatically.
-const siteName = import.meta.env.PUBLIC_SITE_NAME ?? 'Website Name';
+// Uses || not ?? so empty-string env vars also fall back to the default.
+const siteName = import.meta.env.PUBLIC_SITE_NAME || 'Website Name';
 
 const {
   subjectPrefix = siteName,
@@ -91,7 +92,7 @@ const errorId   = `form-error-${id}`;
   <input type="hidden" name="access_key" value={web3formsKey} />
 
   {/* Email subject + from_name — updated dynamically with sender's name on submit */}
-  <input type="hidden" name="subject" class="js-subject" value={`${subjectPrefix} - Contact Enquiry`} />
+  <input type="hidden" name="subject" class="js-subject" value={`${subjectPrefix} - New Entry Received`} />
   <input type="hidden" name="from_name" class="js-from" value={brandName} />
 
   {/* reCAPTCHA v3 token — populated by JS just before submit.
@@ -238,7 +239,7 @@ const errorId   = `form-error-${id}`;
       // Personalise subject and from_name with the sender's name
       const nameVal = (form.querySelector<HTMLInputElement>('[name="name"]')?.value ?? '').trim();
       if (nameVal) {
-        subjectEl.value = `${subjectPrefix} - ${nameVal}`;
+        subjectEl.value = `${subjectPrefix} - New Entry Received From ${nameVal}`;
         fromEl.value    = nameVal;
       }
 
