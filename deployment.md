@@ -166,6 +166,13 @@ Add the following variables:
 | Variable name | `PUBLIC_WEB3FORMS_KEY` |
 | Variable value | *(paste your Web3Forms access key from Step 6)* |
 
+**Variable 3 (required — recipient email for contact form):**
+
+| Field | Value |
+|---|---|
+| Variable name | `PUBLIC_CLIENT_EMAIL` |
+| Variable value | `hello@yourclinic.co.uk` *(comma-separated list for multiple)* |
+
 Click **+ Add variable** to add more if needed.
 
 **Variable 3 (optional — add later when GA4 is ready):**
@@ -447,6 +454,9 @@ If something breaks after a deploy:
 |---|---|---|---|---|
 | `NODE_VERSION` | Cloudflare Pages | Yes | N/A | Must be `22` |
 | `PUBLIC_WEB3FORMS_KEY` | Cloudflare Pages + `.env` | Yes | Yes | Web3Forms access key |
+| `PUBLIC_CLIENT_EMAIL` | Cloudflare Pages + `.env` | Yes | Yes | Recipient inbox for contact form (comma-separated for multiple) |
+| `PUBLIC_SITE_NAME` | Cloudflare Pages + `.env` | Yes | Yes | Used in email subject + from_name |
+| `PUBLIC_RECAPTCHA_SITE_KEY` | Cloudflare Pages + `.env` | If using reCAPTCHA | Yes | Google reCAPTCHA v3 site key |
 | `GA4_API_SECRET` | Cloudflare Pages + `.env` | For GA4 | No | GA4 Measurement Protocol secret (encrypt) |
 | `GA4_MEASUREMENT_ID` | Cloudflare Pages + `.env` | For GA4 | No | GA4 Measurement ID (`G-XXXXXXXXXX`) |
 | `SITE_ORIGIN` | Cloudflare Pages + `.env` | For GA4 | No | Full production URL |

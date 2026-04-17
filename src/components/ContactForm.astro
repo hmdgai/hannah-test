@@ -42,6 +42,8 @@ interface Props {
   subjectPrefix?: string;
   /** Override the from_name in the email. Defaults to PUBLIC_SITE_NAME env var. */
   brandName?: string;
+  /** Override the recipient email. Defaults to PUBLIC_CLIENT_EMAIL env var. Comma-separated for multiple. */
+  clientEmail?: string;
   /** Show phone field? Default: true */
   showPhone?: boolean;
   /** Submit button label. Default: "Send Enquiry" */
@@ -57,9 +59,14 @@ interface Props {
 // Uses || not ?? so empty-string env vars also fall back to the default.
 const siteName = import.meta.env.PUBLIC_SITE_NAME || 'Website Name';
 
+// Recipient email — single or comma-separated list. Pulled from env var
+// so each client deploy just changes PUBLIC_CLIENT_EMAIL once.
+const envClientEmail = import.meta.env.PUBLIC_CLIENT_EMAIL || '';
+
 const {
   subjectPrefix = siteName,
   brandName     = siteName,
+  clientEmail   = envClientEmail,
   showPhone     = true,
   submitLabel   = 'Send Enquiry',
   id            = 'default',
@@ -91,9 +98,13 @@ const errorId   = `form-error-${id}`;
   {/* Web3Forms access key — public by design, safe to expose */}
   <input type="hidden" name="access_key" value={web3formsKey} />
 
+  {/* Recipient email override — Web3Forms Pro "to" field. Supports comma-separated list. */}
+  {clientEmail && <input type="hidden" name="to" value={clientEmail} />}
+
   {/* Email subject + from_name — updated dynamically with sender's name on submit */}
   <input type="hidden" name="subject" class="js-subject" value={`${subjectPrefix} - New Entry Received`} />
   <input type="hidden" name="from_name" class="js-from" value={brandName} />
+  <input type="hidden" name="replyto" class="js-replyto" value="" />
 
   {/* reCAPTCHA v3 token — populated by JS just before submit.
       Field name MUST be "recaptcha_response" per Web3Forms docs (not the
@@ -221,6 +232,7 @@ const errorId   = `form-error-${id}`;
     const spinner     = form.querySelector<HTMLSpanElement>('.js-spinner')!;
     const subjectEl   = form.querySelector<HTMLInputElement>('.js-subject')!;
     const fromEl      = form.querySelector<HTMLInputElement>('.js-from')!;
+    const replytoEl   = form.querySelector<HTMLInputElement>('.js-replyto')!;
     const tokenEl     = form.querySelector<HTMLInputElement>('.js-recaptcha-token')!;
     const success     = form.parentElement?.querySelector<HTMLDivElement>(`#${form.id.replace('contact-form-', 'form-success-')}`) ?? null;
     const error       = form.parentElement?.querySelector<HTMLDivElement>(`#${form.id.replace('contact-form-', 'form-error-')}`) ?? null;
@@ -236,11 +248,15 @@ const errorId   = `form-error-${id}`;
       success?.classList.add('hidden');
       error?.classList.add('hidden');
 
-      // Personalise subject and from_name with the sender's name
-      const nameVal = (form.querySelector<HTMLInputElement>('[name="name"]')?.value ?? '').trim();
+      // Personalise subject, from_name, and replyto with user input
+      const nameVal  = (form.querySelector<HTMLInputElement>('[name="name"]')?.value ?? '').trim();
+      const emailVal = (form.querySelector<HTMLInputElement>('[name="email"]')?.value ?? '').trim();
       if (nameVal) {
         subjectEl.value = `${subjectPrefix} - New Entry Received From ${nameVal}`;
         fromEl.value    = nameVal;
+      }
+      if (emailVal) {
+        replytoEl.value = emailVal;
       }
 
       // Loading state
