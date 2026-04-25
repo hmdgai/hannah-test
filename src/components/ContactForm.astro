@@ -42,8 +42,8 @@ interface Props {
   subjectPrefix?: string;
   /** Override the from_name in the email. Defaults to PUBLIC_SITE_NAME env var. */
   brandName?: string;
-  /** Override the recipient email. Defaults to PUBLIC_CLIENT_EMAIL env var. Comma-separated for multiple. */
-  clientEmail?: string;
+  /** Override the CC recipient list. Defaults to PUBLIC_CLIENT_EMAIL env var. Semicolon-separated for multiple — e.g. "a@x.com; b@y.com". */
+  ccEmail?: string;
   /** Show phone field? Default: true */
   showPhone?: boolean;
   /** Submit button label. Default: "Send Enquiry" */
@@ -59,14 +59,16 @@ interface Props {
 // Uses || not ?? so empty-string env vars also fall back to the default.
 const siteName = import.meta.env.PUBLIC_SITE_NAME || 'Website Name';
 
-// Recipient email — single or comma-separated list. Pulled from env var
-// so each client deploy just changes PUBLIC_CLIENT_EMAIL once.
-const envClientEmail = import.meta.env.PUBLIC_CLIENT_EMAIL || '';
+// CC list — Web3Forms expects field name `ccemail` and SEMICOLON separator
+// (NOT `cc`, NOT comma). Auto-normalise legacy comma-separated env values
+// so historical deploys keep working without a manual change.
+const rawClientEmail = import.meta.env.PUBLIC_CLIENT_EMAIL || '';
+const envCcEmail     = rawClientEmail.replace(/,\s*/g, '; ');
 
 const {
   subjectPrefix = siteName,
   brandName     = siteName,
-  clientEmail   = envClientEmail,
+  ccEmail       = envCcEmail,
   showPhone     = true,
   submitLabel   = 'Send Enquiry',
   id            = 'default',
@@ -95,11 +97,13 @@ const errorId   = `form-error-${id}`;
   novalidate
   class="bg-[--color-surface] border border-[--color-border] rounded-[--radius-card] p-6 flex flex-col gap-5"
 >
-  {/* Web3Forms access key — public by design, safe to expose */}
+  {/* Web3Forms access key — public by design, safe to expose. Bound to the
+      Web3Forms dashboard form whose "Recipient Emails" = primary inbox. */}
   <input type="hidden" name="access_key" value={web3formsKey} />
 
-  {/* Recipient email override — Web3Forms Pro "to" field. Supports comma-separated list. */}
-  {clientEmail && <input type="hidden" name="to" value={clientEmail} />}
+  {/* CC recipients — Web3Forms Pro feature. Field name MUST be `ccemail` and
+      separator MUST be `;`. There is NO `to` field and NO `bcc` field. */}
+  {ccEmail && <input type="hidden" name="ccemail" value={ccEmail} />}
 
   {/* Email subject + from_name — updated dynamically with sender's name on submit */}
   <input type="hidden" name="subject" class="js-subject" value={`${subjectPrefix} - New Entry Received`} />
@@ -112,7 +116,7 @@ const errorId   = `form-error-${id}`;
   <input type="hidden" name="recaptcha_response" class="js-recaptcha-token" value="" />
 
   {/* Honeypot — real users never see this; bots autofill and are silently dropped */}
-  <input type="checkbox" name="botcheck" class="hidden" aria-hidden="true" tabindex="-1" />
+  <input type="checkbox" name="botcheck" class="hidden-honeypot" aria-hidden="true" tabindex="-1" autocomplete="off" />
 
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
     <div class="flex flex-col gap-2">
@@ -192,7 +196,7 @@ const errorId   = `form-error-${id}`;
   </div>
 
   <div>
-    <button type="submit" class="btn btn-default js-submit">
+    <button type="submit" class="btn btn-default js-submit" aria-label={submitLabel}>
       <span class="js-label">{submitLabel}</span>
       <span class="js-spinner hidden" aria-hidden="true">Sending…</span>
     </button>
@@ -201,11 +205,11 @@ const errorId   = `form-error-${id}`;
   {/* Google terms notice — required by reCAPTCHA ToS when the badge is hidden */}
   {recaptchaSiteKey && (
     <p class="recaptcha-terms">
-      This site is protected by reCAPTCHA and the Google
-      <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer"> Privacy Policy</a>
-      and
-      <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer"> Terms of Service</a>
-      apply.
+      This site is protected by reCAPTCHA and the Google{' '}
+      <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" aria-label="Google Privacy Policy (opens in a new tab)">Privacy Policy</a>
+      {' '}and{' '}
+      <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" aria-label="Google Terms of Service (opens in a new tab)">Terms of Service</a>
+      {' '}apply.
     </p>
   )}
 </form>
@@ -241,28 +245,41 @@ const errorId   = `form-error-${id}`;
     const recaptchaKey   = form.dataset.recaptchaKey  ?? '';
     const redirectUrl    = form.dataset.redirect      ?? '';
 
+    const originalLabel     = label.textContent ?? 'Send Enquiry';
+    const originalAriaLabel = submit.getAttribute('aria-label') ?? originalLabel;
+
+    // Re-entry guard — prevents double-submit if the user double-clicks
+    // or hits Enter twice while the request is in flight.
+    let isSubmitting = false;
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (isSubmitting) return;
+      isSubmitting = true;
 
       // Clear previous status
       success?.classList.add('hidden');
       error?.classList.add('hidden');
 
-      // Personalise subject, from_name, and replyto with user input
+      // Personalise subject, from_name, and replyto with user input.
+      // Strip CRLF from email to defend against header injection attempts.
       const nameVal  = (form.querySelector<HTMLInputElement>('[name="name"]')?.value ?? '').trim();
-      const emailVal = (form.querySelector<HTMLInputElement>('[name="email"]')?.value ?? '').trim();
+      const emailVal = (form.querySelector<HTMLInputElement>('[name="email"]')?.value ?? '')
+        .replace(/[\r\n]/g, '')
+        .trim();
       if (nameVal) {
-        subjectEl.value = `${subjectPrefix} - New Entry Received From ${nameVal}`;
+        subjectEl.value = `${subjectPrefix} - New Contact Enquiry From ${nameVal}`;
         fromEl.value    = nameVal;
       }
       if (emailVal) {
         replytoEl.value = emailVal;
       }
 
-      // Loading state
+      // Loading state — visual + accessible
       submit.disabled = true;
       label.classList.add('hidden');
       spinner.classList.remove('hidden');
+      submit.setAttribute('aria-label', 'Sending, please wait');
 
       try {
         // 1. Get a fresh reCAPTCHA v3 token
@@ -298,9 +315,13 @@ const errorId   = `form-error-${id}`;
         error?.classList.remove('hidden');
         console.error('[ContactForm] submit error:', err);
       } finally {
+        // Always restore — even on hard failure — so the user can retry.
         submit.disabled = false;
         label.classList.remove('hidden');
         spinner.classList.add('hidden');
+        submit.setAttribute('aria-label', originalAriaLabel);
+        label.textContent = originalLabel;
+        isSubmitting = false;
       }
     });
   });

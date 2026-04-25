@@ -6,11 +6,13 @@
  * Premium animated design — no generic success screen patterns.
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const siteName = import.meta.env.PUBLIC_SITE_NAME || 'Your Clinic';
 ---
 
 <BaseLayout
-  title="Thank You — ClinicName"
-  description="Thank you for getting in touch with ClinicName. We will be in contact shortly."
+  title={`Thank You — ${siteName}`}
+  description={`Thank you for getting in touch with ${siteName}. A member of our team will be in touch within one working day.`}
   noindex={true}
 >
 
@@ -63,7 +65,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
       <!-- ── Supporting text ───────────────────────── -->
       <p class="ty-body anim-up delay-c">
-        We will be in touch with you shortly.
+        A member of our team will be in touch within one working day. If your need is urgent, please call us directly.
       </p>
 
       <!-- ── Divider ────────────────────────────────── -->

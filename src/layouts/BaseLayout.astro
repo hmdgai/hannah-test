@@ -25,6 +25,14 @@ const {
   heroImage,
 } = Astro.props;
 
+// Canonical / OG URL.
+// Pages prerender at build time, so Astro.url.origin would bake the
+// build host (localhost, *.pages.dev) into the HTML. Set `site` in
+// astro.config.mjs per-client to anchor these tags to the production
+// origin — falls back to Astro.url.origin during local dev.
+const baseOrigin = Astro.site ? Astro.site.origin : Astro.url.origin;
+const fullUrl    = baseOrigin + Astro.url.pathname;
+
 // Self-hosted fonts are imported inside global.css via @fontsource,
 // so every page that loads global.css (which is all of them) gets
 // Inter + Inter Tight without Google Fonts round-trips.
@@ -70,6 +78,19 @@ const cfg = cookieConsentConfig;
     ──────────────────────────────────────────────────────────── -->
     <title>{title}</title>
     {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <link rel="canonical" href={fullUrl} />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={fullUrl} />
+    <meta property="og:locale" content="en_GB" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
 
     <!-- ── Security meta tags ────────────────────────────────────
          These provide baseline security on any host.
