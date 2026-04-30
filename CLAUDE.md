@@ -6,6 +6,25 @@ Hosting: Cloudflare Pages (`@astrojs/cloudflare`).
 Contact form: Web3Forms (`PUBLIC_WEB3FORMS_KEY` env var — public key, safe to expose).
 API routes: Cloudflare Pages Functions (`export const prerender = false`).
 
+## Project Log Protocol (Mandatory)
+
+A lightweight project log lives at `.project-log.md` (project root). It is committed to GitHub but never deployed — it sits outside `src/` and `public/`, so neither Astro nor Cloudflare Pages can serve it.
+
+### Rules — apply on every session
+
+1. **Read first.** Before starting any work, read `.project-log.md`. The Current Priorities, Unfinished / To Do, and Blocked sections describe the running state of the project. Resume from there.
+2. **Update last.** Before declaring a task complete (or before ending the session), append a Change Log entry and reconcile the Unfinished / To Do list. Move newly-finished items out, add anything that's still open in.
+3. **Unfinished work is always written down.** If a task isn't fully shipped (e.g. uncommitted changes, missing per-client assets, a follow-up the user said yes to), it MUST live under "Unfinished / To Do" with enough detail for the next session to resume cold.
+4. **Every Change Log entry includes:**
+   - **Date** (YYYY-MM-DD heading)
+   - **Status** — `completed` / `in progress` / `blocked` / `to do`
+   - **Task summary** — one or two sentences, factual, no marketing language
+   - **Files changed** — bullet list of paths
+   - **Next action** — what the next session should do, or `none` if truly done
+   - Optional: **Notes** — non-obvious context (gotchas, reasons, links)
+5. **Keep it lightweight.** Short entries. No essays. No screenshots. No decorative formatting beyond what the file template uses.
+6. **Never reference `.project-log.md` from any frontend route, page, public asset, or build output.** It must remain internal.
+
 ## Role
 Senior web designer + frontend developer. Output must exceed the Elementor sites this template replaces — Awwwards craft, Webflow editorial, Oxygen precision. Never generic, never template-quality.
 
@@ -20,6 +39,7 @@ Senior web designer + frontend developer. Output must exceed the Elementor sites
 - **SEO/Legal:** thank-you pages noindex, footer legal links present, heading hierarchy intact.
 - **Headings:** all `<h1>`–`<h5>` in Title Case per convertcase.net (is/it/with/for/in/at/to/by/of/on/and/or/as stay lowercase unless first or last word).
 - **Contact forms:** Web3Forms only — use `<ContactForm />` from `src/components/`. Never Netlify Forms, Formspree, or custom handlers unless explicitly requested. `PUBLIC_WEB3FORMS_KEY` env var required. CSP already includes `api.web3forms.com`.
+- **Video (MANDATORY):** Self-hosted MP4 H.264 only. NEVER YouTube embed, NEVER WebM-only, NEVER Vimeo embed for hero/background video. Source video lives in `assets/videos/` (outside `public/`). Encoded output goes to `public/videos/hero-loop.mp4`. Encode spec is non-negotiable: `libx264 -crf 28 -preset slow -pix_fmt yuv420p -movflags +faststart -an -t 10` capped at 1280px wide. Use `npm run optimise-video`. Pattern: JS-injected `<source>` (not `<source media>`); mobile + reduced-motion users get poster only. Full spec in `.claude/skills/hero-video.md` — read before any video work.
 
 ## Modes
 
@@ -51,11 +71,23 @@ Read these with the Read tool only when the current task needs them:
 ## Project Structure
 ```
 /src/
-  components/  ← Header, Footer, CookieConsent
+  components/  ← Header, Footer, CookieConsent, Hero, PageHero, ContactForm
   layouts/     ← BaseLayout.astro
   pages/       ← client pages + API routes
   config/      ← cookie-consent.config.ts
   styles/      ← global.css (tokens + Tailwind v4)
+/public/
+  _headers _redirects robots.txt
+  images/  videos/  fonts/  icons/
+/scripts/      ← patch-cloudflare-adapter, resize-images, optimise-video
 /.claude/
-  agents/  rules/  memory/  settings.json
+  agents/  rules/  skills/  memory/  settings.json
+.project-log.md  ← INTERNAL working log, read first / update last
+CHANGELOG.md     ← PUBLIC semver changelog of the base template itself
 ```
+
+**Documentation files — what's what:**
+- `.project-log.md` — internal session continuity. Lives at the project root, committed to GitHub, never deployed. Tracks current priorities, unfinished work, change log entries, and notes for the next session. Read this FIRST.
+- `CHANGELOG.md` — public-facing semver changelog of the template itself (release history, breaking changes). Update only when the template's version bumps.
+- `.claude/skills/*.md` — reusable build patterns (contact form, hero video, performance, carousel, header menu). Read on demand.
+- `.claude/rules/*.md` — full delegation / workflow / quality rules. Loaded on demand from CLAUDE.md references above.

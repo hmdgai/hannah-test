@@ -5,24 +5,45 @@
  * The single shared wrapper for every page on the site.
  * Import your global CSS here once — it applies everywhere.
  *
+ * NOINDEX DEFAULTS TO TRUE.
+ *   The base template ships in noindex mode so client clones cannot
+ *   accidentally appear in Google before the site is ready. Permanent-
+ *   noindex pages (thank-you, 404) still pass `noindex={true}` explicitly
+ *   so the flag survives the eventual default flip.
+ *
+ *   When the user says "go live" / "index the site" / "remove noindex"
+ *   flip the default below to `false`. Don't flip it for normal work.
+ *
  * Props:
- *   title       — <title> tag content
- *   description — meta description for SEO
- *   noindex    — set true on thank-you and confirmation pages
+ *   title              — <title> tag content
+ *   description        — meta description for SEO
+ *   noindex            — defaults to TRUE; pass false explicitly to index a page
+ *   heroImage          — absolute path to the LCP hero image (desktop preload)
+ *   heroImageMobile    — absolute path to the smaller mobile hero image
+ *                        Renders dual <link rel="preload" media="..."> so
+ *                        each device only fetches the variant it needs.
+ *   schema             — optional JSON-LD object (or array) to inject
+ *                        as <script type="application/ld+json">
  */
 interface Props {
   title: string;
   description?: string;
   noindex?: boolean;
-  /** Absolute path to the LCP hero image for preload (e.g. "/images/hero.webp") */
+  /** Desktop / default LCP hero image path (e.g. "/images/hero.webp") */
   heroImage?: string;
+  /** Smaller mobile variant. When set, the desktop preload becomes media-gated. */
+  heroImageMobile?: string;
+  /** Inject structured data — JSON-LD object or array of objects. */
+  schema?: object | object[];
 }
 
 const {
   title,
   description = "Professional clinic providing expert care in the UK.",
-  noindex = false,
+  noindex = true,
   heroImage,
+  heroImageMobile,
+  schema,
 } = Astro.props;
 
 // Canonical / OG URL.
@@ -46,7 +67,7 @@ const cfg = cookieConsentConfig;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -54,11 +75,18 @@ const cfg = cookieConsentConfig;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- ── LCP hero image preload ───────────────────────────────
-         Pass heroImage="/images/your-hero.webp" to BaseLayout
-         on any page with an above-the-fold hero image.
+         Pass heroImage (desktop) and optionally heroImageMobile.
+         When both are set, each preload is gated by a media query
+         so each device only fetches the variant it actually paints.
          This is the single highest-impact LCP optimisation.
     ──────────────────────────────────────────────────────────── -->
-    {heroImage && (
+    {heroImage && heroImageMobile && (
+      <>
+        <link rel="preload" as="image" href={heroImage} media="(min-width: 768px)" fetchpriority="high" />
+        <link rel="preload" as="image" href={heroImageMobile} media="(max-width: 767px)" fetchpriority="high" />
+      </>
+    )}
+    {heroImage && !heroImageMobile && (
       <link rel="preload" as="image" href={heroImage} fetchpriority="high" />
     )}
 
@@ -91,6 +119,9 @@ const cfg = cookieConsentConfig;
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
 
+    {schema && (
+      <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)}></script>
+    )}
 
     <!-- ── Security meta tags ────────────────────────────────────
          These provide baseline security on any host.
@@ -140,13 +171,56 @@ const cfg = cookieConsentConfig;
       })();
     </script>
 
-    <!-- ── Google Tag Manager — loads AFTER consent defaults above ─────── -->
+    <!-- ── Google Tag Manager — DEFERRED loader ──────────────────────────
+         Why deferred (interim, until Cloudflare Zaraz migration):
+           Loading GTM synchronously (even with async) costs 150-220 KB
+           of third-party JS and ~1500 ms of TBT — PageSpeed flags it
+           every time. We defer the actual script-tag injection to:
+             - requestIdleCallback (10s timeout), OR
+             - first user interaction (mouseenter / touchstart / scroll / keydown), OR
+             - 6s setTimeout fallback for older Safari (no rIC support).
+           dataLayer + gtm.start push run synchronously here so any code
+           that fires gtag / dataLayer.push() before GTM loads still
+           queues correctly — GTM consumes the queue once it boots.
+         When the domain is on Cloudflare proxy: migrate to Zaraz
+         (free tier covers 100k events/month, edge-side, zero browser JS).
+         See .claude/skills/performance.md "Section 3 — Zaraz migration".
+    ──────────────────────────────────────────────────────────────────── -->
     {cfg.gtmId && (
       <script is:inline define:vars={{ _gtmId: cfg.gtmId }}>
-        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
-        var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
-        j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
-        f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',_gtmId);
+        // Push gtm.start sync so any early dataLayer.push() ordering is preserved.
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+
+        var loaded = false;
+        function loadGtm() {
+          if (loaded) return;
+          loaded = true;
+          var s = document.createElement('script');
+          s.async = true;
+          s.src   = 'https://www.googletagmanager.com/gtm.js?id=' + _gtmId;
+          (document.head || document.body).appendChild(s);
+        }
+
+        // Triggers — first one to fire wins.
+        var INTERACTION_EVENTS = ['mouseenter', 'touchstart', 'scroll', 'keydown'];
+        function onInteraction() {
+          loadGtm();
+          INTERACTION_EVENTS.forEach(function (ev) {
+            window.removeEventListener(ev, onInteraction, { passive: true });
+          });
+        }
+        INTERACTION_EVENTS.forEach(function (ev) {
+          window.addEventListener(ev, onInteraction, { passive: true });
+        });
+
+        if ('requestIdleCallback' in window) {
+          // Modern browsers — load when the main thread is idle, hard cap 10s.
+          window.requestIdleCallback(loadGtm, { timeout: 10000 });
+        } else {
+          // Safari fallback — older Safari has no requestIdleCallback.
+          window.setTimeout(loadGtm, 6000);
+        }
       </script>
     )}
 
@@ -168,6 +242,7 @@ const cfg = cookieConsentConfig;
       style-src 'self' 'unsafe-inline';
       font-src 'self';
       img-src 'self' data: https://images.unsplash.com https://maps.gstatic.com https://maps.googleapis.com https://*.googleapis.com;
+      media-src 'self';
       frame-src 'self' https://www.google.com https://*.cliniko.com;
       connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://api.web3forms.com https://www.google.com;
       object-src 'none';

@@ -1,0 +1,36 @@
+# --- HMDG Astro Base Template - _redirects ---
+#
+# Cloudflare Pages routes file. Lines without a leading "#" are
+# treated as redirect rules; lines starting with "#" are comments.
+#
+# Format:  <source>  <destination>  <status>
+#
+# Valid status codes on Cloudflare Pages:
+#   200 (rewrite, keeps URL)
+#   301 (permanent redirect)
+#   302 (temporary redirect — default if status omitted)
+#   303 (see other)
+#   307 (temporary redirect, preserves method)
+#   308 (permanent redirect, preserves method)
+#
+# NOT supported here:
+#   404 / 410 - cannot be set via _redirects on Cloudflare Pages.
+#               Implement via a Pages Function (e.g. functions/wp-[[path]].ts)
+#               that returns a Response with status 410 + a noindex body.
+#
+# WordPress migration tip
+#   When migrating from WordPress, old /?p=123 URLs and dead /tag/x
+#   slugs should typically return 410 Gone (so Google de-indexes them
+#   faster than 404). Use a Pages Function for those, not this file.
+#
+# Per-client examples (uncomment + adapt):
+#
+#   /old-services        /services           301
+#   /book                /contact            302
+#   /sitemap.xml         /sitemap-index.xml  301
+#   /api/legacy/:slug    /api/v2/:slug       308
+#
+# Wildcards: use :placeholder syntax for path segments,
+#            * for catch-all (one segment), :rest* for greedy.
+#
+# Order matters - first match wins.

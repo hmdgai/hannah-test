@@ -13,23 +13,29 @@
   # Allows: self, Google Fonts, Google Analytics, Google Maps, Cliniko
   # Update script-src / frame-src if you add other services.
 
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://maps.googleapis.com https://www.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://images.unsplash.com https://maps.gstatic.com https://maps.googleapis.com https://*.googleapis.com; frame-src 'self' https://www.google.com https://*.cliniko.com; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://api.web3forms.com https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://maps.googleapis.com https://www.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://images.unsplash.com https://maps.gstatic.com https://maps.googleapis.com https://*.googleapis.com; media-src 'self'; frame-src 'self' https://www.google.com https://*.cliniko.com; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com https://api.web3forms.com https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;
 
 # ── Cache-Control — static asset caching ─────────────────────────
 # Astro fingerprints all built JS/CSS with content hashes in /_astro/.
-# immutable = browser never revalidates these files. Safe because the
-# hash changes on every build when content changes.
-# Images in /images/ use a shorter 1-week cache — no hash, so we
-# allow revalidation after 7 days.
+# immutable = browser never revalidates these files.
+# Cloudflare Pages auto-purges its edge cache on every deploy, so the
+# 1-year cache windows below are safe even for content-unhashed paths
+# like /images/ — a republish triggers a global purge automatically.
 # HTML pages must never be cached long-term (they may be republished).
 
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
 
 /images/*
-  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+  Cache-Control: public, max-age=31536000, stale-while-revalidate=86400
+
+/videos/*
+  Cache-Control: public, max-age=31536000, stale-while-revalidate=86400
 
 /fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/icons/*
   Cache-Control: public, max-age=31536000, immutable
 
 /*.svg

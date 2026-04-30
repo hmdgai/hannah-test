@@ -1,4 +1,4 @@
-# ── HMDG Astro Base Template — robots.txt ────────────────────────
+# --- HMDG Astro Base Template - robots.txt ---
 # Disallow thank-you and credit pages from being crawled. These
 # should never appear in SERPs. Defence in depth alongside:
 #   1. <meta name="robots" content="noindex, nofollow"> in BaseLayout
@@ -12,7 +12,7 @@ Disallow: /thank-you-booking/
 Disallow: /thank-you-hmdg
 Disallow: /thank-you-hmdg/
 
-# Sitemap index — served by SSR endpoint, auto-detects host.
+# Sitemap index - served by SSR endpoint, auto-detects host.
 # Replace the domain per-client once a custom domain is connected.
 Sitemap: https://astro-base-template-cloudflare.hmdg.workers.dev/sitemap-index.xml
 

@@ -72,15 +72,22 @@ const navLinks = [
   { href: "#images",     label: "Image Rules",    num: "14" },
   { href: "#security",   label: "Security",       num: "15" },
   { href: "#agents",     label: "Agent System",   num: "16" },
-  { href: "#baselayout", label: "BaseLayout",     num: "17" },
-  { href: "#cookiecfg",  label: "Cookie Config",  num: "18" },
-  { href: "#carousel",   label: "Carousels",      num: "19" },
-  { href: "#setup",      label: "Client Setup",   num: "20" },
+  { href: "#modes",      label: "Modes & Tiers",  num: "17" },
+  { href: "#skills",     label: "Skills Library", num: "18" },
+  { href: "#perfbuild",  label: "Perf & Build",   num: "19" },
+  { href: "#herovideo",  label: "Hero Video",     num: "20" },
+  { href: "#projectlog", label: "Project Log",    num: "21" },
+  { href: "#envvars",    label: "Env Variables",  num: "22" },
+  { href: "#baselayout", label: "BaseLayout",     num: "23" },
+  { href: "#cookiecfg",  label: "Cookie Config",  num: "24" },
+  { href: "#carousel",   label: "Carousels",      num: "25" },
+  { href: "#setup",      label: "Client Setup",   num: "26" },
+  { href: "#deploy",     label: "Deploy to CF",   num: "27" },
 ];
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -179,14 +186,16 @@ const navLinks = [
                 Every colour, font, heading, button, container, component, image rule, security standard, and agent workflow is documented here.
               </p>
               <div class="flex flex-wrap gap-2">
-                <span class="text-xs font-semibold text-white/50 bg-white/10 border border-white/10 px-3 py-1 rounded-full">Astro v5</span>
+                <span class="text-xs font-semibold text-white/50 bg-white/10 border border-white/10 px-3 py-1 rounded-full">Astro 6.1</span>
                 <span class="text-xs font-semibold text-white/50 bg-white/10 border border-white/10 px-3 py-1 rounded-full">Tailwind v4</span>
-                <span class="text-xs font-semibold text-white/50 bg-white/10 border border-white/10 px-3 py-1 rounded-full">11 AI Agents</span>
-                <span class="text-xs font-semibold text-white/50 bg-white/10 border border-white/10 px-3 py-1 rounded-full">v1.0.0</span>
+                <span class="text-xs font-semibold text-white/50 bg-white/10 border border-white/10 px-3 py-1 rounded-full">Cloudflare Pages</span>
+                <span class="text-xs font-semibold text-white/50 bg-white/10 border border-white/10 px-3 py-1 rounded-full">12 AI Agents</span>
+                <span class="text-xs font-semibold text-white/50 bg-white/10 border border-white/10 px-3 py-1 rounded-full">5 Skills</span>
+                <span class="text-xs font-semibold text-white/50 bg-white/10 border border-white/10 px-3 py-1 rounded-full">v2.0.0</span>
               </div>
               <p class="text-white/50 text-sm m-0">
-                Started: March 5 2026 &nbsp;·&nbsp;
-                Do not rename any CSS variable or class unless adding new ones.
+                Started: March 5 2026 &nbsp;·&nbsp; Last major update: April 2026
+                &nbsp;·&nbsp; Do not rename any CSS variable or class unless adding new ones.
               </p>
               <div class="flex flex-wrap gap-3">
                 <a href="#colours" class="btn btn-default">View Design System</a>
@@ -1205,7 +1214,7 @@ BaseLayout.astro    → CSP meta tag in &lt;head&gt; for all pages
                 <span class="text-xs font-bold text-[--color-border] font-mono">16</span>
                 <div class="flex flex-col gap-0.5">
                   <h5 class="m-0">Agent System</h5>
-                  <p class="text-sm text-[--color-caption] m-0">11 specialist AI agents. Use the review sequence for every important page build.</p>
+                  <p class="text-sm text-[--color-caption] m-0">12 specialist AI agents. Each one has a single clear job. Use the review sequence below for every important page build.</p>
                 </div>
               </div>
               <span class="text-xs font-semibold text-[--color-primary] bg-[--color-accent] px-3 py-1 rounded-[--radius-badge] uppercase tracking-wide self-start">Agents</span>
@@ -1213,9 +1222,16 @@ BaseLayout.astro    → CSP meta tag in &lt;head&gt; for all pages
 
             <div class="px-8 py-6 bg-white flex flex-col gap-6">
 
-              <!-- Sequence -->
+              <!-- Plain-English summary -->
+              <div class="p-4 bg-[--color-accent] border-l-4 border-[--color-primary] rounded-[--radius-card]">
+                <p class="m-0 text-sm text-[--color-body] leading-relaxed">
+                  <strong>Plain English:</strong> Each agent is a specialist that handles ONE thing well — like a relay race where every runner has their own job. Big tasks get passed through several agents in order. Smaller tasks only need one. The list below tells you who handles what.
+                </p>
+              </div>
+
+              <!-- Review Sequence -->
               <div class="flex flex-col gap-2">
-                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Review Sequence</p>
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Standard Review Sequence (Tier 4–5 page builds)</p>
                 <div class="flex flex-wrap gap-2 items-center">
                   {[
                     "information-architecture-reviewer",
@@ -1224,6 +1240,7 @@ BaseLayout.astro    → CSP meta tag in &lt;head&gt; for all pages
                     "frontend-builder",
                     "a11y-reviewer",
                     "performance-reviewer",
+                    "performance-optimisation",
                     "seo-reviewer",
                     "marketing-reviewer",
                     "security-reviewer",
@@ -1240,26 +1257,78 @@ BaseLayout.astro    → CSP meta tag in &lt;head&gt; for all pages
               <!-- Agent cards -->
               <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[
-                  { num: "01", name: "information-architecture-reviewer", role: "Sitemap, URL hierarchy, parent/child pages, taxonomy — before design begins" },
-                  { num: "02", name: "ux-architect",                       role: "User journey mapping, content priority per section, interaction patterns, conversion pathway — translates IA into UX decisions before visual design" },
-                  { num: "03", name: "ui-designer",                        role: "Section anatomy, layout, token-based colour planning, mobile-first, interactions. Plans only — does NOT write code" },
-                  { num: "04", name: "frontend-builder",                   role: "Builds clean Astro + Tailwind. Uses existing class system, no inline styles, reusable components, Swiper carousels" },
-                  { num: "05", name: "a11y-reviewer",                      role: "WCAG 2.1 AA — 4.5:1 contrast, focus states, heading structure, keyboard nav, form labels, touch targets, reduced-motion" },
-                  { num: "06", name: "performance-reviewer",               role: "AVIF/WebP images, DOM weight, lazy loading, JS usage, CLS risk" },
-                  { num: "07", name: "seo-reviewer",                       role: "H1, metadata, heading hierarchy, noindex rules, internal linking, structured data" },
-                  { num: "08", name: "marketing-reviewer",                 role: "Value proposition, trust signals, messaging clarity, service positioning" },
-                  { num: "09", name: "security-reviewer",                  role: "Forms, scripts, unsafe HTML, exposed secrets, external links, OWASP Top 10" },
-                  { num: "10", name: "conversion-reviewer",                role: "CTA clarity, CTA placement, booking flow, friction points, overall user journey — final gate" },
-                  { num: "11", name: "visual-qa-reviewer",                 role: "Supplementary — checks built output matches design intent. Use ad-hoc after frontend-builder when visual QA is needed" },
+                  { num: "01", name: "information-architecture-reviewer", call: "When planning a new page, sitemap, or URL structure",
+                    role: "Decides URL hierarchy, parent/child pages, taxonomy. Confirms the page belongs where you're putting it. Runs BEFORE any design work." },
+                  { num: "02", name: "ux-architect", call: "When mapping user flow before visual design",
+                    role: "Maps the user journey (Awareness → Interest → Trust → Intent → Action). Defines what each section needs to achieve and how interactions behave. Plans only — no code." },
+                  { num: "03", name: "ui-designer", call: "When planning visual layout / colour / spacing / typography",
+                    role: "Section anatomy, layout structure, token-based colour planning, mobile-first sizing, interactions. Hands a written spec to the builder. Does NOT write code." },
+                  { num: "04", name: "frontend-builder", call: "When writing or editing Astro / Tailwind code",
+                    role: "Builds the approved design in clean Astro + Tailwind. Uses existing class system, BaseLayout, semantic HTML, reusable components. No inline styles, no AVIF/JPG (WebP only)." },
+                  { num: "05", name: "a11y-reviewer", call: "After frontend-builder has shipped a feature",
+                    role: "Checks WCAG 2.1 AA — 4.5:1 contrast, visible focus rings, heading order, keyboard navigation, form labels, 44×44 touch targets, prefers-reduced-motion fallbacks." },
+                  { num: "06", name: "performance-reviewer", call: "Quick perf check after a feature ships",
+                    role: "Image formats, DOM weight, lazy loading, JS bundle size, CLS risk. Flags issues but doesn't run the deep audit." },
+                  { num: "07", name: "performance-optimisation", call: "Deep speed audit / before launch",
+                    role: "Full Core Web Vitals audit (LCP, CLS, INP), third-party script weight review, hydration strategy. Targets 90+ on PageSpeed mobile. Runs deeper than performance-reviewer." },
+                  { num: "08", name: "seo-reviewer", call: "After build, before launch",
+                    role: "H1 hierarchy, meta description, canonical, noindex rules, internal links, structured data (JSON-LD), local SEO signals (NAP, opening hours)." },
+                  { num: "09", name: "marketing-reviewer", call: "When messaging / copy / trust signals need review",
+                    role: "Value proposition clarity, trust signals (Google rating, accreditations, years in business), service positioning. Applies copy fixes directly." },
+                  { num: "10", name: "security-reviewer", call: "When a form, embed, third-party script, or env var is touched",
+                    role: "OWASP Top 10 frontend issues. Forms, scripts, unsafe HTML, exposed secrets, external links missing rel=noopener, CSP coverage." },
+                  { num: "11", name: "conversion-reviewer", call: "Final gate before declaring a page done",
+                    role: "CTA clarity, CTA placement, booking flow, friction points, overall journey. Last in the chain — assesses the page in its final state." },
+                  { num: "12", name: "visual-qa-reviewer", call: "Ad-hoc when built output looks off",
+                    role: "Supplementary — checks the built result matches the design plan. Catches implementation gaps between ui-designer's spec and what shipped." },
                 ].map(a => (
                   <div class="flex flex-col gap-2 p-4 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
                     <div class="flex items-center gap-2">
                       <span class="text-xs font-mono font-bold text-[--color-primary]">{a.num}</span>
                       <code class="code-label text-[0.65rem] leading-tight">{a.name}</code>
                     </div>
+                    <p class="m-0 text-[10px] font-semibold text-[--color-primary] uppercase tracking-wide">CALL THIS AGENT: {a.call}</p>
                     <p class="m-0 text-xs text-[--color-body] leading-relaxed">{a.role}</p>
                   </div>
                 ))}
+              </div>
+
+              <!-- Escalation -->
+              <div class="border-t border-[--color-border] pt-5 flex flex-col gap-3">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Escalation — when a reviewer finds an issue</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {[
+                    { trigger: "Visual / styling problem", path: "reviewer flags → ui-designer redesigns → frontend-builder rebuilds" },
+                    { trigger: "Code-only fix (missing aria-label, rel=noopener, lazy-loading)", path: "reviewer flags → frontend-builder fixes" },
+                    { trigger: "Copy / messaging weakness", path: "marketing-reviewer applies fix directly" },
+                    { trigger: "Critical security or accessibility issue", path: "fix + verify with a SECOND pass by the same reviewer" },
+                  ].map(e => (
+                    <div class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                      <p class="m-0 text-xs font-semibold text-[--color-headline]">{e.trigger}</p>
+                      <p class="m-0 mt-1 text-xs text-[--color-body] leading-relaxed">{e.path}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <!-- Parallel waves -->
+              <div class="border-t border-[--color-border] pt-5 flex flex-col gap-3">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Parallel vs Sequential</p>
+                <p class="m-0 text-sm text-[--color-body]">Planning agents (IA → UX → UI → builder) MUST run in order — each one feeds the next. Reviewer agents AFTER the build can run in waves:</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <div class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                    <p class="m-0 text-xs font-bold text-[--color-primary] uppercase tracking-wide">Wave 1 — parallel</p>
+                    <p class="m-0 mt-1 text-xs text-[--color-body]">a11y-reviewer · performance-reviewer · seo-reviewer</p>
+                  </div>
+                  <div class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                    <p class="m-0 text-xs font-bold text-[--color-primary] uppercase tracking-wide">Wave 2 — parallel</p>
+                    <p class="m-0 mt-1 text-xs text-[--color-body]">performance-optimisation · marketing-reviewer · security-reviewer</p>
+                  </div>
+                  <div class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                    <p class="m-0 text-xs font-bold text-[--color-primary] uppercase tracking-wide">Wave 3 — final</p>
+                    <p class="m-0 mt-1 text-xs text-[--color-body]">conversion-reviewer (sees the page in its final state)</p>
+                  </div>
+                </div>
               </div>
 
             </div>
@@ -1271,7 +1340,7 @@ BaseLayout.astro    → CSP meta tag in &lt;head&gt; for all pages
                   <button class="copy-btn" type="button">Copy</button>
                 </div>
                 <div class="px-5 pt-4 pb-5">
-                  <p class="prompt-text prompt-code">Review and build this task using the following agent sequence exactly: information-architecture-reviewer → ux-architect → ui-designer → frontend-builder → a11y-reviewer → performance-reviewer → seo-reviewer → marketing-reviewer → security-reviewer → conversion-reviewer. Task: [describe the page, section, sitemap, or feature here]. Do not skip any agent. Do not rush into code before planning. If something is weak, improve it automatically.</p>
+                  <p class="prompt-text prompt-code">Review and build this task using the following agent sequence exactly: information-architecture-reviewer → ux-architect → ui-designer → frontend-builder → a11y-reviewer → performance-reviewer → performance-optimisation → seo-reviewer → marketing-reviewer → security-reviewer → conversion-reviewer. Task: [describe the page, section, sitemap, or feature here]. Do not skip any agent. Do not rush into code before planning. If something is weak, improve it automatically.</p>
                 </div>
               </div>
             </div>
@@ -1281,13 +1350,599 @@ BaseLayout.astro    → CSP meta tag in &lt;head&gt; for all pages
 
 
           <!-- ───────────────────────────────────────────────────
-               17 — BASELAYOUT
+               17 — MODES & AGENT TIERS
+          ─────────────────────────────────────────────────────── -->
+          <article id="modes" class="bg-white border-b border-[--color-border]">
+
+            <header class="flex items-start justify-between px-8 py-5 border-b border-[--color-border] flex-wrap gap-3">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-bold text-[--color-border] font-mono">17</span>
+                <div class="flex flex-col gap-0.5">
+                  <h5 class="m-0">Modes & Agent Tiers</h5>
+                  <p class="text-sm text-[--color-caption] m-0">How Claude decides what to do, how big a task is, and which agents to call.</p>
+                </div>
+              </div>
+              <span class="text-xs font-semibold text-[--color-primary] bg-[--color-accent] px-3 py-1 rounded-[--radius-badge] uppercase tracking-wide self-start">Workflow</span>
+            </header>
+
+            <div class="px-8 py-6 flex flex-col gap-6">
+
+              <div class="p-4 bg-[--color-accent] border-l-4 border-[--color-primary] rounded-[--radius-card]">
+                <p class="m-0 text-sm text-[--color-body] leading-relaxed">
+                  <strong>Plain English:</strong> Modes set the speed (fast vs careful). Tiers set the size (small vs large). The combination tells Claude how thorough to be, and which specialists to involve.
+                </p>
+              </div>
+
+              <!-- Modes -->
+              <div class="flex flex-col gap-3">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Three Modes</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  {[
+                    { name: "FAST", default: true, when: "Default for small fixes (Tier 0–2). Diff-only output. Terse responses.",
+                      example: "Fix a typo · Tweak spacing · Add a CTA · Update a colour" },
+                    { name: "SHIP", default: false, when: 'Triggered by words like "ship", "finalise", "review", "launch", "production". Runs the full agent pipeline.',
+                      example: "Build the homepage · Launch the site · Final review before going live" },
+                    { name: "EXPLORE", default: false, when: "Questions, lookups, read-only investigation. No agents called. Terse answers.",
+                      example: "Where is X defined? · How does cookie consent work? · What does this function do?" },
+                  ].map(m => (
+                    <div class="p-4 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card] flex flex-col gap-2">
+                      <div class="flex items-center gap-2 flex-wrap">
+                        <span class="text-sm font-bold text-[--color-headline]">{m.name}</span>
+                        {m.default && <span class="text-[10px] font-semibold text-[--color-primary] bg-[--color-accent] px-2 py-0.5 rounded-[--radius-badge] uppercase tracking-wide">Default</span>}
+                      </div>
+                      <p class="m-0 text-xs text-[--color-body] leading-relaxed">{m.when}</p>
+                      <p class="m-0 text-xs text-[--color-caption] italic">e.g. {m.example}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <!-- Tiers -->
+              <div class="flex flex-col gap-3 border-t border-[--color-border] pt-5">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Six Tiers (size of the job)</p>
+                <div class="flex flex-col gap-2">
+                  {[
+                    { tier: "Tier 0", title: "Question / lookup", agents: "None — answer directly", trigger: '"explain", "what is", "where is", "show me"' },
+                    { tier: "Tier 1", title: "Single-domain fix", agents: "1 specialist agent", trigger: '"fix the H1", "add alt text", "check the CSP"' },
+                    { tier: "Tier 2", title: "Visual change with no UX planning", agents: "ui-designer → frontend-builder", trigger: '"add a card", "restyle the button", "fix mobile spacing"' },
+                    { tier: "Tier 3", title: "New component or feature", agents: "ux-architect → ui-designer → frontend-builder + reviewer(s)", trigger: '"build a new section", "add a contact form", "interactive widget"' },
+                    { tier: "Tier 4", title: "New page or major redesign", agents: "Full IA → UX → UI → build → 5+ reviewers", trigger: '"build the contact page", "redesign the services page"' },
+                    { tier: "Tier 5", title: "Homepage / template / structural change", agents: "All 12 agents in sequence", trigger: '"build the homepage", "set up a new client", "rebuild the template"' },
+                  ].map(t => (
+                    <div class="flex items-start gap-4 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card] flex-wrap">
+                      <span class="text-xs font-mono font-bold text-[--color-primary] shrink-0 w-14">{t.tier}</span>
+                      <div class="flex-1 min-w-[12rem] flex flex-col gap-1">
+                        <p class="m-0 text-sm font-semibold text-[--color-headline]">{t.title}</p>
+                        <p class="m-0 text-xs text-[--color-body]">{t.agents}</p>
+                        <p class="m-0 text-xs text-[--color-caption] italic">Trigger words: {t.trigger}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <p class="m-0 mt-2 text-xs text-[--color-caption] italic">When in doubt, escalate one tier higher.</p>
+              </div>
+
+              <!-- Announcement rule -->
+              <div class="flex flex-col gap-3 border-t border-[--color-border] pt-5">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Announcement Rule</p>
+                <p class="m-0 text-sm text-[--color-body]">For Tier 2 and above, Claude must say which agents will run BEFORE doing the work. Example:</p>
+                <div class="p-3 bg-[--color-headline] rounded-[--radius-card]">
+                  <p class="m-0 font-mono text-xs text-[#86efac] leading-relaxed">
+                    Pipeline: ui-designer → frontend-builder
+                  </p>
+                </div>
+              </div>
+
+            </div>
+
+          </article>
+
+
+          <!-- ───────────────────────────────────────────────────
+               18 — SKILLS LIBRARY
+          ─────────────────────────────────────────────────────── -->
+          <article id="skills" class="bg-white border-b border-[--color-border]">
+
+            <header class="flex items-start justify-between px-8 py-5 border-b border-[--color-border] flex-wrap gap-3">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-bold text-[--color-border] font-mono">18</span>
+                <div class="flex flex-col gap-0.5">
+                  <h5 class="m-0">Skills Library</h5>
+                  <p class="text-sm text-[--color-caption] m-0">Reusable build patterns. Each skill is a step-by-step recipe Claude follows when the work matches.</p>
+                </div>
+              </div>
+              <span class="text-xs font-semibold text-[--color-primary] bg-[--color-accent] px-3 py-1 rounded-[--radius-badge] uppercase tracking-wide self-start">Skills</span>
+            </header>
+
+            <div class="px-8 py-6 flex flex-col gap-6">
+
+              <div class="p-4 bg-[--color-accent] border-l-4 border-[--color-primary] rounded-[--radius-card]">
+                <p class="m-0 text-sm text-[--color-body] leading-relaxed">
+                  <strong>Plain English:</strong> A "skill" is a written recipe. When Claude is asked to build something we've solved before, it loads the matching recipe instead of reinventing the work. All skills live in <code class="code-label">.claude/skills/</code> and are read on demand.
+                </p>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[
+                  { num: "01", file: "contactform.md", title: "Web3Forms Contact Form",
+                    when: "Building any contact / enquiry / booking form",
+                    summary: "Direct-to-Web3Forms POST with reCAPTCHA v3, honeypot, replyto, ccemail (semicolon!), recaptcha_response (NOT g-recaptcha-response), isSubmitting guard. Production-tested. Replaces every contact form pattern." },
+                  { num: "02", file: "hero-video.md", title: "Hero Video — MANDATORY MP4 H.264",
+                    when: "Adding any hero or background video",
+                    summary: "Self-hosted MP4 H.264 only. Never YouTube, never WebM-only. JS-injected source for Safari safety. Mobile + reduced-motion get poster only — zero video bytes. Use npm run optimise-video." },
+                  { num: "03", file: "performance.md", title: "Site-Wide Performance",
+                    when: "Cloning the template / pre-launch / Lighthouse audit",
+                    summary: "Cloudflare adapter ASSETS patch, deferred GTM loader, dual hero preload, 1-year cache headers, robots ASCII rule, _redirects status codes, Zaraz migration plan." },
+                  { num: "04", file: "carousel.md", title: "Swiper Carousel",
+                    when: "Building any carousel / slider",
+                    summary: "Swiper.js implementation pattern. Imports only the modules in use. CLS-safe — reserves height before JS hydration." },
+                  { num: "05", file: "header-menu.md", title: "Header Navigation",
+                    when: "Building or editing site navigation",
+                    summary: "Sticky header pattern, dropdown / flyout structure, active-state helpers (isActive / isSection), mobile drawer." },
+                ].map(s => (
+                  <div class="flex flex-col gap-2 p-4 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                    <div class="flex items-center gap-2 flex-wrap">
+                      <span class="text-xs font-mono font-bold text-[--color-primary]">{s.num}</span>
+                      <code class="code-label text-[0.7rem] leading-tight">.claude/skills/{s.file}</code>
+                    </div>
+                    <p class="m-0 text-sm font-semibold text-[--color-headline]">{s.title}</p>
+                    <p class="m-0 text-[10px] font-semibold text-[--color-primary] uppercase tracking-wide">USE WHEN: {s.when}</p>
+                    <p class="m-0 text-xs text-[--color-body] leading-relaxed">{s.summary}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                <p class="m-0 text-xs text-[--color-caption]">
+                  <strong>How to invoke a skill:</strong> say something like <em>"use the contactform skill"</em> or <em>"build the hero with the hero-video pattern"</em>. Claude reads the skill file and follows it exactly.
+                </p>
+              </div>
+
+            </div>
+
+          </article>
+
+
+          <!-- ───────────────────────────────────────────────────
+               19 — PERFORMANCE & BUILD TOOLING
+          ─────────────────────────────────────────────────────── -->
+          <article id="perfbuild" class="bg-white border-b border-[--color-border]">
+
+            <header class="flex items-start justify-between px-8 py-5 border-b border-[--color-border] flex-wrap gap-3">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-bold text-[--color-border] font-mono">19</span>
+                <div class="flex flex-col gap-0.5">
+                  <h5 class="m-0">Performance & Build Tooling</h5>
+                  <p class="text-sm text-[--color-caption] m-0">The site-wide setup that ships every clone with PageSpeed-friendly defaults.</p>
+                </div>
+              </div>
+              <span class="text-xs font-semibold text-[--color-primary] bg-[--color-accent] px-3 py-1 rounded-[--radius-badge] uppercase tracking-wide self-start">Performance</span>
+            </header>
+
+            <div class="px-8 py-6 flex flex-col gap-6">
+
+              <div class="p-4 bg-[--color-accent] border-l-4 border-[--color-primary] rounded-[--radius-card]">
+                <p class="m-0 text-sm text-[--color-body] leading-relaxed">
+                  <strong>Plain English:</strong> Every clinic site has the same speed problems by default — slow images, heavy tracking scripts, deploy errors. The template solves all of them up front so each new client starts at 90+ on PageSpeed without bespoke work.
+                </p>
+              </div>
+
+              <!-- 1. Cloudflare adapter patch -->
+              <div class="flex flex-col gap-3">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">1. Cloudflare adapter patch (deploy-blocker fix)</p>
+                <p class="m-0 text-sm text-[--color-body]">
+                  Cloudflare Pages refuses to deploy if any binding is named <code class="code-label">ASSETS</code> (it's reserved). The Astro adapter hardcodes that name in 5 files. Our patch script renames every occurrence to <code class="code-label">STATIC_ASSETS</code> automatically after every install.
+                </p>
+                <div class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                  <p class="m-0 text-xs text-[--color-body]"><code class="code-label">scripts/patch-cloudflare-adapter.mjs</code> — wired to <code class="code-label">npm postinstall</code>. Idempotent (safe to re-run).</p>
+                </div>
+              </div>
+
+              <!-- 2. Image scripts -->
+              <div class="flex flex-col gap-3 border-t border-[--color-border] pt-5">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">2. Image optimisation</p>
+                <ul class="list-none p-0 m-0 flex flex-col gap-2">
+                  <li class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]"><strong class="text-sm text-[--color-headline]">npm run resize-images</strong> <span class="text-xs text-[--color-caption]">— resizes any oversized .webp to a max dimension (default 1920px), in-place re-encode at quality 82 using sharp.</span></li>
+                  <li class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]"><strong class="text-sm text-[--color-headline]">Dual hero preload</strong> <span class="text-xs text-[--color-caption]">— BaseLayout accepts both <code class="code-label">heroImage</code> (desktop) and <code class="code-label">heroImageMobile</code>. Each device only fetches the variant it paints.</span></li>
+                  <li class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]"><strong class="text-sm text-[--color-headline]">All images .webp</strong> <span class="text-xs text-[--color-caption]">— with explicit width/height, decoding="async", lazy by default, eager only for above-the-fold heroes.</span></li>
+                </ul>
+              </div>
+
+              <!-- 3. Cache headers -->
+              <div class="flex flex-col gap-3 border-t border-[--color-border] pt-5">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">3. Cache headers (public/_headers)</p>
+                <p class="m-0 text-sm text-[--color-body]">Cloudflare Pages auto-purges on every deploy, so 1-year caches are safe even on non-content-hashed paths.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {[
+                    { path: "/_astro/*", ttl: "1 year, immutable" },
+                    { path: "/images/*", ttl: "1 year + stale-while-revalidate" },
+                    { path: "/videos/*", ttl: "1 year + stale-while-revalidate" },
+                    { path: "/fonts/*",  ttl: "1 year, immutable" },
+                    { path: "/icons/*",  ttl: "1 year, immutable" },
+                    { path: "/*.svg",    ttl: "7 days" },
+                  ].map(c => (
+                    <div class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card] flex items-center gap-3 flex-wrap">
+                      <code class="code-label shrink-0">{c.path}</code>
+                      <span class="text-xs text-[--color-body]">{c.ttl}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <!-- 4. Deferred GTM -->
+              <div class="flex flex-col gap-3 border-t border-[--color-border] pt-5">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">4. Deferred GTM loader</p>
+                <p class="m-0 text-sm text-[--color-body]">GTM saves 150–220 KB of JS by loading on idle, first user interaction, or 6-second fallback (Safari). Final move post-launch: migrate to Cloudflare Zaraz (zero browser JS).</p>
+              </div>
+
+              <!-- 5. Site-wide rules -->
+              <div class="flex flex-col gap-3 border-t border-[--color-border] pt-5">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">5. Site-wide rules</p>
+                <ul class="list-none p-0 m-0 flex flex-col gap-2">
+                  <li class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]"><code class="code-label">&lt;html lang="en-GB"&gt;</code> <span class="text-xs text-[--color-caption]">— UK targeting, British screen-reader voice, British spellcheck.</span></li>
+                  <li class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]"><strong class="text-sm">noindex default = true</strong> <span class="text-xs text-[--color-caption]">— template ships in noindex mode. Flip to false ONLY when the user says "go live".</span></li>
+                  <li class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]"><strong class="text-sm">robots.txt is ASCII-only</strong> <span class="text-xs text-[--color-caption]">— Cloudflare serves it without charset; box-drawing characters cause mojibake.</span></li>
+                  <li class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]"><strong class="text-sm">_redirects status codes</strong> <span class="text-xs text-[--color-caption]">— only 200/301/302/303/307/308 work on Pages. 404/410 need a Pages Function.</span></li>
+                  <li class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]"><strong class="text-sm">CSP includes media-src 'self'</strong> <span class="text-xs text-[--color-caption]">— required for self-hosted hero video.</span></li>
+                </ul>
+              </div>
+
+              <!-- 6. Targets -->
+              <div class="flex flex-col gap-3 border-t border-[--color-border] pt-5">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">6. Core Web Vitals targets</p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {[
+                    { metric: "LCP", target: "< 2.5s", note: "Largest Contentful Paint (hero image load)" },
+                    { metric: "CLS", target: "< 0.1",  note: "Layout Shift (no jumping content)" },
+                    { metric: "INP", target: "< 200ms", note: "Interaction responsiveness" },
+                  ].map(m => (
+                    <div class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                      <p class="m-0 text-xs font-bold text-[--color-primary] uppercase tracking-wide">{m.metric}</p>
+                      <p class="m-0 mt-1 text-lg font-bold text-[--color-headline]">{m.target}</p>
+                      <p class="m-0 text-[11px] text-[--color-caption]">{m.note}</p>
+                    </div>
+                  ))}
+                </div>
+                <p class="m-0 text-xs text-[--color-caption]">PageSpeed mobile target: <strong>90+</strong>. Below that on a fresh clone with no client-specific tuning means something has regressed in the template.</p>
+              </div>
+
+            </div>
+
+          </article>
+
+
+          <!-- ───────────────────────────────────────────────────
+               20 — HERO VIDEO PATTERN (MANDATORY)
+          ─────────────────────────────────────────────────────── -->
+          <article id="herovideo" class="bg-white border-b border-[--color-border]">
+
+            <header class="flex items-start justify-between px-8 py-5 border-b border-[--color-border] flex-wrap gap-3">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-bold text-[--color-border] font-mono">20</span>
+                <div class="flex flex-col gap-0.5">
+                  <h5 class="m-0">Hero Video Pattern</h5>
+                  <p class="text-sm text-[--color-caption] m-0">Self-hosted MP4 H.264. Mandatory across every HMDG clinic site.</p>
+                </div>
+              </div>
+              <span class="text-xs font-semibold text-white bg-[--color-primary] px-3 py-1 rounded-[--radius-badge] uppercase tracking-wide self-start">MANDATORY</span>
+            </header>
+
+            <div class="px-8 py-6 flex flex-col gap-6">
+
+              <!-- The big rule -->
+              <div class="p-4 bg-[--color-primary]/8 border-l-4 border-[--color-primary] rounded-[--radius-card]">
+                <p class="m-0 text-sm font-bold text-[--color-headline]">The Rule (no exceptions without sign-off):</p>
+                <ul class="list-none p-0 m-0 mt-2 flex flex-col gap-1">
+                  <li class="text-sm text-[--color-body]">✓ Self-hosted <strong>MP4 H.264</strong></li>
+                  <li class="text-sm text-[--color-body]">✗ NEVER YouTube embed</li>
+                  <li class="text-sm text-[--color-body]">✗ NEVER Vimeo embed</li>
+                  <li class="text-sm text-[--color-body]">✗ NEVER WebM-only (Safari needs MP4)</li>
+                </ul>
+              </div>
+
+              <!-- Why -->
+              <div class="flex flex-col gap-3">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Why</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                    <p class="m-0 text-xs font-bold text-[--color-headline]">YouTube embed</p>
+                    <p class="m-0 mt-1 text-xs text-[--color-body]">~1500ms CPU + ~1MB third-party JS. PageSpeed kills you.</p>
+                  </div>
+                  <div class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                    <p class="m-0 text-xs font-bold text-[--color-headline]">Self-hosted MP4 H.264</p>
+                    <p class="m-0 mt-1 text-xs text-[--color-body]">~720KB single file + 0ms third-party CPU. Safari uses OS hardware decoder.</p>
+                  </div>
+                </div>
+                <p class="m-0 text-xs text-[--color-caption] italic">Note: Safari has supported MP4 natively since 2007. WebM is for Chrome/Firefox optimisation, NOT a Safari fallback. If you ship one format, ship MP4.</p>
+              </div>
+
+              <!-- File layout -->
+              <div class="flex flex-col gap-3 border-t border-[--color-border] pt-5">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">File layout</p>
+                <ul class="list-none p-0 m-0 flex flex-col gap-2">
+                  <li class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]"><code class="code-label">assets/videos/herovideo.mp4</code> <span class="text-xs text-[--color-caption]">— SOURCE master. Outside public/, never ships to production.</span></li>
+                  <li class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]"><code class="code-label">public/videos/hero-loop.mp4</code> <span class="text-xs text-[--color-caption]">— ENCODED output. Committed and deployed (~700KB–1.5MB).</span></li>
+                  <li class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]"><code class="code-label">public/images/herofallback.webp</code> <span class="text-xs text-[--color-caption]">— POSTER. Always required, shown to mobile + reduced-motion users.</span></li>
+                </ul>
+              </div>
+
+              <!-- Steps -->
+              <div class="flex flex-col gap-3 border-t border-[--color-border] pt-5">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Step-by-step</p>
+                {[
+                  { num: "1", title: "Drop the source video", body: "Save the source video to assets/videos/herovideo.mp4. Any container/codec is fine — the script handles conversion." },
+                  { num: "2", title: "Encode it", body: "Run npm run optimise-video. Output lands at public/videos/hero-loop.mp4 — capped at 1280×720, 10 seconds, audio stripped, optimised for streaming." },
+                  { num: "3", title: "Use it on a page", body: "Pass image (poster) and video (encoded MP4) props to <Hero />. Component handles the JS-injected source pattern automatically." },
+                  { num: "4", title: "Verify", body: 'Open in Safari + Chrome desktop (plays). Open in mobile (poster only — no video bytes). Toggle "Reduce motion" (poster only).' },
+                ].map(s => (
+                  <div class="flex items-start gap-4 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                    <span class="text-lg font-mono font-bold text-[--color-primary] shrink-0 w-8 text-center">{s.num}</span>
+                    <div class="flex-1">
+                      <p class="m-0 text-sm font-semibold text-[--color-headline]">{s.title}</p>
+                      <p class="m-0 text-xs text-[--color-body] leading-relaxed">{s.body}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <!-- Encode spec (for tech reviewers) -->
+              <div class="flex flex-col gap-3 border-t border-[--color-border] pt-5">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Encode spec (non-negotiable)</p>
+                <pre class="code-block"><code>{`-crf 28              quality target
+-preset slow         better compression
+-pix_fmt yuv420p     SAFARI MUST HAVE THIS
+-movflags +faststart streaming-friendly
+-an                  strip audio
+-t 10                trim to 10 seconds
+-vf scale=':min(1280,iw):-2'   cap width at 1280px`}</code></pre>
+                <p class="m-0 text-xs text-[--color-caption]">Full skill reference: <code class="code-label">.claude/skills/hero-video.md</code></p>
+              </div>
+
+            </div>
+
+          </article>
+
+
+          <!-- ───────────────────────────────────────────────────
+               21 — PROJECT LOG PROTOCOL
+          ─────────────────────────────────────────────────────── -->
+          <article id="projectlog" class="bg-white border-b border-[--color-border]">
+
+            <header class="flex items-start justify-between px-8 py-5 border-b border-[--color-border] flex-wrap gap-3">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-bold text-[--color-border] font-mono">21</span>
+                <div class="flex flex-col gap-0.5">
+                  <h5 class="m-0">Project Log Protocol</h5>
+                  <p class="text-sm text-[--color-caption] m-0">A simple internal log so every Claude session can pick up where the last one left off.</p>
+                </div>
+              </div>
+              <span class="text-xs font-semibold text-[--color-primary] bg-[--color-accent] px-3 py-1 rounded-[--radius-badge] uppercase tracking-wide self-start">Workflow</span>
+            </header>
+
+            <div class="px-8 py-6 flex flex-col gap-6">
+
+              <div class="p-4 bg-[--color-accent] border-l-4 border-[--color-primary] rounded-[--radius-card]">
+                <p class="m-0 text-sm text-[--color-body] leading-relaxed">
+                  <strong>Plain English:</strong> Imagine a notebook on the project where every working day someone writes "here's what I did, here's what's still open, here's what to do next." That's the project log. Claude reads it before starting and updates it before finishing. No more cold-starts.
+                </p>
+              </div>
+
+              <!-- Where -->
+              <div class="flex flex-col gap-3">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Where</p>
+                <div class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                  <p class="m-0 text-sm text-[--color-body]"><code class="code-label">.project-log.md</code> at the project root. Committed to GitHub. <strong>Never deployed</strong> — sits outside <code class="code-label">src/</code> and <code class="code-label">public/</code>, so neither Astro nor Cloudflare Pages can serve it.</p>
+                </div>
+              </div>
+
+              <!-- Rules -->
+              <div class="flex flex-col gap-3 border-t border-[--color-border] pt-5">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Rules</p>
+                <ol class="list-none p-0 m-0 flex flex-col gap-2 counter-reset:rule">
+                  {[
+                    { title: "Read first", body: "Before starting any task, read the log. Current Priorities + Unfinished + Blocked describe the running state." },
+                    { title: "Update last", body: "Before declaring complete (or ending the session), append a Change Log entry and reconcile the Unfinished list." },
+                    { title: "Always write down unfinished work", body: "If a task isn't fully shipped (uncommitted code, missing assets, follow-ups) it MUST live in Unfinished / To Do with enough detail to resume cold." },
+                    { title: "Every entry has 5 fields", body: "Date · Status (completed / in progress / blocked / to do) · Task summary · Files changed · Next action. Notes optional." },
+                    { title: "Keep it lightweight", body: "Short factual entries. No essays, no screenshots, no decoration." },
+                  ].map((r, i) => (
+                    <li class="flex items-start gap-3 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                      <span class="text-xs font-mono font-bold text-[--color-primary] shrink-0 w-6">{String(i + 1).padStart(2, "0")}</span>
+                      <div class="flex-1">
+                        <p class="m-0 text-sm font-semibold text-[--color-headline]">{r.title}</p>
+                        <p class="m-0 text-xs text-[--color-body] leading-relaxed">{r.body}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+
+              <!-- Sections -->
+              <div class="flex flex-col gap-3 border-t border-[--color-border] pt-5">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">What's in the log</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {[
+                    { sec: "Current Priorities", desc: "What we're focused on right now" },
+                    { sec: "Unfinished / To Do", desc: "Anything not fully shipped — must live here, not in someone's head" },
+                    { sec: "Blocked", desc: "Anything waiting on external info or decisions" },
+                    { sec: "Change Log", desc: "Dated entries — what changed, what files, what's next" },
+                    { sec: "Session Notes", desc: "Useful context, gotchas, decisions that affect later work" },
+                  ].map(s => (
+                    <div class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                      <p class="m-0 text-xs font-bold text-[--color-headline]">{s.sec}</p>
+                      <p class="m-0 mt-0.5 text-xs text-[--color-body]">{s.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                <p class="m-0 text-xs text-[--color-caption]">
+                  <strong>How is this different from CHANGELOG.md?</strong> CHANGELOG.md is the public semver release history of the template. <code class="code-label">.project-log.md</code> is the internal working notebook. CHANGELOG ships with the template; <code class="code-label">.project-log.md</code> stays internal.
+                </p>
+              </div>
+
+            </div>
+
+          </article>
+
+
+          <!-- ───────────────────────────────────────────────────
+               22 — ENVIRONMENT VARIABLES
+          ─────────────────────────────────────────────────────── -->
+          <article id="envvars" class="bg-white border-b border-[--color-border]">
+
+            <header class="flex items-start justify-between px-8 py-5 border-b border-[--color-border] flex-wrap gap-3">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-bold text-[--color-border] font-mono">22</span>
+                <div class="flex flex-col gap-0.5">
+                  <h5 class="m-0">Environment Variables</h5>
+                  <p class="text-sm text-[--color-caption] m-0">12 variables that drive every deploy. Most come from the marketing team.</p>
+                </div>
+              </div>
+              <span class="text-xs font-semibold text-[--color-primary] bg-[--color-accent] px-3 py-1 rounded-[--radius-badge] uppercase tracking-wide self-start">Config</span>
+            </header>
+
+            <div class="px-8 py-6 flex flex-col gap-6">
+
+              <div class="p-4 bg-[--color-accent] border-l-4 border-[--color-primary] rounded-[--radius-card]">
+                <p class="m-0 text-sm text-[--color-body] leading-relaxed">
+                  <strong>Plain English:</strong> Environment variables are settings that change per client without changing the code. Things like the clinic name, the contact email, the analytics ID. They live in a file called <code class="code-label">.env</code> locally and in Cloudflare Pages settings on production. The template ships with <code class="code-label">.env.example</code> showing every variable and what it's for.
+                </p>
+              </div>
+
+              <!-- Glossary -->
+              <div class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                <p class="m-0 text-xs font-bold text-[--color-caption] uppercase tracking-widest mb-1">Glossary</p>
+                <p class="m-0 text-xs text-[--color-body]"><strong>PUBLIC_ prefix</strong> = Astro convention. Variables starting with <code class="code-label">PUBLIC_</code> are baked into the HTML and visible in browser. Use only for values that are designed to be public (Web3Forms key, GA4 ID, recaptcha site key). Variables WITHOUT <code class="code-label">PUBLIC_</code> stay server-side only.</p>
+              </div>
+
+              <!-- Browser-exposed table -->
+              <div class="flex flex-col gap-3">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Table 1 — Browser-exposed (PUBLIC_*)</p>
+                <p class="m-0 text-xs text-[--color-caption] italic">Baked at build time. Visible in HTML source. Cloudflare needs a redeploy after changing these.</p>
+                <div class="overflow-x-auto">
+                  <table class="w-full border border-[--color-border] rounded-[--radius-card] overflow-hidden text-xs">
+                    <thead class="bg-[--color-muted]">
+                      <tr>
+                        <th class="text-left px-3 py-2 font-bold text-[--color-headline]">Variable</th>
+                        <th class="text-left px-3 py-2 font-bold text-[--color-headline]">Source</th>
+                        <th class="text-left px-3 py-2 font-bold text-[--color-headline]">Purpose</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {[
+                        { v: "PUBLIC_SITE_NAME",          src: "Marketing", p: "Email subject + from_name + page titles. e.g. \"Smith Clinic\"" },
+                        { v: "PUBLIC_SITE_URL",           src: "Dev",       p: "Optional canonical URL fallback. Prefer site: in astro.config.mjs." },
+                        { v: "PUBLIC_GA_MEASUREMENT_ID",  src: "Marketing", p: "GA4 measurement ID, e.g. G-XXXXXXXXXX" },
+                        { v: "PUBLIC_GOOGLE_MAPS_API_KEY",src: "Marketing", p: "Google Maps embed (optional)" },
+                        { v: "PUBLIC_CLINIKO_BOOKING_URL",src: "Marketing", p: "Cliniko booking widget URL (optional)" },
+                        { v: "PUBLIC_WEB3FORMS_KEY",      src: "Marketing", p: "Web3Forms access UUID. Pro plan required." },
+                        { v: "PUBLIC_CLIENT_EMAIL",       src: "Marketing", p: "CC list for the contact form. SEMICOLON-separated, NOT comma." },
+                        { v: "PUBLIC_RECAPTCHA_SITE_KEY", src: "Marketing", p: "reCAPTCHA v3 Site Key (browser). Secret Key goes in Web3Forms dashboard." },
+                      ].map(r => (
+                        <tr class="border-t border-[--color-border] bg-white">
+                          <td class="px-3 py-2 align-top"><code class="code-label text-[10px]">{r.v}</code></td>
+                          <td class="px-3 py-2 align-top whitespace-nowrap">
+                            <span class={`text-[10px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-[--radius-badge] ${r.src === "Marketing" ? "text-[--color-primary] bg-[--color-accent]" : "text-[--color-caption] bg-[--color-muted]"}`}>{r.src}</span>
+                          </td>
+                          <td class="px-3 py-2 align-top text-[--color-body] leading-relaxed">{r.p}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Server-side table -->
+              <div class="flex flex-col gap-3 border-t border-[--color-border] pt-5">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Table 2 — Server-side (no PUBLIC_ prefix)</p>
+                <p class="m-0 text-xs text-[--color-caption] italic">Never exposed to the browser. Used by Cloudflare Pages Functions (API routes) only.</p>
+                <div class="overflow-x-auto">
+                  <table class="w-full border border-[--color-border] rounded-[--radius-card] overflow-hidden text-xs">
+                    <thead class="bg-[--color-muted]">
+                      <tr>
+                        <th class="text-left px-3 py-2 font-bold text-[--color-headline]">Variable</th>
+                        <th class="text-left px-3 py-2 font-bold text-[--color-headline]">Source</th>
+                        <th class="text-left px-3 py-2 font-bold text-[--color-headline]">Purpose</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {[
+                        { v: "CONTACT_EMAIL",       src: "Marketing", p: "Server-side fallback contact email. Never appears in HTML." },
+                        { v: "GA4_API_SECRET",      src: "Marketing", p: "Measurement Protocol API secret. GA4 → Admin → Data Streams." },
+                        { v: "GA4_MEASUREMENT_ID",  src: "Marketing", p: "Server-side GA4 ID. Should match PUBLIC_GA_MEASUREMENT_ID." },
+                        { v: "SITE_ORIGIN",         src: "Dev",       p: "Production URL. Used by API routes to validate request origin." },
+                      ].map(r => (
+                        <tr class="border-t border-[--color-border] bg-white">
+                          <td class="px-3 py-2 align-top"><code class="code-label text-[10px]">{r.v}</code></td>
+                          <td class="px-3 py-2 align-top whitespace-nowrap">
+                            <span class={`text-[10px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-[--radius-badge] ${r.src === "Marketing" ? "text-[--color-primary] bg-[--color-accent]" : "text-[--color-caption] bg-[--color-muted]"}`}>{r.src}</span>
+                          </td>
+                          <td class="px-3 py-2 align-top text-[--color-body] leading-relaxed">{r.p}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- How to set them -->
+              <div class="flex flex-col gap-3 border-t border-[--color-border] pt-5">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">How to set them — step by step</p>
+                {[
+                  { num: "1", title: "Local development", body: "Copy .env.example to .env in the project root. Fill in real values. NEVER commit .env (it's git-ignored)." },
+                  { num: "2", title: "Production — Cloudflare Pages", body: "Cloudflare dashboard → Workers & Pages → your project → Settings → Variables and Secrets. Add each variable under the BUILD scope (NOT Runtime — these bake at build time). Type: Plaintext." },
+                  { num: "3", title: "Trigger a redeploy", body: "Cloudflare does NOT auto-rebuild when env vars change. Go to Deployments → latest deployment → Retry deployment. Without this, the form keeps using the old build's values." },
+                  { num: "4", title: "Verify it worked", body: "After redeploy, view-source on the contact page and search for the value. If you see your real values rendered, you're done." },
+                ].map(s => (
+                  <div class="flex items-start gap-4 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                    <span class="text-lg font-mono font-bold text-[--color-primary] shrink-0 w-8 text-center">{s.num}</span>
+                    <div class="flex-1">
+                      <p class="m-0 text-sm font-semibold text-[--color-headline]">{s.title}</p>
+                      <p class="m-0 text-xs text-[--color-body] leading-relaxed">{s.body}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <!-- Critical notes -->
+              <div class="flex flex-col gap-3 border-t border-[--color-border] pt-5">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Critical notes</p>
+                <ul class="list-none p-0 m-0 flex flex-col gap-2">
+                  <li class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card] text-xs text-[--color-body]"><strong>Web3Forms ccemail uses semicolons.</strong> Example: <code class="code-label">client@x.co.uk; agency@hmdg.co.uk</code> — the template auto-normalises commas to semicolons but new values should use semicolons directly.</li>
+                  <li class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card] text-xs text-[--color-body]"><strong>reCAPTCHA Secret Key never goes in .env.</strong> It lives in the Web3Forms dashboard under Spam Protection → reCAPTCHA. Site Key is public (PUBLIC_); Secret Key is private (Web3Forms holds it).</li>
+                  <li class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card] text-xs text-[--color-body]"><strong>PUBLIC_ vars are build-time, not runtime.</strong> Editing them in Cloudflare without redeploying changes nothing. Always Retry deployment.</li>
+                  <li class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card] text-xs text-[--color-body]"><strong>Don't put .env in src/, public/, or anywhere it could be served.</strong> The default location (project root) is correct.</li>
+                </ul>
+              </div>
+
+            </div>
+
+            <div class="bg-white px-8 pb-8">
+              <div class="rounded-[--radius-card] overflow-hidden border border-[--color-border]">
+                <div class="px-5 py-3 flex items-center justify-between border-b border-[--color-border]">
+                  <span class="caption-light">Claude AI Prompt — Set Up Env Vars</span>
+                  <button class="copy-btn" type="button">Copy</button>
+                </div>
+                <div class="px-5 pt-4 pb-5">
+                  <p class="prompt-text prompt-code">Set up environment variables for [CLIENT NAME]. Copy .env.example to .env locally and fill in real values for the 12 variables (PUBLIC_SITE_NAME, PUBLIC_SITE_URL, PUBLIC_GA_MEASUREMENT_ID, PUBLIC_GOOGLE_MAPS_API_KEY, PUBLIC_CLINIKO_BOOKING_URL, PUBLIC_WEB3FORMS_KEY, PUBLIC_CLIENT_EMAIL with semicolons, PUBLIC_RECAPTCHA_SITE_KEY, CONTACT_EMAIL, GA4_API_SECRET, GA4_MEASUREMENT_ID, SITE_ORIGIN). Then add the same values to Cloudflare Pages → Settings → Variables and Secrets → Build scope. Click Retry deployment when done. Verify by curling the contact page and grepping for the rendered values.</p>
+                </div>
+              </div>
+            </div>
+
+          </article>
+
+
+
+          <!-- ───────────────────────────────────────────────────
+               23 — BASELAYOUT (was 17)
           ─────────────────────────────────────────────────────── -->
           <article id="baselayout" class="bg-white border-b border-[--color-border]">
 
             <header class="flex items-center justify-between px-8 py-5 border-b border-[--color-border]">
               <div class="flex items-center gap-3">
-                <span class="text-xs font-bold text-[--color-border] font-mono">17</span>
+                <span class="text-xs font-bold text-[--color-border] font-mono">23</span>
                 <div class="flex flex-col gap-0.5">
                   <h5 class="m-0">BaseLayout.astro</h5>
                   <p class="text-sm text-[--color-caption] m-0">The single shared wrapper for every client-facing page.</p>
@@ -1386,7 +2041,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
             <header class="flex items-center justify-between px-8 py-5 border-b border-[--color-border]">
               <div class="flex items-center gap-3">
-                <span class="text-xs font-bold text-[--color-border] font-mono">18</span>
+                <span class="text-xs font-bold text-[--color-border] font-mono">24</span>
                 <div class="flex flex-col gap-0.5">
                   <h5 class="m-0">Cookie Consent Config</h5>
                   <p class="text-sm text-[--color-caption] m-0">Marketing team editable fields in <code class="code-label">src/config/cookie-consent.config.ts</code></p>
@@ -1468,7 +2123,7 @@ export const cookieConsentConfig = &lbrace;
 
             <header class="flex items-center justify-between px-8 py-5 border-b border-[--color-border]">
               <div class="flex items-center gap-3">
-                <span class="text-xs font-bold text-[--color-border] font-mono">19</span>
+                <span class="text-xs font-bold text-[--color-border] font-mono">25</span>
                 <div class="flex flex-col gap-0.5">
                   <h5 class="m-0">Swiper Carousels</h5>
                   <p class="text-sm text-[--color-caption] m-0">Swiper v11 via CDN. Brand colours overridden in global.css.</p>
@@ -1566,16 +2221,16 @@ const reviews = [
 
 
           <!-- ───────────────────────────────────────────────────
-               20 — CLIENT SETUP CHECKLIST
+               26 — CLIENT SETUP CHECKLIST
           ─────────────────────────────────────────────────────── -->
           <article id="setup" class="border-b border-[--color-border]">
 
             <header class="flex items-start justify-between px-8 py-5 border-b border-[--color-border] bg-white flex-wrap gap-3">
               <div class="flex items-center gap-3">
-                <span class="text-xs font-bold text-[--color-border] font-mono">20</span>
+                <span class="text-xs font-bold text-[--color-border] font-mono">26</span>
                 <div class="flex flex-col gap-0.5">
                   <h5 class="m-0">Client Setup Checklist</h5>
-                  <p class="text-sm text-[--color-caption] m-0">Everything to do when starting a new clinic site from this template.</p>
+                  <p class="text-sm text-[--color-caption] m-0">Two phases — what marketing must give you, then what dev does.</p>
                 </div>
               </div>
               <span class="text-xs font-semibold text-[--color-primary] bg-[--color-accent] px-3 py-1 rounded-[--radius-badge] uppercase tracking-wide self-start">Setup</span>
@@ -1583,15 +2238,167 @@ const reviews = [
 
             <div class="px-8 py-6 bg-white flex flex-col gap-6">
 
-              <!-- 4-step brand setup -->
+              <div class="p-4 bg-[--color-accent] border-l-4 border-[--color-primary] rounded-[--radius-card]">
+                <p class="m-0 text-sm text-[--color-body] leading-relaxed">
+                  <strong>Plain English:</strong> A clinic site needs information that ONLY the client / marketing team can give you (brand colours, analytics IDs, contact email, real address). Phase 1 is the briefing list to send them. Phase 2 is the build steps — start once Phase 1 is in your hands.
+                </p>
+              </div>
+
+              <!-- ═════════════════════════════════════════════
+                   PHASE 1 — MARKETING TEAM INPUTS
+              ═════════════════════════════════════════════ -->
+              <div class="border-t-2 border-[--color-primary] pt-5">
+                <p class="text-[10px] font-bold text-white bg-[--color-primary] inline-block px-3 py-1 rounded-[--radius-badge] uppercase tracking-wider">Phase 1 — Required from Marketing Team</p>
+                <p class="m-0 mt-3 text-sm text-[--color-caption]">Do not start dev work until every item below is in your hands. If any are missing, send the briefing prompt at the bottom of this section.</p>
+              </div>
+
+              <!-- M1 - Brand -->
               <div class="flex flex-col gap-3">
-                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Step 1 — Brand Colours &amp; Fonts · <code class="code-hex normal-case">src/styles/global.css @theme</code></p>
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">M1. Brand</p>
+                <ul class="list-none p-0 m-0 flex flex-col gap-2">
+                  {[
+                    "Primary brand colour (hex code, e.g. #DB003E)",
+                    "Hover/darker shade of primary (hex)",
+                    "Light accent tint (hex) — for section backgrounds",
+                    "Logo files — .svg preferred, plus .png at 2× resolution",
+                    "Favicon (.svg)",
+                    "Confirm Inter Tight / Inter typography or specify alternative",
+                  ].map(i => (
+                    <li class="flex items-start gap-3 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                      <div class="icon-dot-offset mt-0.5"></div>
+                      <p class="m-0 text-sm text-[--color-body]">{i}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <!-- M2 - Cookie & Analytics -->
+              <div class="flex flex-col gap-3">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">M2. Cookie Consent &amp; Analytics</p>
+                <ul class="list-none p-0 m-0 flex flex-col gap-2">
+                  {[
+                    "GTM (Google Tag Manager) container ID, e.g. GTM-XXXXXXX — OR confirm we go straight to Cloudflare Zaraz",
+                    "GA4 Measurement ID, e.g. G-XXXXXXXXXX (used twice — PUBLIC_ for browser + non-PUBLIC for server)",
+                    "GA4 Measurement Protocol API Secret (GA4 → Admin → Data Streams → API secrets)",
+                    "Banner copy (the consent banner text shown to visitors)",
+                    "Cookie Policy URL + policy version number (e.g. v1.0)",
+                  ].map(i => (
+                    <li class="flex items-start gap-3 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                      <div class="icon-dot-offset mt-0.5"></div>
+                      <p class="m-0 text-sm text-[--color-body]">{i}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <!-- M3 - Contact Form -->
+              <div class="flex flex-col gap-3">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">M3. Contact Form (Web3Forms)</p>
+                <ul class="list-none p-0 m-0 flex flex-col gap-2">
+                  {[
+                    "Web3Forms Pro account — login credentials, OR permission to create one and bill the client (~$8/month).",
+                    "Primary recipient inbox — the email that should receive every contact form submission.",
+                    "CC list — additional recipients copied on every submission, semicolon-separated. Example: client@x.co.uk; agency@hmdg.co.uk",
+                    "Google reCAPTCHA v3 Site Key (from https://www.google.com/recaptcha/admin)",
+                    "Google reCAPTCHA v3 Secret Key — pasted into Web3Forms dashboard, NEVER into code",
+                  ].map(i => (
+                    <li class="flex items-start gap-3 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                      <div class="icon-dot-offset mt-0.5"></div>
+                      <p class="m-0 text-sm text-[--color-body]">{i}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <!-- M4 - NAP -->
+              <div class="flex flex-col gap-3">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">M4. NAP &amp; Structured Data</p>
+                <p class="m-0 text-xs text-[--color-caption] italic">Used in the contact page, JSON-LD structured data, and footer.</p>
+                <ul class="list-none p-0 m-0 flex flex-col gap-2">
+                  {[
+                    "Full clinic name (exactly how it appears on Google Business Profile)",
+                    "Phone number (display format AND tel: format, e.g. \"+44 (0) 1234 567 890\" + \"+441234567890\")",
+                    "Email address (the public contact email)",
+                    "Address line 1 (street)",
+                    "Address line 2 (town + postcode, e.g. \"London, SW1A 1AA\")",
+                    "Google Maps URL for the clinic",
+                    "Opening hours per day (e.g. Mon–Fri 09:00–17:00, Sat closed, Sun closed)",
+                  ].map(i => (
+                    <li class="flex items-start gap-3 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                      <div class="icon-dot-offset mt-0.5"></div>
+                      <p class="m-0 text-sm text-[--color-body]">{i}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <!-- M5 - Assets -->
+              <div class="flex flex-col gap-3">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">M5. Visual Assets</p>
+                <ul class="list-none p-0 m-0 flex flex-col gap-2">
+                  {[
+                    "Hero image — 1920×800 .webp (desktop). Required.",
+                    "Hero image mobile — 800×800 .webp (optional, for the dual-preload pattern)",
+                    "Social/OG image — 1200×630 .webp (used by Facebook/LinkedIn/iMessage previews)",
+                    "Optional hero video source — ≤30s, 1080p+, any container/codec. Will be encoded to MP4 H.264 by us.",
+                    "Service / treatment imagery (per page)",
+                    "Team photos (if a Team page is included)",
+                  ].map(i => (
+                    <li class="flex items-start gap-3 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                      <div class="icon-dot-offset mt-0.5"></div>
+                      <p class="m-0 text-sm text-[--color-body]">{i}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <!-- M6 - Legal -->
+              <div class="flex flex-col gap-3">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">M6. Legal Page Content</p>
+                <ul class="list-none p-0 m-0 flex flex-col gap-2">
+                  {[
+                    "Privacy Policy — full text",
+                    "Terms & Conditions — full text",
+                    "Cookie Policy — full text (must match the consent banner copy from M2)",
+                  ].map(i => (
+                    <li class="flex items-start gap-3 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                      <div class="icon-dot-offset mt-0.5"></div>
+                      <p class="m-0 text-sm text-[--color-body]">{i}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <!-- Marketing briefing prompt -->
+              <div>
+                <div class="rounded-[--radius-card] overflow-hidden border border-[--color-border]">
+                  <div class="px-5 py-3 flex items-center justify-between border-b border-[--color-border]">
+                    <span class="caption-light">Claude AI Prompt — Marketing Briefing (copy + send to client)</span>
+                    <button class="copy-btn" type="button">Copy</button>
+                  </div>
+                  <div class="px-5 pt-4 pb-5">
+                    <p class="prompt-text prompt-code">Hi [CLIENT NAME] — to start your new clinic website we need the following from your marketing team. Most items are quick to gather. Send everything in one email or shared doc and we'll begin the build the same day. (1) BRAND: primary brand hex, hover hex, light accent hex, logo SVG and PNG, favicon, preferred fonts. (2) ANALYTICS: GTM container ID, GA4 Measurement ID, GA4 Measurement Protocol API Secret, consent banner copy, cookie policy URL and version. (3) CONTACT FORM: Web3Forms Pro account or permission to create one (~$8/mo billed to you), primary recipient inbox, CC list (semicolon-separated), Google reCAPTCHA v3 Site Key, Google reCAPTCHA v3 Secret Key. (4) BUSINESS: clinic legal name, phone (display + tel: format), public email, full address, Google Maps URL, opening hours per day. (5) ASSETS: hero image 1920×800 WebP, optional mobile hero 800×800, social image 1200×630, optional hero video source MP4. (6) LEGAL: Privacy Policy text, Terms &amp; Conditions text, Cookie Policy text. We do not start dev work until all six sections are in our hands.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ═════════════════════════════════════════════
+                   PHASE 2 — DEV STEPS
+              ═════════════════════════════════════════════ -->
+              <div class="border-t-2 border-[--color-primary] pt-5 mt-2">
+                <p class="text-[10px] font-bold text-white bg-[--color-headline] inline-block px-3 py-1 rounded-[--radius-badge] uppercase tracking-wider">Phase 2 — Dev Build Steps</p>
+                <p class="m-0 mt-3 text-sm text-[--color-caption]">Run these steps in order. Each one builds on the previous.</p>
+              </div>
+
+              <!-- D1 -->
+              <div class="flex flex-col gap-3">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">D1. Brand colours &amp; fonts · <code class="code-hex normal-case">src/styles/global.css @theme</code></p>
                 {[
-                  { token: "--color-primary",        action: "Change to client brand colour (hex). This updates every button, link, and accent automatically." },
-                  { token: "--color-primary-hover",  action: "Set to a slightly darker or lighter shade of --color-primary for hover states." },
-                  { token: "--color-accent",         action: "Set to a very light tint of the brand colour. Used for section backgrounds and secondary fills." },
-                  { token: "--font-heading",         action: "Change if the client uses a different heading font. Inter Tight is the default." },
-                  { token: "--font-body",            action: "Change if the client uses a different body font. Inter is the default." },
+                  { token: "--color-primary",        action: "Set to client primary brand hex. Updates every button, link, and accent automatically." },
+                  { token: "--color-primary-hover",  action: "Slightly darker or lighter shade of --color-primary. Hover state for interactive elements." },
+                  { token: "--color-accent",         action: "Light tint of the brand colour. Section backgrounds + secondary fills." },
+                  { token: "--font-heading",         action: "Change if client uses a different heading font. Inter Tight is the default." },
+                  { token: "--font-body",            action: "Change if client uses a different body font. Inter is the default." },
                 ].map(s => (
                   <div class="flex items-start gap-4 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
                     <code class="code-label shrink-0">{s.token}</code>
@@ -1600,21 +2407,21 @@ const reviews = [
                 ))}
               </div>
 
-              <!-- Step 2 -->
+              <!-- D2 -->
               <div class="flex flex-col gap-3">
-                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Step 2 — Cookie Consent · <code class="code-hex normal-case">src/config/cookie-consent.config.ts</code></p>
-                <div class="p-4 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card] flex flex-col gap-2">
-                  <p class="m-0 text-sm text-[--color-body]">Set <code class="code-label">gtmId</code>, <code class="code-label">gtagId</code>, <code class="code-label">bannerText</code>, and <code class="code-label">policyVersion</code>. See section 18 for full field reference.</p>
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">D2. Cookie consent · <code class="code-hex normal-case">src/config/cookie-consent.config.ts</code></p>
+                <div class="p-4 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                  <p class="m-0 text-sm text-[--color-body]">Set <code class="code-label">gtmId</code>, <code class="code-label">gtagId</code>, <code class="code-label">bannerText</code>, and <code class="code-label">policyVersion</code>. Full field reference in section 24.</p>
                 </div>
               </div>
 
-              <!-- Step 3 -->
+              <!-- D3 -->
               <div class="flex flex-col gap-3">
-                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Step 3 — Global Components</p>
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">D3. Global components</p>
                 {[
-                  { file: "src/components/Header.astro",  action: "Update clinic name, logo, navigation links, phone number, and booking CTA." },
-                  { file: "src/components/Footer.astro",  action: "Update clinic name, address, map embed, social links, and legal page links." },
-                  { file: "public/favicon.svg",           action: "Replace with the client's favicon. Keep .svg format for sharpness at all sizes." },
+                  { file: "src/components/Header.astro",  action: "Update clinic name, logo, navigation links, phone, booking CTA." },
+                  { file: "src/components/Footer.astro",  action: "Update clinic name, address, map embed, social links, legal page links." },
+                  { file: "public/favicon.svg",           action: "Replace with the client's favicon. Keep .svg format." },
                 ].map(s => (
                   <div class="flex items-start gap-4 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card] flex-wrap">
                     <code class="code-label shrink-0">{s.file}</code>
@@ -1623,17 +2430,17 @@ const reviews = [
                 ))}
               </div>
 
-              <!-- Step 4 -->
+              <!-- D4 -->
               <div class="flex flex-col gap-3">
-                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Step 4 — Legal Pages &amp; noindex Rules</p>
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">D4. Legal pages &amp; noindex rules</p>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {[
-                    { page: "/privacy-policy",      rule: "Add client content. Must be indexable." },
-                    { page: "/terms-conditions",    rule: "Add client content. Must be indexable." },
-                    { page: "/cookie-policy",       rule: "Add client content. Must match bannerText in cookie config." },
-                    { page: "/thank-you",           rule: "noindex prop is true — already set in template." },
-                    { page: "/thank-you-booking",   rule: "noindex prop is true — already set in template." },
-                    { page: "/contact",             rule: "Update form endpoint and contact details." },
+                    { page: "/privacy-policy",      rule: "Add client content. Indexable at launch." },
+                    { page: "/terms-conditions",    rule: "Add client content. Indexable at launch." },
+                    { page: "/cookie-policy",       rule: "Add client content. Must match bannerText." },
+                    { page: "/thank-you",           rule: "noindex={true} — already set in template." },
+                    { page: "/thank-you-booking",   rule: "noindex={true} — already set in template." },
+                    { page: "/contact",             rule: "Update per-client clinic data + JSON-LD hours." },
                   ].map(p => (
                     <div class="flex items-start gap-3 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
                       <div class="icon-dot-offset mt-0.5"></div>
@@ -1646,13 +2453,87 @@ const reviews = [
                 </div>
               </div>
 
-              <!-- Page/URL map -->
+              <!-- D5 -->
+              <div class="flex flex-col gap-3">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">D5. Web3Forms wiring (NEW)</p>
+                <ol class="list-none p-0 m-0 flex flex-col gap-2">
+                  {[
+                    "Sign up / log in at web3forms.com. Upgrade to Pro (~$8/mo). Create a new form.",
+                    "Web3Forms dashboard → Recipient Emails → primary client inbox. This is the PRIMARY recipient.",
+                    "Web3Forms dashboard → Spam Protection → reCAPTCHA → paste the Secret Key from M3.",
+                    "Copy the Form Access Key (UUID). This goes in PUBLIC_WEB3FORMS_KEY.",
+                    "Set the four PUBLIC_* env vars locally and on Cloudflare Pages (see section 22).",
+                    "Click Retry deployment in Cloudflare so the env vars bake into the build.",
+                  ].map((step, i) => (
+                    <li class="flex items-start gap-3 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                      <span class="text-xs font-mono font-bold text-[--color-primary] shrink-0 w-6">{String(i + 1).padStart(2, "0")}</span>
+                      <p class="m-0 text-sm text-[--color-body]">{step}</p>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+
+              <!-- D6 -->
+              <div class="flex flex-col gap-3">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">D6. Performance assets (NEW)</p>
+                <ol class="list-none p-0 m-0 flex flex-col gap-2">
+                  {[
+                    "Drop the desktop hero at public/images/hero.webp (1920×800).",
+                    "Optional: drop public/images/hero-mobile.webp (800×800) for the dual-preload pattern.",
+                    "Drop public/og-image.webp (1200×630) for social sharing.",
+                    "Optional: drop assets/videos/herovideo.mp4 (source). Run npm run optimise-video to encode → public/videos/hero-loop.mp4.",
+                    "Run npm run resize-images to ensure no .webp exceeds 1920×1920.",
+                  ].map((step, i) => (
+                    <li class="flex items-start gap-3 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                      <span class="text-xs font-mono font-bold text-[--color-primary] shrink-0 w-6">{String(i + 1).padStart(2, "0")}</span>
+                      <p class="m-0 text-sm text-[--color-body]">{step}</p>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+
+              <!-- D7 -->
+              <div class="flex flex-col gap-3">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">D7. Production origin (NEW)</p>
+                <div class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                  <p class="m-0 text-sm text-[--color-body]">Set <code class="code-label">site:</code> in <code class="code-label">astro.config.mjs</code> to the production domain (e.g. <code class="code-label">'https://yourclinic.co.uk'</code>). This anchors canonical URLs, OG tags, and the auto-generated sitemap to the correct origin.</p>
+                </div>
+              </div>
+
+              <!-- D8 -->
+              <div class="flex flex-col gap-3">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">D8. Launch (NEW)</p>
+                <ol class="list-none p-0 m-0 flex flex-col gap-2">
+                  {[
+                    "Flip the noindex default in BaseLayout.astro from true → false. Permanent-noindex pages (thank-you, 404) keep their explicit noindex={true}.",
+                    "Run a fresh PageSpeed audit on the production URL. Target: 90+ mobile.",
+                    "Update Web3Forms dashboard → Domain → from localhost to the production custom domain.",
+                    "Update Google reCAPTCHA admin → your site → Settings → add the production domain.",
+                    "Update public/robots.txt → Sitemap line → swap pages.dev URL for production domain.",
+                  ].map((step, i) => (
+                    <li class="flex items-start gap-3 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                      <span class="text-xs font-mono font-bold text-[--color-primary] shrink-0 w-6">{String(i + 1).padStart(2, "0")}</span>
+                      <p class="m-0 text-sm text-[--color-body]">{step}</p>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+
+              <!-- D9 -->
+              <div class="flex flex-col gap-3">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">D9. Post-launch (NEW)</p>
+                <div class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                  <p class="m-0 text-sm text-[--color-body]">Once the custom domain is on Cloudflare proxy (orange cloud), migrate GTM → Cloudflare Zaraz. Eliminates 150–220 KB of browser JS. Full plan in <code class="code-label">.claude/skills/performance.md</code> Section 10.</p>
+                </div>
+              </div>
+
+              <!-- API Routes -->
               <div class="border-t border-[--color-border] pt-5">
-                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest mb-3">API Routes Included in Template</p>
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest mb-3">API Routes Included</p>
                 <div class="flex flex-col gap-2">
                   {[
-                    { route: "/api/book-now",        file: "src/pages/api/book-now.ts",        desc: "Handles booking form submissions." },
-                    { route: "/api/booking-complete", file: "src/pages/api/booking-complete.ts", desc: "Handles post-booking confirmation flow." },
+                    { route: "/api/book-now",        file: "src/pages/api/book-now.ts",        desc: "Booking form submissions (server-side)." },
+                    { route: "/api/booking-complete", file: "src/pages/api/booking-complete.ts", desc: "Post-booking confirmation flow + GA4 Measurement Protocol redundancy." },
                   ].map(r => (
                     <div class="flex items-start gap-4 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card] flex-wrap">
                       <code class="code-label shrink-0">{r.route}</code>
@@ -1668,13 +2549,218 @@ const reviews = [
             <div class="bg-white px-8 pb-8">
               <div class="rounded-[--radius-card] overflow-hidden border border-[--color-border]">
                 <div class="px-5 py-3 flex items-center justify-between border-b border-[--color-border]">
-                  <span class="caption-light">Claude AI Prompt — Client Setup</span>
+                  <span class="caption-light">Claude AI Prompt — Run Phase 2</span>
                   <button class="copy-btn" type="button">Copy</button>
                 </div>
                 <div class="px-5 pt-4 pb-5">
-                  <p class="prompt-text prompt-code">Set up this template for a new client: [CLIENT NAME]. 1. Update --color-primary, --color-primary-hover, and --color-accent in src/styles/global.css @theme to match their brand. 2. Set gtmId and gtagId in src/config/cookie-consent.config.ts. 3. Update the clinic name, logo, nav links, phone, and CTA in Header.astro and Footer.astro. 4. Replace public/favicon.svg with the client's favicon. 5. Add content to privacy-policy, terms-conditions, and cookie-policy pages. 6. Update contact form endpoint in contact.astro and /api/book-now.ts.</p>
+                  <p class="prompt-text prompt-code">Set up this template for [CLIENT NAME] using the Phase 2 dev steps. D1: update --color-primary, --color-primary-hover, --color-accent in src/styles/global.css. D2: set gtmId, gtagId, bannerText, policyVersion in src/config/cookie-consent.config.ts. D3: update Header.astro, Footer.astro, favicon.svg. D4: add legal page content. D5: wire Web3Forms (4 PUBLIC_ env vars locally + Cloudflare Build scope, then Retry deployment). D6: drop hero.webp, hero-mobile.webp, og-image.webp, optionally encode hero video. D7: set site: in astro.config.mjs. D8: at launch, flip noindex default to false, PageSpeed 90+ mobile, update Web3Forms domain, update reCAPTCHA admin domains, update robots.txt sitemap URL. D9: post-launch GTM → Zaraz migration.</p>
                 </div>
               </div>
+            </div>
+
+          </article>
+
+
+          <!-- ───────────────────────────────────────────────────
+               27 — DEPLOY TO CLOUDFLARE PAGES
+          ─────────────────────────────────────────────────────── -->
+          <article id="deploy" class="bg-white border-b border-[--color-border]">
+
+            <header class="flex items-start justify-between px-8 py-5 border-b border-[--color-border] flex-wrap gap-3">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-bold text-[--color-border] font-mono">27</span>
+                <div class="flex flex-col gap-0.5">
+                  <h5 class="m-0">Deploy to Cloudflare Pages</h5>
+                  <p class="text-sm text-[--color-caption] m-0">Step-by-step. From a fresh clone to a live URL on Cloudflare Workers / Pages.</p>
+                </div>
+              </div>
+              <span class="text-xs font-semibold text-[--color-primary] bg-[--color-accent] px-3 py-1 rounded-[--radius-badge] uppercase tracking-wide self-start">Deploy</span>
+            </header>
+
+            <div class="px-8 py-6 flex flex-col gap-6">
+
+              <div class="p-4 bg-[--color-accent] border-l-4 border-[--color-primary] rounded-[--radius-card]">
+                <p class="m-0 text-sm text-[--color-body] leading-relaxed">
+                  <strong>Plain English:</strong> Cloudflare Pages is the host. It builds the Astro site from your GitHub repo and serves it from edge servers worldwide. Free for clinic-scale traffic. The steps below take ~15 minutes the first time, &lt;5 minutes for re-deploys.
+                </p>
+              </div>
+
+              <!-- Pre-flight -->
+              <div class="flex flex-col gap-3">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Pre-flight check</p>
+                <ul class="list-none p-0 m-0 flex flex-col gap-2">
+                  {[
+                    "GitHub repo exists with the project pushed to main/master.",
+                    "Cloudflare account exists (free tier is fine).",
+                    "All 12 env vars from section 22 are ready.",
+                    "Local npm run build passes cleanly.",
+                  ].map(i => (
+                    <li class="flex items-start gap-3 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                      <div class="icon-dot-offset mt-0.5"></div>
+                      <p class="m-0 text-sm text-[--color-body]">{i}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <!-- Step 1 - Connect repo -->
+              <div class="flex flex-col gap-3">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Step 1 — Connect the GitHub repo</p>
+                <ol class="list-none p-0 m-0 flex flex-col gap-2">
+                  {[
+                    "Sign in to Cloudflare dashboard at dash.cloudflare.com.",
+                    "Left sidebar → Workers & Pages.",
+                    'Click "Create application" → "Pages" tab → "Connect to Git".',
+                    "Authorise Cloudflare for the GitHub organisation that owns the repo (one-time grant).",
+                    "Select the repository from the list.",
+                    'Click "Begin setup".',
+                  ].map((step, i) => (
+                    <li class="flex items-start gap-3 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                      <span class="text-xs font-mono font-bold text-[--color-primary] shrink-0 w-8 text-center">{String(i + 1).padStart(2, "0")}</span>
+                      <p class="m-0 text-sm text-[--color-body]">{step}</p>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+
+              <!-- Step 2 - Build settings -->
+              <div class="flex flex-col gap-3">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Step 2 — Build settings</p>
+                <p class="m-0 text-xs text-[--color-caption]">Cloudflare auto-detects most of these for Astro projects. Verify they match exactly:</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {[
+                    { label: "Framework preset", value: "Astro" },
+                    { label: "Build command",    value: "npm run build" },
+                    { label: "Build output",     value: "dist" },
+                    { label: "Root directory",   value: "/" },
+                    { label: "Node version",     value: "22.12.0 or higher" },
+                    { label: "Production branch",value: "main (or master)" },
+                  ].map(s => (
+                    <div class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                      <p class="m-0 text-[10px] font-bold text-[--color-caption] uppercase tracking-wide">{s.label}</p>
+                      <code class="code-label text-[11px] mt-1 inline-block">{s.value}</code>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <!-- Step 3 - Env vars -->
+              <div class="flex flex-col gap-3">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Step 3 — Environment variables</p>
+                <div class="p-3 bg-[--color-primary]/8 border-l-4 border-[--color-primary] rounded-[--radius-card]">
+                  <p class="m-0 text-sm font-semibold text-[--color-headline]">Critical: choose BUILD scope, not Runtime.</p>
+                  <p class="m-0 mt-1 text-xs text-[--color-body]">PUBLIC_* vars are baked into the HTML at build time. Setting them as Runtime does nothing.</p>
+                </div>
+                <ol class="list-none p-0 m-0 flex flex-col gap-2">
+                  {[
+                    "Settings → Variables and Secrets → Add variable.",
+                    "Add each of the 12 vars from section 22. Type: Plaintext.",
+                    'Scope: tick "Build" (NOT "Runtime").',
+                    "If a value contains a semicolon (PUBLIC_CLIENT_EMAIL), paste it directly — no escaping needed.",
+                    "Save each one as you go.",
+                  ].map((step, i) => (
+                    <li class="flex items-start gap-3 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                      <span class="text-xs font-mono font-bold text-[--color-primary] shrink-0 w-8 text-center">{String(i + 1).padStart(2, "0")}</span>
+                      <p class="m-0 text-sm text-[--color-body]">{step}</p>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+
+              <!-- Step 4 - Deploy -->
+              <div class="flex flex-col gap-3">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Step 4 — First deploy</p>
+                <ol class="list-none p-0 m-0 flex flex-col gap-2">
+                  {[
+                    'Click "Save and Deploy". Cloudflare runs npm install + npm run build.',
+                    "First build takes 2–4 minutes. Watch the live log.",
+                    "Postinstall hook auto-runs scripts/patch-cloudflare-adapter.mjs (renames ASSETS → STATIC_ASSETS).",
+                    "If you see error \"The name 'ASSETS' is reserved\" — the patch script didn't run. Check that scripts/ is committed and postinstall is in package.json.",
+                    "On success, you get a *.pages.dev preview URL (e.g. yourclinic.pages.dev).",
+                    "Open the preview URL and click around. Fill the contact form to verify Web3Forms delivery.",
+                  ].map((step, i) => (
+                    <li class="flex items-start gap-3 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                      <span class="text-xs font-mono font-bold text-[--color-primary] shrink-0 w-8 text-center">{String(i + 1).padStart(2, "0")}</span>
+                      <p class="m-0 text-sm text-[--color-body]">{step}</p>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+
+              <!-- Step 5 - Custom domain -->
+              <div class="flex flex-col gap-3">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Step 5 — Connect the custom domain</p>
+                <ol class="list-none p-0 m-0 flex flex-col gap-2">
+                  {[
+                    "Pages project → Custom domains → Set up a custom domain.",
+                    "Enter the domain (e.g. yourclinic.co.uk). Cloudflare gives DNS instructions.",
+                    "If the domain is registered with Cloudflare: nameservers route it automatically. If registered elsewhere: add a CNAME at the registrar pointing to your-project.pages.dev.",
+                    "Wait for DNS propagation (5–30 minutes). Cloudflare provisions the SSL cert automatically.",
+                    "Once connected, the domain shows green/active in the Pages dashboard.",
+                  ].map((step, i) => (
+                    <li class="flex items-start gap-3 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                      <span class="text-xs font-mono font-bold text-[--color-primary] shrink-0 w-8 text-center">{String(i + 1).padStart(2, "0")}</span>
+                      <p class="m-0 text-sm text-[--color-body]">{step}</p>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+
+              <!-- Step 6 - Retry deployment dance -->
+              <div class="flex flex-col gap-3">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Step 6 — Retry deployment after env-var changes</p>
+                <div class="p-3 bg-[--color-primary]/8 border-l-4 border-[--color-primary] rounded-[--radius-card]">
+                  <p class="m-0 text-sm font-semibold text-[--color-headline]">Cloudflare does NOT auto-rebuild when env vars change.</p>
+                  <p class="m-0 mt-1 text-xs text-[--color-body]">After saving any new env var, you MUST trigger a redeploy or the new value is ignored.</p>
+                </div>
+                <ol class="list-none p-0 m-0 flex flex-col gap-2">
+                  {[
+                    "Pages project → Deployments tab.",
+                    "Find the most recent successful deployment.",
+                    'Click the "..." menu → "Retry deployment".',
+                    "Cloudflare runs a fresh build with the current env vars baked in.",
+                    "When green, the new values are live.",
+                  ].map((step, i) => (
+                    <li class="flex items-start gap-3 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                      <span class="text-xs font-mono font-bold text-[--color-primary] shrink-0 w-8 text-center">{String(i + 1).padStart(2, "0")}</span>
+                      <p class="m-0 text-sm text-[--color-body]">{step}</p>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+
+              <!-- Step 7 - Auto deploy on push -->
+              <div class="flex flex-col gap-3">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Step 7 — Continuous deploys (automatic)</p>
+                <p class="m-0 text-sm text-[--color-body]">Once connected, every push to the production branch (main/master) triggers an automatic build + deploy. Pull request branches get preview deploys at <code class="code-label">[branch].your-project.pages.dev</code>.</p>
+              </div>
+
+              <!-- Troubleshooting -->
+              <div class="flex flex-col gap-3 border-t border-[--color-border] pt-5">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Troubleshooting</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {[
+                    { problem: 'Build fails: "The name \'ASSETS\' is reserved in Pages projects"',
+                      fix: "scripts/patch-cloudflare-adapter.mjs didn't run. Verify scripts/ is in the repo + package.json has \"postinstall\": \"node scripts/patch-cloudflare-adapter.mjs\"." },
+                    { problem: 'Form submits but email subject is "Website Name"',
+                      fix: "PUBLIC_SITE_NAME env var not set on Cloudflare, OR was set but didn't redeploy. Add it under Build scope and Retry deployment." },
+                    { problem: "Form submits but no CC recipients receive email",
+                      fix: 'PUBLIC_CLIENT_EMAIL has commas instead of semicolons. Web3Forms expects "a@x.co.uk; b@y.co.uk" exactly. Update + redeploy.' },
+                    { problem: "reCAPTCHA fails on production but works locally",
+                      fix: "Production domain not in reCAPTCHA admin's allowed domains list. https://www.google.com/recaptcha/admin → your site → Settings → add the domain." },
+                    { problem: "Custom domain stuck in \"Provisioning\"",
+                      fix: "DNS not propagated yet. Wait up to 30 minutes. If still stuck after an hour, verify the CNAME at the registrar." },
+                    { problem: "404 on /thank-you/ even though the page exists",
+                      fix: "Check public/_headers — the X-Robots-Tag rules use exact paths. The Astro build emits /thank-you/index.html so /thank-you/ works but /thank-you may not. Test both." },
+                  ].map(t => (
+                    <div class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                      <p class="m-0 text-xs font-bold text-[--color-headline]">{t.problem}</p>
+                      <p class="m-0 mt-1 text-xs text-[--color-body] leading-relaxed">{t.fix}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
             </div>
 
           </article>
@@ -1795,20 +2881,10 @@ const reviews = [
       sections.forEach(s => observer.observe(s));
     }
 
-    // Netlify Forms — set email subject to "HMDG Base Template - {Full Name}"
-    // before submission. Netlify uses the value of the "subject" input as the
-    // notification email subject when present.
-    document.querySelectorAll('form[name="contact"]').forEach((form) => {
-      form.addEventListener('submit', () => {
-        const nameInput = form.querySelector('[name="full_name"]');
-        const subjectInput = form.querySelector('[name="subject"]');
-        if (!subjectInput) return;
-        const fullName = ((nameInput && nameInput.value) || '').trim();
-        subjectInput.value = fullName
-          ? 'HMDG Base Template - ' + fullName
-          : 'HMDG Base Template - Contact Form';
-      });
-    });
+    /* Legacy Netlify Forms subject-rewrite block was removed.
+       The contact form on this page (and across the site) is now Web3Forms,
+       which handles subject + from_name personalisation in the canonical
+       <ContactForm /> component itself. See .claude/skills/contactform.md. */
   </script>
 
   <!-- ── Cookie Consent ────────────────────────────────────────── -->
