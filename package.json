@@ -12,7 +12,8 @@
     "astro": "astro",
     "postinstall": "node scripts/patch-cloudflare-adapter.mjs",
     "resize-images": "node scripts/resize-oversized-images.mjs",
-    "optimise-video": "node scripts/optimise-hero-video.mjs"
+    "optimise-video": "node scripts/optimise-hero-video.mjs",
+    "reviews:fetch": "node scripts/fetch-google-reviews.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.8",

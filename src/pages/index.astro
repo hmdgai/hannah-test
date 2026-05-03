@@ -82,8 +82,9 @@ const navLinks = [
   { href: "#baselayout", label: "BaseLayout",     num: "24" },
   { href: "#cookiecfg",  label: "Cookie Config",  num: "25" },
   { href: "#carousel",   label: "Carousels",      num: "26" },
-  { href: "#setup",      label: "Client Setup",   num: "27" },
-  { href: "#deploy",     label: "Deploy to CF",   num: "28" },
+  { href: "#reviews",    label: "Google Reviews", num: "27" },
+  { href: "#setup",      label: "Client Setup",   num: "28" },
+  { href: "#deploy",     label: "Deploy to CF",   num: "29" },
 ];
 ---
 
@@ -191,7 +192,7 @@ const navLinks = [
                 <span class="text-xs font-semibold text-white/50 bg-white/10 border border-white/10 px-3 py-1 rounded-full">Tailwind v4</span>
                 <span class="text-xs font-semibold text-white/50 bg-white/10 border border-white/10 px-3 py-1 rounded-full">Cloudflare Pages</span>
                 <span class="text-xs font-semibold text-white/50 bg-white/10 border border-white/10 px-3 py-1 rounded-full">12 AI Agents</span>
-                <span class="text-xs font-semibold text-white/50 bg-white/10 border border-white/10 px-3 py-1 rounded-full">5 Skills</span>
+                <span class="text-xs font-semibold text-white/50 bg-white/10 border border-white/10 px-3 py-1 rounded-full">6 Skills</span>
                 <span class="text-xs font-semibold text-white/50 bg-white/10 border border-white/10 px-3 py-1 rounded-full">v2.0.0</span>
               </div>
               <p class="text-white/50 text-sm m-0">
@@ -1880,6 +1881,9 @@ BaseLayout.astro    → CSP meta tag in &lt;head&gt; for all pages
                   { num: "05", file: "header-menu.md", title: "Header Navigation",
                     when: "Building or editing site navigation",
                     summary: "Sticky header pattern, dropdown / flyout structure, active-state helpers (isActive / isSection), mobile drawer." },
+                  { num: "06", file: "googlereviews-carousel.md", title: "Google Reviews Carousel",
+                    when: "Adding the global pre-footer reviews section / updating reviews per client",
+                    summary: "Free, manual Trustindex-style pattern. Native Astro carousel (~600 bytes JS), auto-filtered to 4–5 stars, capped at 20, newest first. Dynamic LocalBusiness + AggregateRating + Review[] JSON-LD. Optional Google Places API auto-fetch." },
                 ].map(s => (
                   <div class="flex flex-col gap-2 p-4 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
                     <div class="flex items-center gap-2 flex-wrap">
@@ -2622,13 +2626,247 @@ const reviews = [
 
 
           <!-- ───────────────────────────────────────────────────
-               26 — CLIENT SETUP CHECKLIST
+               27 — GOOGLE REVIEWS CAROUSEL
+          ─────────────────────────────────────────────────────── -->
+          <article id="reviews" class="bg-white border-b border-[--color-border]">
+
+            <header class="flex items-start justify-between px-8 py-5 border-b border-[--color-border] flex-wrap gap-3">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-bold text-[--color-border] font-mono">27</span>
+                <div class="flex flex-col gap-0.5">
+                  <h5 class="m-0">Google Reviews Carousel</h5>
+                  <p class="text-sm text-[--color-caption] m-0">Free, manual Trustindex-style pattern. Global pre-footer trust section.</p>
+                </div>
+              </div>
+              <span class="text-xs font-semibold text-[--color-primary] bg-[--color-accent] px-3 py-1 rounded-[--radius-badge] uppercase tracking-wide self-start">Global</span>
+            </header>
+
+            <div class="px-8 py-6 flex flex-col gap-6">
+
+              <!-- Plain English -->
+              <div class="p-4 bg-[--color-accent] border-l-4 border-[--color-primary] rounded-[--radius-card]">
+                <p class="m-0 text-sm text-[--color-body] leading-relaxed">
+                  <strong>Plain English:</strong> Every clinic site has a Google Reviews carousel that sits between the booking CTA and the footer. It is loaded once globally via <code class="code-label">BaseLayout.astro</code> — you do not add it per page. Reviews are pasted manually into one TypeScript file. <strong>This is 100% free forever — no Trustindex account, no widget, no monthly fee.</strong>
+                </p>
+              </div>
+
+              <!-- The Big Rule -->
+              <div class="p-4 bg-[--color-primary]/8 border-l-4 border-[--color-primary] rounded-[--radius-card]">
+                <p class="m-0 text-sm font-bold text-[--color-headline]">The Rule (no exceptions):</p>
+                <ul class="list-none p-0 m-0 mt-2 flex flex-col gap-1">
+                  <li class="text-sm text-[--color-body]">✓ 100% free — no Trustindex, no EmbedSocial, no paid widget</li>
+                  <li class="text-sm text-[--color-body]">✓ Native Astro carousel — zero third-party JS, zero iframes</li>
+                  <li class="text-sm text-[--color-body]">✓ Auto-filtered ≥4 stars · capped at 20 · sorted newest first</li>
+                  <li class="text-sm text-[--color-body]">✓ Dynamic JSON-LD schema — built from the same data the carousel renders</li>
+                  <li class="text-sm text-[--color-body]">✗ NEVER fake or AI-generated reviews (UK ASA + Google ToS)</li>
+                  <li class="text-sm text-[--color-body]">✗ NEVER pay for a Google Reviews widget</li>
+                </ul>
+              </div>
+
+              <!-- Why this beats Trustindex -->
+              <div class="flex flex-col gap-3">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Why this beats a paid widget</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                    <p class="m-0 text-xs font-bold text-[--color-headline]">Trustindex / EmbedSocial widget</p>
+                    <p class="m-0 mt-1 text-xs text-[--color-body]">Iframe embed, third-party CSS + JS (~150–250 KB), -10 to -20 PSI mobile, vendor lock-in, paid tiers from ~£9/month for full features.</p>
+                  </div>
+                  <div class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                    <p class="m-0 text-xs font-bold text-[--color-headline]">This pattern (HMDG)</p>
+                    <p class="m-0 mt-1 text-xs text-[--color-body]">Static HTML, ~600 bytes deferred JS, 0–1 PSI delta, fully customisable, free forever, no signup. Same Trustindex behaviour without the middleman.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- File layout -->
+              <div class="flex flex-col gap-3 border-t border-[--color-border] pt-5">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">File layout</p>
+                <ul class="list-none p-0 m-0 flex flex-col gap-2">
+                  <li class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]"><code class="code-label">src/data/reviews.ts</code> <span class="text-xs text-[--color-caption]">— THE ONE FILE YOU EDIT. Reviews array + meta (average rating, total count, Maps URL).</span></li>
+                  <li class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]"><code class="code-label">src/components/ReviewsSection.astro</code> <span class="text-xs text-[--color-caption]">— Component (markup, ~600 byte deferred JS, CSS, dynamic JSON-LD). Do not edit per client.</span></li>
+                  <li class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]"><code class="code-label">scripts/fetch-google-reviews.mjs</code> <span class="text-xs text-[--color-caption]">— OPTIONAL Google Places API fetcher. Only used if a clinic wants auto-refresh.</span></li>
+                  <li class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]"><code class="code-label">.github/workflows/refresh-reviews.yml.example</code> <span class="text-xs text-[--color-caption]">— OPTIONAL weekly GitHub Actions cron. Rename to <code class="code-label">.yml</code> to activate.</span></li>
+                  <li class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]"><code class="code-label">.claude/skills/googlereviews-carousel.md</code> <span class="text-xs text-[--color-caption]">— Full skill reference. Read this for complete pattern docs.</span></li>
+                </ul>
+              </div>
+
+              <!-- Step-by-step manual update -->
+              <div class="flex flex-col gap-3 border-t border-[--color-border] pt-5">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Step-by-step — Manual update (the recommended path)</p>
+                <p class="m-0 text-xs text-[--color-caption] italic">No API keys. No Google Cloud account. No automation. Just paste real reviews into a TypeScript array. This is what every HMDG clinic site uses by default.</p>
+                {[
+                  { num: "1", title: "Open the data file",
+                    body: "Open src/data/reviews.ts. You will see a reviewsRaw array near the top with placeholder reviews. This is the only file you edit." },
+                  { num: "2", title: "Visit the clinic's Google Reviews page",
+                    body: "Go to the client's Google Maps profile (NOT Google Business Profile dashboard — the public Maps page). Click \"Reviews\" tab. Pick 8–15 of the best 4–5 star reviews from the last 6 months." },
+                  { num: "3", title: "Paste each review into the array",
+                    body: "Each entry needs five fields: name (string), rating (4 or 5), text (string — the review verbatim, do not edit it), relativeTime (e.g. \"2 weeks ago\"), date (ISO format YYYY-MM-DD — for sorting). Source is always 'google'." },
+                  { num: "4", title: "Update the meta block",
+                    body: "Update fallbackMeta with the clinic's real numbers: averageRating (e.g. 4.9), totalReviews (e.g. 247), totalReviewsDisplay (e.g. \"200+\"), and mapsUrl (the public Google Maps page for the clinic — used by the \"See all reviews on Google\" link)." },
+                  { num: "5", title: "Commit + push",
+                    body: "Cloudflare Pages rebuilds automatically. The site filters to ≥4 stars, sorts newest first, caps at 20, and re-emits the JSON-LD schema — all from your edits to that one file." },
+                ].map(s => (
+                  <div class="flex items-start gap-4 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                    <span class="text-lg font-mono font-bold text-[--color-primary] shrink-0 w-8 text-center">{s.num}</span>
+                    <div class="flex-1">
+                      <p class="m-0 text-sm font-semibold text-[--color-headline]">{s.title}</p>
+                      <p class="m-0 text-xs text-[--color-body] leading-relaxed">{s.body}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <!-- Review object shape -->
+              <div class="flex flex-col gap-3 border-t border-[--color-border] pt-5">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Review object shape (paste this pattern, change the values)</p>
+                <pre class="code-block"><code>{`{
+  name:         'Sarah Mitchell',
+  rating:       5,
+  text:         "Lower back pain gone after 6 sessions. Genuinely life-changing care.",
+  relativeTime: '2 weeks ago',
+  date:         '2026-04-18',
+  source:       'google',
+},`}</code></pre>
+                <p class="m-0 text-xs text-[--color-caption]">The display logic at the bottom of <code class="code-label">reviews.ts</code> filters ≥4 stars, sorts by date descending, and caps at 20. So you can safely paste 30+ reviews — only the freshest qualifying ones display.</p>
+              </div>
+
+              <!-- Dynamic JSON-LD schema -->
+              <div class="flex flex-col gap-3 border-t border-[--color-border] pt-5">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Dynamic JSON-LD schema (built-in, automatic)</p>
+                <div class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                  <p class="m-0 text-sm text-[--color-body] leading-relaxed">
+                    <strong>The component emits Schema.org structured data on every page</strong> — built dynamically from the same <code class="code-label">reviews</code> + <code class="code-label">reviewsMeta</code> exports that render the visible HTML. When you update reviews, the schema updates automatically. No manual maintenance, no second source of truth, no risk of schema drifting from what the page shows.
+                  </p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <div class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                    <p class="m-0 text-xs font-bold text-[--color-headline]">LocalBusiness</p>
+                    <p class="m-0 mt-1 text-xs text-[--color-body]">Name, URL, @id anchor — declares the entity reviews belong to.</p>
+                  </div>
+                  <div class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                    <p class="m-0 text-xs font-bold text-[--color-headline]">AggregateRating</p>
+                    <p class="m-0 mt-1 text-xs text-[--color-body]">ratingValue + reviewCount from <code class="code-label">reviewsMeta</code> — auto-formatted to 1 decimal.</p>
+                  </div>
+                  <div class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                    <p class="m-0 text-xs font-bold text-[--color-headline]">Review[]</p>
+                    <p class="m-0 mt-1 text-xs text-[--color-body]">Author, rating, datePublished, reviewBody — one entry per visible review.</p>
+                  </div>
+                </div>
+                <pre class="code-block"><code>{`// ReviewsSection.astro frontmatter
+const reviewsLd = {
+  '@context': 'https://schema.org',
+  '@type':    'LocalBusiness',
+  '@id':      \`\${siteUrl.replace(/\\/$/, '')}/#localbusiness\`,
+  name:       siteName,
+  url:        siteUrl,
+  aggregateRating: {
+    '@type':     'AggregateRating',
+    ratingValue: Number(reviewsMeta.averageRating.toFixed(1)),
+    reviewCount: reviewsMeta.totalReviews,
+    bestRating:  5,
+    worstRating: 1,
+  },
+  review: reviews.map(r => ({
+    '@type': 'Review',
+    author: { '@type': 'Person', name: r.name },
+    reviewRating: {
+      '@type':     'Rating',
+      ratingValue: r.rating,
+      bestRating:  5,
+      worstRating: 1,
+    },
+    datePublished: r.date,
+    reviewBody:    r.text,
+  })),
+};`}</code></pre>
+                <div class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                  <p class="m-0 text-xs font-bold text-[--color-headline]">Realistic SEO impact</p>
+                  <ul class="list-none p-0 m-0 mt-2 flex flex-col gap-1">
+                    <li class="text-xs text-[--color-body]">✓ Reinforces local SEO trust signals (Google Knowledge Graph, AI search citations)</li>
+                    <li class="text-xs text-[--color-body]">✓ Eligible for rich results when Google's policy on self-serving review stars shifts</li>
+                    <li class="text-xs text-[--color-body]">✓ Zero downside — valid Schema.org, no penalty, no maintenance</li>
+                    <li class="text-xs text-[--color-body]">✗ Will NOT magically rank you higher (schema is metadata, not a ranking factor)</li>
+                    <li class="text-xs text-[--color-body]">✗ Star ratings will NOT appear in Google SERP (suppressed by 2019 self-serving policy)</li>
+                  </ul>
+                </div>
+                <p class="m-0 text-xs text-[--color-caption]">Validate after each clinic launch via <code class="code-label">https://search.google.com/test/rich-results</code>.</p>
+              </div>
+
+              <!-- Customisation -->
+              <div class="flex flex-col gap-3 border-t border-[--color-border] pt-5">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Per-client customisation points</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {[
+                    { token: "MAX_REVIEWS",  loc: "src/data/reviews.ts", desc: "Cap on reviews shown. Default 20." },
+                    { token: "MIN_RATING",   loc: "src/data/reviews.ts", desc: "Filter floor. Default 4 — drops 1–3 star noise." },
+                    { token: "<h2 id=\"reviews-headline\">", loc: "ReviewsSection.astro", desc: "Headline copy — default \"Trusted by Cheltenham Patients on Google\"." },
+                    { token: "mapsUrl",      loc: "fallbackMeta in reviews.ts", desc: "Public Google Maps URL — powers the \"See all reviews\" link." },
+                  ].map(c => (
+                    <div class="flex flex-col gap-1 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                      <code class="code-label">{c.token}</code>
+                      <code class="code-hex text-[10px]">{c.loc}</code>
+                      <p class="m-0 text-xs text-[--color-body]">{c.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <!-- Optional auto-fetch -->
+              <div class="flex flex-col gap-3 border-t border-[--color-border] pt-5">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Optional — auto-fetch from Google Places API</p>
+                <div class="p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                  <p class="m-0 text-sm text-[--color-body] leading-relaxed">
+                    For clinics that want weekly auto-refresh: add <code class="code-label">GOOGLE_PLACES_API_KEY</code> + <code class="code-label">GOOGLE_PLACE_URL</code> to <code class="code-label">.env</code>, run <code class="code-label">npm run reviews:fetch</code>, commit <code class="code-label">src/data/reviews-cache.json</code>. Optionally rename <code class="code-label">refresh-reviews.yml.example</code> → <code class="code-label">.yml</code> for a Monday-06:00-UTC cron.
+                  </p>
+                  <p class="m-0 mt-2 text-xs text-[--color-caption]">
+                    <strong>Cost:</strong> free in practice. Google Cloud's $200/month credit covers ~10 000 Place Details calls; weekly refresh = ~5 calls/month ≈ £0.07. Place API returns max 5 reviews per call, so most clinics combine auto-fetch (5 fresh) with manual paste (up to 15 older keepers).
+                  </p>
+                </div>
+                <p class="m-0 text-xs text-[--color-caption]">Full setup: <code class="code-label">.claude/skills/googlereviews-carousel.md</code></p>
+              </div>
+
+              <!-- Per-client clone -->
+              <div class="flex flex-col gap-3 border-t border-[--color-border] pt-5">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">When cloning to a new client</p>
+                <ul class="list-none p-0 m-0 flex flex-col gap-2">
+                  {[
+                    "Replace the reviewsRaw array in src/data/reviews.ts with the new clinic's real Google reviews (8–15 entries, all 4–5 star).",
+                    "Update fallbackMeta — averageRating, totalReviews, totalReviewsDisplay, and mapsUrl.",
+                    "Update the H2 in ReviewsSection.astro — change \"Cheltenham\" to the new clinic's location.",
+                    "Update PUBLIC_SITE_NAME + Astro.site (astro.config.mjs) — these power the JSON-LD schema's name/url fields.",
+                    "Validate after deploy at https://search.google.com/test/rich-results.",
+                  ].map(i => (
+                    <li class="flex items-start gap-3 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                      <div class="icon-dot-offset mt-0.5"></div>
+                      <p class="m-0 text-sm text-[--color-body]">{i}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+            </div>
+
+            <div class="mx-8 mb-8 rounded-[--radius-card] overflow-hidden border border-[--color-border]">
+              <div class="px-5 py-3 flex items-center justify-between border-b border-[--color-border]">
+                <span class="caption-light">Claude AI Prompt — Update Google Reviews</span>
+                <button class="copy-btn" type="button">Copy</button>
+              </div>
+              <div class="px-5 pt-4 pb-5">
+                <p class="prompt-text prompt-code">Update the Google Reviews carousel for this clinic. Edit only src/data/reviews.ts. Replace the reviewsRaw array with [N] real Google reviews (paste each one verbatim — do not edit text, do not invent reviews). Each entry needs name, rating (4 or 5 only), text, relativeTime, date (YYYY-MM-DD), source: 'google'. Update fallbackMeta with the clinic's averageRating, totalReviews, totalReviewsDisplay, and mapsUrl (the public Google Maps page URL). Do not edit ReviewsSection.astro unless the H2 location keyword needs to change. Do not install Trustindex or any paid widget. Verify the JSON-LD schema renders correctly on the homepage view-source.</p>
+              </div>
+            </div>
+
+          </article>
+
+
+          <!-- ───────────────────────────────────────────────────
+               28 — CLIENT SETUP CHECKLIST
           ─────────────────────────────────────────────────────── -->
           <article id="setup" class="border-b border-[--color-border]">
 
             <header class="flex items-start justify-between px-8 py-5 border-b border-[--color-border] bg-white flex-wrap gap-3">
               <div class="flex items-center gap-3">
-                <span class="text-xs font-bold text-[--color-border] font-mono">27</span>
+                <span class="text-xs font-bold text-[--color-border] font-mono">28</span>
                 <div class="flex flex-col gap-0.5">
                   <h5 class="m-0">Client Setup Checklist</h5>
                   <p class="text-sm text-[--color-caption] m-0">Two phases — what marketing must give you, then what dev does.</p>
@@ -2963,13 +3201,13 @@ const reviews = [
 
 
           <!-- ───────────────────────────────────────────────────
-               27 — DEPLOY TO CLOUDFLARE PAGES
+               29 — DEPLOY TO CLOUDFLARE PAGES
           ─────────────────────────────────────────────────────── -->
           <article id="deploy" class="bg-white border-b border-[--color-border]">
 
             <header class="flex items-start justify-between px-8 py-5 border-b border-[--color-border] flex-wrap gap-3">
               <div class="flex items-center gap-3">
-                <span class="text-xs font-bold text-[--color-border] font-mono">28</span>
+                <span class="text-xs font-bold text-[--color-border] font-mono">29</span>
                 <div class="flex flex-col gap-0.5">
                   <h5 class="m-0">Deploy to Cloudflare Pages</h5>
                   <p class="text-sm text-[--color-caption] m-0">Step-by-step. From a fresh clone to a live URL on Cloudflare Workers / Pages.</p>
