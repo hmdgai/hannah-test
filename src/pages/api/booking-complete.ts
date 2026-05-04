@@ -29,6 +29,12 @@ interface BookingCompletePayload {
 }
 
 export async function POST({ request }: { request: Request }): Promise<Response> {
+  // ── 0. Master server-side switch (PUBLIC_SERVER_SIDE_TRACKING) ──
+  const serverSideEnabled = (import.meta.env.PUBLIC_SERVER_SIDE_TRACKING || 'true').toLowerCase() !== 'false';
+  if (!serverSideEnabled) {
+    return new Response(JSON.stringify({ ok: true, info: 'server-side tracking disabled' }), { status: 200 });
+  }
+
   // ── 1. Origin validation ─────────────────────────────────────────
   const siteOrigin = import.meta.env.SITE_ORIGIN || '';
   const origin     = request.headers.get('origin') || '';

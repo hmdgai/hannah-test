@@ -8,18 +8,84 @@
 // DEVELOPERS: All technical settings are in the lower section.
 // ─────────────────────────────────────────────────────────────────────────────
 
+// ── Tracking IDs come from environment variables (no hardcoding) ──
+// Set these in:
+//   • Local dev:    .env    (PUBLIC_GTM_ID, PUBLIC_GTAG_ID, PUBLIC_ADS_CONVERSION_ID)
+//   • Cloudflare:   Pages → Settings → Variables → Build scope (NOT runtime)
+// PUBLIC_ prefix is required so values are baked into the static HTML at build.
+// Server-side IDs (GA4_API_SECRET, GA4_MEASUREMENT_ID) are NEVER PUBLIC_.
+//
+// Mode selection:
+//   • Set PUBLIC_GTM_ID alone           → GTM-only mode (recommended)
+//   • Set PUBLIC_GTAG_ID alone          → gtag.js direct mode (no GTM)
+//   • Both set                          → GTM is preferred; gtagId falls through to GTM
+//   • PUBLIC_ADS_CONVERSION_ID is OPTIONAL — used for Google Ads remarketing/conversions
+const ENV_GTM_ID            = import.meta.env.PUBLIC_GTM_ID            || '';
+const ENV_GTAG_ID           = import.meta.env.PUBLIC_GTAG_ID           || '';
+const ENV_ADS_CONVERSION_ID = import.meta.env.PUBLIC_ADS_CONVERSION_ID || '';
+const ENV_SERVER_SIDE       = (import.meta.env.PUBLIC_SERVER_SIDE_TRACKING || 'true').toLowerCase() !== 'false';
+
+// Site name — driven by PUBLIC_SITE_NAME env so the banner copy
+// adapts automatically when cloned to any HMDG client project.
+const ENV_SITE_NAME = import.meta.env.PUBLIC_SITE_NAME || 'this clinic';
+
+// ── Universal Booking Tracker — platform definitions + env overrides ──
+//
+// Mirrors the WP plugin's "Enabled Platforms" checkbox panel. Default:
+// ALL platforms enabled. Disable specific platforms via env:
+//   PUBLIC_BOOKING_DISABLE=acuity,timely    (comma-separated, lowercase keys)
+// Add custom domains not in the catalog via env:
+//   PUBLIC_BOOKING_ADDITIONAL_DOMAINS=mybooking.co.uk,otherclinic.com
+
+const PLATFORM_CATALOG = {
+  cliniko:    { domain: 'cliniko.com',          label: 'Cliniko'         },
+  calendly:   { domain: 'calendly.com',          label: 'Calendly'        },
+  acuity:     { domain: 'acuityscheduling.com',  label: 'Acuity Scheduling' },
+  pracsuite:  { domain: 'pracsuite.com',         label: 'PracSuite'       },
+  phorest:    { domain: 'phorest.com',           label: 'Phorest'         },
+  youcanbook: { domain: 'youcanbook.me',         label: 'YouCanBook.me'   },
+  jane:       { domain: 'jane.app',              label: 'Jane App'        },
+  timely:     { domain: 'timely.com',            label: 'Timely'          },
+  simplybook: { domain: 'simplybook.me',         label: 'SimplyBook.me'   },
+} as const;
+
+const _csv = (v: string | undefined): string[] =>
+  (v || '').split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
+
+const _disabledKeys = _csv(import.meta.env.PUBLIC_BOOKING_DISABLE);
+const _extraDomains = _csv(import.meta.env.PUBLIC_BOOKING_ADDITIONAL_DOMAINS);
+
+// Final derived structures consumed by the cookieConsentConfig export below
+const bookingPlatforms = Object.fromEntries(
+  Object.entries(PLATFORM_CATALOG).map(([key, def]) => [
+    key,
+    { ...def, enabled: !_disabledKeys.includes(key) },
+  ])
+) as Record<keyof typeof PLATFORM_CATALOG, { domain: string; label: string; enabled: boolean }>;
+
+const bookingDomains: string[] = [
+  ...Object.values(bookingPlatforms).filter(p => p.enabled).map(p => p.domain),
+  ..._extraDomains,
+];
+
 export const cookieConsentConfig = {
 
   // ══════════════════════════════════════════════════════════════════
   // MARKETING TEAM — EDIT ONLY THESE FIELDS
-  // See CookieConsentReadme.md for step-by-step instructions
+  // (Tracking IDs above are env-driven — see .env file)
   // ══════════════════════════════════════════════════════════════════
 
-  /** Google Tag Manager container ID. Find: GTM → Admin → Container Settings */
-  gtmId: '',
+  /** Google Tag Manager container ID — driven by PUBLIC_GTM_ID in .env */
+  gtmId: ENV_GTM_ID,
 
-  /** GA4 Measurement ID. Find: GA4 → Admin → Data Streams → Measurement ID */
-  gtagId: '',
+  /** Google tag ID (GA4 Measurement ID for direct gtag.js mode) — driven by PUBLIC_GTAG_ID in .env */
+  gtagId: ENV_GTAG_ID,
+
+  /** Google Ads Conversion ID (AW-XXXXXXXXX) — driven by PUBLIC_ADS_CONVERSION_ID in .env */
+  adsConversionId: ENV_ADS_CONVERSION_ID,
+
+  /** Server-side tracking master switch (PUBLIC_SERVER_SIDE_TRACKING in .env, default true) */
+  serverSideTracking: ENV_SERVER_SIDE,
 
   /**
    * Cookie policy version. Start every new site at '1.0'.
@@ -31,8 +97,12 @@ export const cookieConsentConfig = {
   /** Banner heading */
   bannerTitle: 'We use cookies',
 
-  /** Banner body text — keep to 1–2 sentences, match the client's cookie policy */
-  bannerText: 'We use cookies to improve your experience, personalise content, and analyse our traffic. You can choose which cookies you accept.',
+  /**
+   * Banner body text — keep to 1–2 sentences, match the client's cookie
+   * policy. Uses PUBLIC_SITE_NAME from .env so the clinic/business name
+   * adapts automatically when cloned to a new client project.
+   */
+  bannerText: `At ${ENV_SITE_NAME}, we use cookies to improve your experience, personalise content, and understand how visitors use our site. You can choose which cookies you accept.`,
 
   /** Button labels — UK English spelling required */
   acceptAllLabel:       'Accept All',
@@ -82,20 +152,18 @@ export const cookieConsentConfig = {
   },
 
   /**
-   * Booking platform domains tracked by the Universal Booking Tracker.
-   * Keep only the platforms the client actually uses.
-   * The tracker auto-detects links to these domains and fires book_now_click in GA4.
+   * Universal Booking Tracker — supported platforms + per-platform enable toggle.
+   * Mirrors the WP plugin's "Enabled Platforms" checkbox panel.
+   *
+   * Default: ALL platforms enabled. To disable specific platforms, set:
+   *   PUBLIC_BOOKING_DISABLE=acuity,timely    (comma-separated, lowercase keys)
+   *
+   * To add custom booking domains not in this list (e.g. white-label
+   * Cliniko subdomain or proprietary booking system), set:
+   *   PUBLIC_BOOKING_ADDITIONAL_DOMAINS=mybooking.co.uk,otherclinic.com
    */
-  bookingDomains: [
-    'cliniko.com',
-    'calendly.com',
-    'acuityscheduling.com',
-    'phorest.com',
-    'youcanbook.me',
-    'jane.app',
-    'timely.com',
-    'simplybook.me',
-  ],
+  bookingPlatforms: bookingPlatforms,
+  bookingDomains: bookingDomains,
 
   // ══════════════════════════════════════════════════════════════════
   // DEVELOPER SETTINGS — DO NOT EDIT ABOVE THIS LINE

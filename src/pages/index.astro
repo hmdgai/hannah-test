@@ -2444,12 +2444,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           ─────────────────────────────────────────────────────── -->
           <article id="cookiecfg" class="bg-white border-b border-[--color-border]">
 
-            <header class="flex items-center justify-between px-8 py-5 border-b border-[--color-border]">
+            <header class="flex items-start justify-between px-8 py-5 border-b border-[--color-border] flex-wrap gap-3">
               <div class="flex items-center gap-3">
                 <span class="text-xs font-bold text-[--color-border] font-mono">25</span>
                 <div class="flex flex-col gap-0.5">
                   <h5 class="m-0">Cookie Consent Config</h5>
-                  <p class="text-sm text-[--color-caption] m-0">Marketing team editable fields in <code class="code-label">src/config/cookie-consent.config.ts</code></p>
+                  <p class="text-sm text-[--color-caption] m-0">Tracking IDs are env-driven. Marketing team manages banner copy + policy version in <code class="code-label">src/config/cookie-consent.config.ts</code>.</p>
                 </div>
               </div>
               <span class="text-xs font-semibold text-[--color-primary] bg-[--color-accent] px-3 py-1 rounded-[--radius-badge] uppercase tracking-wide self-start">Config</span>
@@ -2457,64 +2457,156 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
             <div class="px-8 py-6 flex flex-col gap-6">
 
-              <!-- Marketing team fields -->
+              <!-- Plain English -->
+              <div class="p-4 bg-[--color-accent] border-l-4 border-[--color-primary] rounded-[--radius-card]">
+                <p class="m-0 text-sm text-[--color-body] leading-relaxed">
+                  <strong>Plain English:</strong> Tracking IDs (GTM, GA4, Google Ads) used to live as hardcoded strings in the config file. They now live in <code class="code-label">.env</code> and are read at build time. The config file still controls banner copy, policy version, and the booking platform list — but never tracking IDs again.
+                </p>
+              </div>
+
+              <!-- The Big Rule — REQUIRED env vars for go-live -->
+              <div class="p-4 bg-[--color-primary]/8 border-l-4 border-[--color-primary] rounded-[--radius-card]">
+                <p class="m-0 text-sm font-bold text-[--color-headline]">Go-live blocker — these env vars MUST be set:</p>
+                <ul class="list-none p-0 m-0 mt-2 flex flex-col gap-1">
+                  <li class="text-sm text-[--color-body]">✓ <code class="code-label">PUBLIC_GTM_ID</code> <strong>OR</strong> <code class="code-label">PUBLIC_GTAG_ID</code> — at least one (GTM is preferred when both modes are available)</li>
+                  <li class="text-sm text-[--color-body]">✓ <code class="code-label">GA4_MEASUREMENT_ID</code> + <code class="code-label">GA4_API_SECRET</code> — both required for server-side booking events</li>
+                  <li class="text-sm text-[--color-body]">✓ <code class="code-label">PUBLIC_SITE_NAME</code> — banner copy reads <code class="code-label">{`At \${PUBLIC_SITE_NAME}, we use cookies…`}</code></li>
+                  <li class="text-sm text-[--color-body]">✓ <code class="code-label">SITE_ORIGIN</code> — API endpoints reject requests from any other origin</li>
+                  <li class="text-sm text-[--color-body]">✗ NEVER hardcode tracking IDs in <code class="code-label">cookie-consent.config.ts</code> again</li>
+                  <li class="text-sm text-[--color-body]">✗ NEVER commit a real <code class="code-label">.env</code> to git (it's gitignored — keep it that way)</li>
+                </ul>
+              </div>
+
+              <!-- REQUIRED env vars -->
               <div class="flex flex-col gap-3">
-                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Marketing Team — Edit These Fields</p>
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Required for go-live</p>
+                <p class="m-0 text-xs text-[--color-caption] italic">Set every variable below in <code class="code-label">.env</code> locally AND in Cloudflare Pages → Settings → Variables → Build scope. Click "Retry deployment" after saving.</p>
                 {[
-                  { field: "gtmId",            example: "'GTM-XXXXXXX'",    desc: "Google Tag Manager container ID. Find in GTM → Admin → Container Settings." },
-                  { field: "gtagId",           example: "'G-XXXXXXXXXX'",   desc: "GA4 Measurement ID. Find in GA4 → Admin → Data Streams → Web stream → Measurement ID." },
-                  { field: "policyVersion",    example: "'1.0'",             desc: "Start every new site at '1.0'. Bumping this forces ALL existing visitors to re-consent. Only change when the cookie policy content actually changes." },
-                  { field: "bannerTitle",      example: "'We use cookies'",  desc: "Heading shown in the cookie consent banner." },
-                  { field: "bannerText",       example: "'We use...'",       desc: "Body text in the banner. Keep to 1–2 sentences. Must match the live cookie policy page." },
-                  { field: "acceptAllLabel",   example: "'Accept All'",      desc: "Primary accept button label. UK English spelling required." },
-                  { field: "rejectAllLabel",   example: "'Reject All'",      desc: "Reject button label. UK English spelling required." },
-                  { field: "customiseLabel",   example: "'Customise'",       desc: "Settings button label. Note UK spelling — Customise not Customize." },
-                ].map(f => (
-                  <div class="flex items-start gap-4 p-4 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card] flex-wrap">
-                    <code class="code-label shrink-0">{f.field}</code>
-                    <code class="code-hex shrink-0">{f.example}</code>
-                    <p class="m-0 text-sm text-[--color-body] flex-1">{f.desc}</p>
+                  { v: "PUBLIC_GTM_ID",          ex: "GTM-XXXXXXX",       desc: "Google Tag Manager container ID. Preferred mode (GTM-only). Find: GTM → Admin → Container Settings." },
+                  { v: "PUBLIC_GTAG_ID",         ex: "G-XXXXXXXXXX",      desc: "GA4 Measurement ID for direct gtag.js mode (no GTM). Use ONLY if PUBLIC_GTM_ID is blank. Find: GA4 → Admin → Data Streams → Web stream." },
+                  { v: "PUBLIC_GA_MEASUREMENT_ID", ex: "G-XXXXXXXXXX",    desc: "Browser-side GA4 ID — legacy fallback for components that read it directly. Match it to PUBLIC_GTAG_ID." },
+                  { v: "GA4_MEASUREMENT_ID",     ex: "G-XXXXXXXXXX",      desc: "Server-side GA4 ID. Used by /api/book-now + /api/booking-complete to forward Measurement Protocol events. NEVER use the PUBLIC_ prefix here." },
+                  { v: "GA4_API_SECRET",         ex: "your-api-secret",   desc: "GA4 Measurement Protocol API Secret. Find: GA4 → Admin → Data Streams → select stream → Measurement Protocol API secrets. Server-side only — never PUBLIC_." },
+                  { v: "PUBLIC_SITE_NAME",       ex: "Your Clinic Name",  desc: "Drives the cookie banner copy (\"At {clinic}, we use cookies…\"), email from_name, page titles, JSON-LD." },
+                  { v: "SITE_ORIGIN",            ex: "https://yourclinic.co.uk", desc: "Production URL with https:// and no trailing slash. API routes reject requests whose Origin header doesn't match." },
+                ].map(r => (
+                  <div class="flex items-start gap-3 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card] flex-wrap">
+                    <code class="code-label shrink-0">{r.v}</code>
+                    <span class="text-[10px] font-semibold uppercase tracking-wide text-white bg-[--color-primary] px-2 py-0.5 rounded-[--radius-badge] shrink-0">Required</span>
+                    <code class="code-hex shrink-0 text-[10px]">{r.ex}</code>
+                    <p class="m-0 text-xs text-[--color-body] flex-1 min-w-[12rem]">{r.desc}</p>
                   </div>
                 ))}
               </div>
 
-              <!-- Rules -->
+              <!-- OPTIONAL env vars -->
+              <div class="flex flex-col gap-3 border-t border-[--color-border] pt-5">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Optional</p>
+                <p class="m-0 text-xs text-[--color-caption] italic">Site works without these — leave blank to disable the named feature or accept the default.</p>
+                {[
+                  { v: "PUBLIC_ADS_CONVERSION_ID",        ex: "AW-XXXXXXXXX", desc: "Google Ads Conversion ID — only needed for Google Ads remarketing / conversion tracking. Find: Google Ads → Tools → Tag Settings." },
+                  { v: "PUBLIC_SERVER_SIDE_TRACKING",     ex: "true | false", desc: "Master switch. Set 'false' to disable /api/book-now + /api/booking-complete (e.g. staging or privacy-mode). Default: true." },
+                  { v: "PUBLIC_BOOKING_DISABLE",          ex: "acuity,timely", desc: "Disable specific booking platforms (comma-separated, lowercase keys: acuity, calendly, cliniko, jane, phorest, pracsuite, simplybook, timely, youcanbook). Default: ALL enabled." },
+                  { v: "PUBLIC_BOOKING_ADDITIONAL_DOMAINS", ex: "mybooking.co.uk", desc: "Add custom booking domains not in the catalog (comma-separated). Example: white-label Cliniko subdomain." },
+                ].map(r => (
+                  <div class="flex items-start gap-3 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card] flex-wrap">
+                    <code class="code-label shrink-0">{r.v}</code>
+                    <span class="text-[10px] font-semibold uppercase tracking-wide text-[--color-caption] bg-white border border-[--color-border] px-2 py-0.5 rounded-[--radius-badge] shrink-0">Optional</span>
+                    <code class="code-hex shrink-0 text-[10px]">{r.ex}</code>
+                    <p class="m-0 text-xs text-[--color-body] flex-1 min-w-[12rem]">{r.desc}</p>
+                  </div>
+                ))}
+              </div>
+
+              <!-- Marketing team — non-tracking fields -->
+              <div class="flex flex-col gap-3 border-t border-[--color-border] pt-5">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Marketing team — edit in <code class="code-label">cookie-consent.config.ts</code></p>
+                <p class="m-0 text-xs text-[--color-caption] italic">Tracking IDs are env-driven (above). The fields below remain in the config file because they are content, not credentials.</p>
+                {[
+                  { field: "policyVersion",    example: "'1.0'",             desc: "Start every new site at '1.0'. Bumping this forces ALL existing visitors to re-consent. Only change when the cookie policy content actually changes." },
+                  { field: "bannerTitle",      example: "'We use cookies'",  desc: "Heading shown in the cookie consent banner." },
+                  { field: "bannerText",       example: "auto from PUBLIC_SITE_NAME", desc: "Body text in the banner. Auto-renders \"At {PUBLIC_SITE_NAME}, we use cookies…\" — only edit if the client wants different copy." },
+                  { field: "acceptAllLabel",   example: "'Accept All'",      desc: "Primary accept button label. UK English spelling required." },
+                  { field: "rejectAllLabel",   example: "'Reject All'",      desc: "Reject button label. UK English spelling required." },
+                  { field: "customiseLabel",   example: "'Customise'",       desc: "Settings button label. Note UK spelling — Customise not Customize." },
+                ].map(f => (
+                  <div class="flex items-start gap-3 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card] flex-wrap">
+                    <code class="code-label shrink-0">{f.field}</code>
+                    <code class="code-hex shrink-0 text-[10px]">{f.example}</code>
+                    <p class="m-0 text-xs text-[--color-body] flex-1 min-w-[12rem]">{f.desc}</p>
+                  </div>
+                ))}
+              </div>
+
+              <!-- Code example — env-driven -->
+              <div class="flex flex-col gap-3 border-t border-[--color-border] pt-5">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Config file — env-driven shape</p>
+                <pre class="code-block"><code>{`// src/config/cookie-consent.config.ts
+const ENV_GTM_ID            = import.meta.env.PUBLIC_GTM_ID            || '';
+const ENV_GTAG_ID           = import.meta.env.PUBLIC_GTAG_ID           || '';
+const ENV_ADS_CONVERSION_ID = import.meta.env.PUBLIC_ADS_CONVERSION_ID || '';
+const ENV_SERVER_SIDE       = (import.meta.env.PUBLIC_SERVER_SIDE_TRACKING || 'true').toLowerCase() !== 'false';
+const ENV_SITE_NAME         = import.meta.env.PUBLIC_SITE_NAME || 'this clinic';
+
+export const cookieConsentConfig = {
+  gtmId:              ENV_GTM_ID,             // ← env-driven
+  gtagId:             ENV_GTAG_ID,            // ← env-driven
+  adsConversionId:    ENV_ADS_CONVERSION_ID,  // ← env-driven (optional)
+  serverSideTracking: ENV_SERVER_SIDE,        // ← env-driven (default true)
+  policyVersion:      '1.0',                  // ← bump only when policy changes
+  bannerTitle:        'We use cookies',
+  bannerText:         \`At \${ENV_SITE_NAME}, we use cookies…\`,
+  acceptAllLabel:     'Accept All',
+  rejectAllLabel:     'Reject All',
+  customiseLabel:     'Customise',
+  // ...booking platforms (env-overridable)
+};`}</code></pre>
+              </div>
+
+              <!-- Important rules -->
               <div class="p-4 bg-[--color-accent] border border-[--color-primary]/20 rounded-[--radius-card] flex gap-3 items-start">
                 <span class="text-[--color-primary] font-bold text-sm shrink-0">⚠</span>
                 <div class="flex flex-col gap-1">
                   <p class="m-0 text-sm font-semibold text-[--color-headline]">Important rules</p>
                   <ul class="m-0 text-sm text-[--color-body] flex flex-col gap-1 pl-4">
-                    <li>Never store live GTM or GA4 IDs in version control — use environment variables for production deployments.</li>
-                    <li>Only bump <code class="code-label">policyVersion</code> when the cookie policy text actually changes — not on every deploy.</li>
+                    <li>Tracking IDs (<code class="code-label">PUBLIC_GTM_ID</code>, <code class="code-label">PUBLIC_GTAG_ID</code>, <code class="code-label">GA4_*</code>) live in <code class="code-label">.env</code> only — never hardcoded in the config file.</li>
+                    <li><code class="code-label">PUBLIC_*</code> vars are baked at build time. Cloudflare Pages requires a Retry deployment after changing them.</li>
+                    <li>Only bump <code class="code-label">policyVersion</code> when the cookie policy page text actually changes — not on every deploy.</li>
                     <li>All button labels must use UK English spelling (Customise, not Customize).</li>
                     <li>The <code class="code-label">bannerText</code> must reflect what the live <a href="/cookie-policy" class="text-[--color-primary]">/cookie-policy</a> page says.</li>
                   </ul>
                 </div>
               </div>
 
-              <div class="border-t border-[--color-border] pt-5">
-                <pre class="code-block"><code>// src/config/cookie-consent.config.ts
-export const cookieConsentConfig = &lbrace;
-  gtmId:          'GTM-XXXXXXX',   // ← replace per client
-  gtagId:         'G-XXXXXXXXXX',  // ← replace per client
-  policyVersion:  '1.0',           // ← bump only when policy changes
-  bannerTitle:    'We use cookies',
-  bannerText:     'We use cookies to improve your experience...',
-  acceptAllLabel: 'Accept All',
-  rejectAllLabel: 'Reject All',
-  customiseLabel: 'Customise',
-&rbrace;;</code></pre>
+              <!-- Go-live checklist -->
+              <div class="flex flex-col gap-3 border-t border-[--color-border] pt-5">
+                <p class="text-xs font-bold text-[--color-caption] uppercase tracking-widest m-0">Go-live checklist</p>
+                {[
+                  { num: "1", title: "Fill in .env locally",  body: "Copy .env.example to .env. Set every REQUIRED variable above. Save the file." },
+                  { num: "2", title: "Mirror to Cloudflare",  body: "Cloudflare Pages → Settings → Variables and Secrets → BUILD scope. Add every same key + value. Plaintext type. Save." },
+                  { num: "3", title: "Retry deployment",      body: "Cloudflare → Deployments → latest → Retry deployment. Without this step PUBLIC_* vars stay on the previous build." },
+                  { num: "4", title: "Verify in view-source", body: "Open the live site, view-source, search for the GTM/GA4 IDs you set. If you see them rendered in the HTML, tracking is wired." },
+                  { num: "5", title: "Validate consent flow", body: "Click Reject All → confirm no GA4 / Ads cookies set. Click Accept All → confirm consent_state cookie + GTM dataLayer firing. Re-test in incognito." },
+                ].map(s => (
+                  <div class="flex items-start gap-4 p-3 bg-[--color-muted] border border-[--color-border] rounded-[--radius-card]">
+                    <span class="text-lg font-mono font-bold text-[--color-primary] shrink-0 w-8 text-center">{s.num}</span>
+                    <div class="flex-1">
+                      <p class="m-0 text-sm font-semibold text-[--color-headline]">{s.title}</p>
+                      <p class="m-0 text-xs text-[--color-body] leading-relaxed">{s.body}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
 
             </div>
 
             <div class="mx-8 mb-8 rounded-[--radius-card] overflow-hidden border border-[--color-border]">
               <div class="px-5 py-3 flex items-center justify-between border-b border-[--color-border]">
-                <span class="caption-light">Claude AI Prompt — Cookie Config</span>
+                <span class="caption-light">Claude AI Prompt — Cookie Consent Setup</span>
                 <button class="copy-btn" type="button">Copy</button>
               </div>
               <div class="px-5 pt-4 pb-5">
-                <p class="prompt-text prompt-code">Update the cookie consent configuration for [CLIENT NAME]. File: src/config/cookie-consent.config.ts. Set gtmId to [GTM ID], gtagId to [GA4 ID], bannerText to match their cookie policy, and policyVersion to '1.0'. Use UK English spelling on all button labels. Do not change any developer settings below the marketing team section.</p>
+                <p class="prompt-text prompt-code">Set up cookie consent + analytics for [CLIENT NAME] for go-live. Add the REQUIRED env vars to .env locally AND to Cloudflare Pages → Settings → Variables → Build scope: PUBLIC_GTM_ID (or PUBLIC_GTAG_ID if no GTM), PUBLIC_GA_MEASUREMENT_ID, GA4_MEASUREMENT_ID, GA4_API_SECRET, PUBLIC_SITE_NAME, SITE_ORIGIN. Do NOT hardcode tracking IDs in src/config/cookie-consent.config.ts — that file is env-driven. In the config file, only edit policyVersion (start at '1.0'), bannerTitle, bannerText, and the UK English button labels. Click Retry deployment in Cloudflare after saving env vars. Verify by view-sourcing the live site and grepping for the rendered GTM/GA4 IDs.</p>
               </div>
             </div>
 

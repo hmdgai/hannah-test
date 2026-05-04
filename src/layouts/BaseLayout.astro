@@ -225,6 +225,35 @@ const cfg = cookieConsentConfig;
       </script>
     )}
 
+    <!-- ── gtag.js direct mode — only loads when GTM is NOT used.
+         If both gtmId and gtagId are set, GTM wins and handles GA4 inside
+         its container. If only gtagId is set, we load gtag.js here directly.
+         Ads Conversion ID (if set) is configured in the same gtag block.   -->
+    {!cfg.gtmId && cfg.gtagId && (
+      <>
+        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${cfg.gtagId}`}></script>
+        <script is:inline define:vars={{ _gtagId: cfg.gtagId, _adsId: cfg.adsConversionId }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', _gtagId);
+          if (_adsId) {
+            gtag('config', _adsId);
+          }
+        </script>
+      </>
+    )}
+
+    <!-- ── Google Ads Conversion ID exposed to GTM container.
+         If GTM is in use, Ads Conversion ID can also be configured inside
+         the GTM container. We expose it here as a window-level variable so
+         GTM container tags can read it without hardcoding the AW-… ID. -->
+    {cfg.gtmId && cfg.adsConversionId && (
+      <script is:inline define:vars={{ _adsId: cfg.adsConversionId }}>
+        window.HMDG_ADS_CONVERSION_ID = _adsId;
+      </script>
+    )}
+
     <!-- ── Security headers ───────────────────────────────────────────
          X-Frame-Options, X-Content-Type-Options, Permissions-Policy, and
          Referrer-Policy can ONLY be set as HTTP headers — browsers ignore
