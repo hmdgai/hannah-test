@@ -10,25 +10,25 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const nextSteps = [
   {
     num: "01",
-    title: "Check your inbox",
-    desc: "A booking confirmation has been sent to your email address.",
+    title: "Request Received",
+    desc: "Your booking request has reached our team.",
   },
   {
     num: "02",
-    title: "Review your details",
-    desc: "Check your appointment date, time, and clinic address.",
+    title: "Personal Reply",
+    desc: "We'll be in touch by email or phone, usually within one working day.",
   },
   {
     num: "03",
-    title: "Arrive 5 minutes early",
-    desc: "This allows us to deliver the best possible care on time.",
+    title: "Arrive 5 Minutes Early",
+    desc: "Once your appointment is confirmed, please arrive 5 minutes early to settle in.",
   },
 ];
 ---
 
 <BaseLayout
-  title="Booking Confirmed — ClinicName"
-  description="Thank you for booking with ClinicName. Your appointment request has been received and a confirmation is on its way."
+  title="Booking Request Received — ClinicName"
+  description="Thank you for booking with ClinicName. A member of our team will be in touch by email or phone within one working day."
   noindex={true}
 >
 
@@ -72,7 +72,7 @@ const nextSteps = [
       </div>
 
       <!-- ── Eyebrow ────────────────────────────────── -->
-      <span class="eyebrow anim-up delay-a">Booking Confirmed</span>
+      <span class="eyebrow anim-up delay-a">Request Received</span>
 
       <!-- ── Headline ───────────────────────────────── -->
       <h1 class="ty-heading anim-up delay-b">
@@ -81,7 +81,8 @@ const nextSteps = [
 
       <!-- ── Supporting text ───────────────────────── -->
       <p class="ty-body anim-up delay-c">
-        We look forward to seeing you. You will receive a confirmation shortly.
+        A member of our team will be in touch by email or phone within one
+        working day to confirm your appointment.
       </p>
 
       <!-- ── What happens next ─────────────────────── -->
