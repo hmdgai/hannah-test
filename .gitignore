@@ -28,6 +28,9 @@ pnpm-debug.log*
 # Claude Code memory (local only — not shipped with repo)
 /memory/
 
+# Claude Code session lock file (transient session state — never commit)
+.claude/scheduled_tasks.lock
+
 # Local Cloudflare / Wrangler folders
 .wrangler
 .dev.vars
