@@ -1,0 +1,144 @@
+---
+/**
+ * /methodology — Meridian's editorial "About / How we work" page.
+ * Brief Section 5.2. Four body sections + founder pull-quote.
+ *
+ * Body copy marked [COPY TO COME] in the brief — used voice-appropriate
+ * lorem-substitute that respects the Meridian tone (Section 2.4).
+ */
+import BaseLayout    from "../layouts/BaseLayout.astro";
+import Sparkle       from "../components/svg/Sparkle.astro";
+import MeridianLine  from "../components/svg/MeridianLine.astro";
+
+const bodySections = [
+  {
+    eyebrow: "01 — The problem",
+    heading: "The problem with how medicine is delivered.",
+    paras: [
+      "Most private healthcare in London is faster medicine, not different medicine. The appointment is twelve minutes instead of nine. The reception desk has nicer flowers. The blood test results come back two days sooner. The methodology — what's measured, how it's interpreted, what gets done with it — is the same one your NHS GP works to.",
+      "That model was designed around a population of mostly well people, with a small fraction of acutely unwell people, presenting reactively. It was not designed for a forty-two-year-old founder running on six hours of sleep, scaling a business through M&A, and quietly accumulating the kind of slow-moving metabolic, cardiovascular, and cognitive risks that don't trigger any alarm bells until they're advanced.",
+      "Generic concierge medicine added speed and access to the same model. It didn't replace the model.",
+    ],
+  },
+  {
+    eyebrow: "02 — The work",
+    heading: "How we work — the three pillars in detail.",
+    paras: [
+      "The Meridian methodology rests on three commitments that traditional general practice cannot make. The first is a refusal to start treatment without a deep baseline. We build that baseline using diagnostics most clinics do not routinely run — cardiac CT angiography, advanced lipid sub-fractionation, continuous glucose monitoring across a real working week, structured sleep architecture studies, and cognitive baselining benchmarked against your own performance, not the population average.",
+      "The second is precision. Once we know what is actually happening in your body, the intervention is specific. We do not write generic wellness plans. If your overnight glucose excursions are the dominant variable, we engineer around that one variable. If it is sleep architecture, we engineer around sleep. If it is cardiovascular calcification scoring, we engineer around that. One protocol, one priority, measured monthly.",
+      "The third is proximity. The relationship with your physician does not run through a switchboard. Your doctor is reachable by direct line. Quarterly check-ins are the floor, not the ceiling. The aim is not more touchpoints — it is the right touchpoint at the moment a decision actually needs to be made.",
+    ],
+  },
+  {
+    eyebrow: "03 — The team",
+    heading: "The people behind the methodology.",
+    paras: [
+      "Meridian is a small team by design. Every member sees the same physicians. The doctor in front of you on Tuesday afternoon already knows everything the doctor on the phone at 9pm on Sunday knows — because they share the same notes, the same case-load, and the same weekly clinical review.",
+      "We do not employ junior locums. Every physician at Meridian has done residency training at a major teaching hospital and worked in a senior position in either NHS or private practice for at least eight years before joining. They are not learning on you.",
+      "Dr Eleanor Whitfield, founder and medical director, reviews every new member's baseline herself in the first six months.",
+    ],
+  },
+  {
+    eyebrow: "04 — What members get",
+    heading: "What your membership actually buys.",
+    paras: [
+      "Members pay one annual fee and receive everything required to engineer their health. There are no per-visit charges, no surprise specialist invoices, and no add-ons we hope you forget to cancel. The full diagnostic protocol, all physician contact, all coordination with outside specialists, and all proactive screening intervals are included.",
+      "Most members find the cost lands somewhere between what they were already spending on supplements, wearables, and reactive private appointments. The difference is that all of it now sits inside one engineered plan, run by one physician who knows your case and is paid to think about you when you are not in the room.",
+      "If we are not the right fit — if your needs are better served by NHS care, by a specific specialist, or by waiting two years and revisiting — we will tell you on the discovery call.",
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Methodology — Meridian Health"
+  description="How we engineer outcomes that traditional medicine doesn't measure. The three pillars: diagnose deeply, intervene precisely, stay close."
+>
+
+  <!-- ════════════════════════════════════════════════════════════
+       Dark page hero
+       ════════════════════════════════════════════════════════════ -->
+  <section class="relative bg-[--color-hero-dark] text-[--color-cream] overflow-hidden">
+    <div class="container-main py-24 lg:py-36">
+      <div class="max-w-4xl flex flex-col gap-6">
+        <span class="eyebrow text-[--color-primary] inline-flex items-center gap-2">
+          <Sparkle size="h-3 w-3" />
+          Methodology
+        </span>
+        <h1 class="m-0 text-white">
+          We engineer outcomes that traditional medicine doesn't measure.
+        </h1>
+        <p class="m-0 text-lg lg:text-xl text-[--color-cream]/80 max-w-2xl leading-relaxed">
+          How we work — and why it's different from your last GP.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════
+       Body sections (cream)
+       ════════════════════════════════════════════════════════════ -->
+  <section class="bg-[--color-cream]">
+    <div class="container-main py-24 lg:py-36 flex flex-col gap-24 lg:gap-32">
+
+      {bodySections.map((s, i) => (
+        <article class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+          <div class="lg:col-span-4 flex flex-col gap-3 lg:sticky lg:top-28">
+            <span class="eyebrow text-[--color-caption]">{s.eyebrow}</span>
+            <h2 class="m-0 text-[--color-headline] text-4xl lg:text-5xl">
+              {s.heading}
+            </h2>
+          </div>
+          <div class="lg:col-span-7 lg:col-start-6 flex flex-col gap-6 text-[--color-body] text-lg leading-relaxed">
+            {s.paras.map((p) => <p class="m-0">{p}</p>)}
+          </div>
+
+          {i === 1 && (
+            <!-- Founder pull-quote after section 02 -->
+            <figure class="lg:col-span-12 mt-12 lg:mt-16 p-10 lg:p-16 bg-[--color-hero-dark] text-[--color-cream]">
+              <Sparkle size="h-6 w-6" color="var(--color-primary)" />
+              <blockquote class="m-0 mt-6">
+                <p class="m-0 text-2xl lg:text-4xl font-heading font-bold text-white tracking-[-0.02em] leading-snug">
+                  "We built Meridian because the existing private healthcare options weren't engineered for the way senior careers actually unfold. They were faster, but not different."
+                </p>
+              </blockquote>
+              <figcaption class="mt-6 text-sm text-[--color-cream]/70">
+                <span class="font-semibold text-white">Dr Eleanor Whitfield</span>
+                <span class="mx-2" aria-hidden="true">·</span>
+                Founder & Medical Director
+              </figcaption>
+            </figure>
+          )}
+        </article>
+      ))}
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════
+       Closing CTA (cream)
+       ════════════════════════════════════════════════════════════ -->
+  <section class="bg-[--color-cream] border-t border-[--color-border]">
+    <div class="container-main py-24 lg:py-36">
+      <div class="max-w-4xl flex flex-col gap-8 items-start">
+        <div aria-hidden="true" class="w-full max-w-[480px] mb-2">
+          <MeridianLine />
+        </div>
+        <span class="eyebrow text-[--color-caption] inline-flex items-center gap-2">
+          <Sparkle size="h-3 w-3" color="var(--color-primary)" />
+          Next step
+        </span>
+        <h2 class="m-0 text-[--color-headline]">
+          See if the methodology fits how you actually work.
+        </h2>
+        <p class="m-0 text-[--color-body] text-lg leading-relaxed max-w-2xl">
+          A 30-minute call with Dr Whitfield. No sales pitch. No pressure.
+        </p>
+        <a href="/book-call" class="btn btn-default mt-2">
+          Book a discovery call
+        </a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

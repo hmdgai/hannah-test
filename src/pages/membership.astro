@@ -1,0 +1,296 @@
+---
+/**
+ * /membership — Meridian's three-programme pricing page.
+ * Brief Section 5.3. Three side-by-side programme cards + FAQ block.
+ *
+ * Programme pricing and inclusions are verbatim from the brief.
+ * FAQ answers were marked [COPY TO COME]; written here in Meridian
+ * voice — short, plain-spoken, no marketing language.
+ */
+import BaseLayout    from "../layouts/BaseLayout.astro";
+import Sparkle       from "../components/svg/Sparkle.astro";
+
+const programmes = [
+  {
+    name: "Foundation",
+    price: "£8,500",
+    cadence: "per year",
+    summary: "The starting point. Annual deep diagnostic, quarterly physician check-ins, direct line access.",
+    inclusions: [
+      "Annual deep diagnostic assessment",
+      "Quarterly physician check-ins",
+      "24/7 direct line to your physician",
+      "Coordination with existing specialists",
+      "Discounted ad-hoc appointments",
+    ],
+    featured: false,
+  },
+  {
+    name: "Performance",
+    price: "£14,500",
+    cadence: "per year",
+    summary: "Everything in Foundation, plus continuous monitoring and on-demand specialist access.",
+    inclusionsHeading: "Everything in Foundation, plus —",
+    inclusions: [
+      "Continuous glucose monitoring",
+      "Monthly physician check-ins",
+      "On-demand specialist referrals",
+      "Mental wellness sessions (6 / year)",
+      "Travel medicine cover",
+    ],
+    featured: true,
+  },
+  {
+    name: "Executive",
+    price: "£28,500",
+    cadence: "per year",
+    summary: "A dedicated physician, full family cover, and a custom longevity protocol.",
+    inclusionsHeading: "Everything in Performance, plus —",
+    inclusions: [
+      "Dedicated physician (not a pool)",
+      "Home and office visits",
+      "Full family cover — partner + 2 children",
+      "Priority diagnostic re-runs every 6 months",
+      "Longevity protocol design",
+    ],
+    featured: false,
+  },
+];
+
+const faqs = [
+  {
+    q: "What's actually included?",
+    a: "Everything listed on your programme card, with no per-visit billing. Diagnostics, physician access, coordination with outside specialists, and proactive screening intervals all sit under one fee. There are no per-appointment charges, no surprise specialist invoices, and no add-ons we hope you forget to cancel.",
+  },
+  {
+    q: "What's excluded?",
+    a: "Tertiary hospital care (intensive care, surgery, oncology treatment), pharmaceutical costs, and any third-party imaging or laboratory work that sits outside our standard panel. We will tell you upfront before commissioning anything that lands outside the membership.",
+  },
+  {
+    q: "How is this different from BUPA or Vitality?",
+    a: "Health insurance pays for care when you become unwell. Meridian is a clinical service that runs continuously regardless of whether you are unwell, with the explicit goal of catching slow-moving variables before they become acute. The two are complementary — most of our members keep their insurance for catastrophic cover.",
+  },
+  {
+    q: "Can I cancel?",
+    a: "Yes. Membership runs annually. You can choose not to renew at the end of any twelve-month period with thirty days' notice. We do not lock you in beyond the year you have paid for.",
+  },
+  {
+    q: "Do you take referrals?",
+    a: "Yes, from other physicians, allied health professionals, and existing members. The discovery call is the same regardless of how you found us.",
+  },
+  {
+    q: "Do you handle urgent care?",
+    a: "We are not an A&E service. For acute emergencies, call 999. For urgent same-day clinical questions, your physician's direct line is available 24/7 — most issues are resolved on the call or with same-day in-person follow-up.",
+  },
+  {
+    q: "Do you write GP letters and prescriptions?",
+    a: "Yes. We hold full GMC-licensed prescribing rights and write referral letters, sick notes, and clinical summaries on request. All routine prescribing is included in the membership.",
+  },
+  {
+    q: "What happens on the discovery call?",
+    a: "A 30-minute conversation with Dr Whitfield. She will ask about your current health, your work pattern, what has been tried before, and what you are actually trying to achieve. If we are the right fit she will outline the next step. If we are not, she will say so and suggest alternatives.",
+  },
+];
+---
+
+<BaseLayout
+  title="Membership — Meridian Health"
+  description="Three programmes from £8,500/yr. Annual diagnostics, physician access, coordination. No surprises, no per-visit billing."
+>
+
+  <!-- ════════════════════════════════════════════════════════════
+       Dark page hero
+       ════════════════════════════════════════════════════════════ -->
+  <section class="relative bg-[--color-hero-dark] text-[--color-cream] overflow-hidden">
+    <div class="container-main py-24 lg:py-36">
+      <div class="max-w-4xl flex flex-col gap-6">
+        <span class="eyebrow text-[--color-primary] inline-flex items-center gap-2">
+          <Sparkle size="h-3 w-3" />
+          Membership
+        </span>
+        <h1 class="m-0 text-white">
+          One membership. Three programmes. Built for how you actually live.
+        </h1>
+        <p class="m-0 text-lg lg:text-xl text-[--color-cream]/80 max-w-3xl leading-relaxed">
+          Membership is annual and includes everything required to engineer your health —
+          diagnostics, physician access, coordination, and proactive intervention. No add-ons,
+          no surprises, no per-visit billing.
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════════════
+       Three programme cards (cream)
+       ════════════════════════════════════════════════════════════ -->
+  <section class="bg-[--color-cream]">
+    <div class="container-main py-24 lg:py-36">
+      <ol class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8" role="list">
+        {programmes.map((p) => (
+          <li
+            class:list={[
+              "flex flex-col gap-6 p-8 lg:p-10 border-2",
+              p.featured
+                ? "bg-[--color-hero-dark] text-[--color-cream] border-[--color-hero-dark]"
+                : "bg-[--color-surface] text-[--color-body] border-[--color-border]",
+            ]}
+          >
+            {p.featured && (
+              <span class="self-start inline-flex items-center gap-2 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-[--color-hero-dark] bg-[--color-primary] rounded-full">
+                <Sparkle size="h-3 w-3" color="var(--color-hero-dark)" />
+                Most chosen
+              </span>
+            )}
+
+            <div class="flex flex-col gap-2">
+              <span class:list={[
+                "text-xs font-semibold uppercase tracking-widest",
+                p.featured ? "text-[--color-primary]" : "text-[--color-caption]",
+              ]}>
+                {p.name}
+              </span>
+              <div class="flex items-baseline gap-2">
+                <span class:list={[
+                  "font-heading font-extrabold tracking-[-0.03em] leading-none text-5xl lg:text-6xl",
+                  p.featured ? "text-white" : "text-[--color-headline]",
+                ]}>
+                  {p.price}
+                </span>
+                <span class:list={[
+                  "text-sm",
+                  p.featured ? "text-[--color-cream]/70" : "text-[--color-caption]",
+                ]}>
+                  {p.cadence}
+                </span>
+              </div>
+            </div>
+
+            <p class:list={[
+              "m-0 text-base leading-relaxed",
+              p.featured ? "text-[--color-cream]/80" : "text-[--color-body]",
+            ]}>
+              {p.summary}
+            </p>
+
+            <div class:list={[
+              "border-t pt-6 mt-2 flex flex-col gap-3",
+              p.featured ? "border-[--color-cream]/15" : "border-[--color-border]",
+            ]}>
+              {p.inclusionsHeading && (
+                <span class:list={[
+                  "text-xs font-semibold uppercase tracking-widest",
+                  p.featured ? "text-[--color-primary]" : "text-[--color-caption]",
+                ]}>
+                  {p.inclusionsHeading}
+                </span>
+              )}
+              <ul class="flex flex-col gap-2.5" role="list">
+                {p.inclusions.map((item) => (
+                  <li class="flex items-start gap-3 text-sm leading-relaxed">
+                    <span
+                      aria-hidden="true"
+                      class:list={[
+                        "mt-1.5 shrink-0",
+                        p.featured ? "text-[--color-primary]" : "text-[--color-headline]",
+                      ]}
+                    >
+                      <Sparkle size="h-3 w-3" />
+                    </span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <a
+              href="/book-call"
+              class:list={[
+                "mt-4 inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-[--radius-btn] text-sm font-semibold transition-colors",
+                p.featured
+                  ? "bg-[--color-primary] text-[--color-hero-dark] hover:bg-[--color-primary-hover]"
+                  : "bg-[--color-headline] text-white hover:bg-[--color-body]",
+              ]}
+            >
+              Book a discovery call
+            </a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════════════
+       FAQ (dark)
+       ════════════════════════════════════════════════════════════ -->
+  <section class="bg-[--color-hero-dark] text-[--color-cream]">
+    <div class="container-main py-24 lg:py-36">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+
+        <div class="lg:col-span-4 lg:sticky lg:top-28 self-start">
+          <span class="eyebrow text-[--color-primary] inline-flex items-center gap-2">
+            <Sparkle size="h-3 w-3" />
+            FAQ
+          </span>
+          <h2 class="m-0 mt-4 text-white text-4xl lg:text-5xl">
+            Common questions, answered directly.
+          </h2>
+        </div>
+
+        <ol class="lg:col-span-7 lg:col-start-6 flex flex-col" role="list">
+          {faqs.map((item, i) => (
+            <li class="border-b border-[--color-cream]/15">
+              <details class="group">
+                <summary class="flex items-start justify-between gap-6 py-6 cursor-pointer list-none">
+                  <span class="flex items-start gap-4">
+                    <span class="text-sm font-mono font-semibold text-[--color-primary] shrink-0 pt-1">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span class="text-lg lg:text-xl font-heading font-bold text-white tracking-[-0.02em] leading-snug">
+                      {item.q}
+                    </span>
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="shrink-0 text-2xl text-[--color-cream]/60 group-open:rotate-45 transition-transform"
+                  >+</span>
+                </summary>
+                <div class="pl-10 pr-2 pb-6 text-[--color-cream]/80 text-base leading-relaxed">
+                  <p class="m-0">{item.a}</p>
+                </div>
+              </details>
+            </li>
+          ))}
+        </ol>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════════════
+       Closing CTA (cream)
+       ════════════════════════════════════════════════════════════ -->
+  <section class="bg-[--color-cream]">
+    <div class="container-main py-24 lg:py-36">
+      <div class="max-w-4xl flex flex-col gap-6">
+        <span class="eyebrow text-[--color-caption] inline-flex items-center gap-2">
+          <Sparkle size="h-3 w-3" color="var(--color-primary)" />
+          Talk to a physician
+        </span>
+        <h2 class="m-0 text-[--color-headline]">
+          Talk to a physician, not a salesperson.
+        </h2>
+        <p class="m-0 text-[--color-body] text-lg leading-relaxed max-w-2xl">
+          All membership conversations start with a 30-minute call with Dr Whitfield.
+          No sales pitch. No pressure. If we're not the right fit, she'll tell you.
+        </p>
+        <a href="/book-call" class="btn btn-default mt-2 self-start">
+          Book a discovery call
+        </a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
