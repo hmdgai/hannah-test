@@ -1,0 +1,95 @@
+---
+/**
+ * /diagnostics — Diagnostics hub page.
+ * Lists the four service pages with summary + price.
+ */
+import BaseLayout    from "../../layouts/BaseLayout.astro";
+import Sparkle       from "../../components/svg/Sparkle.astro";
+import MeridianLine  from "../../components/svg/MeridianLine.astro";
+import { diagnostics } from "../../data/diagnostics";
+---
+
+<BaseLayout
+  title="Diagnostics — Meridian Health"
+  description="The four Meridian diagnostic stacks — Executive Assessment, Longevity Screening, Performance Optimisation, Mental Wellness."
+>
+
+  <!-- Hero (dark) -->
+  <section class="relative bg-[--color-hero-dark] text-[--color-cream] overflow-hidden">
+    <div class="container-main py-24 lg:py-36">
+      <div class="max-w-4xl flex flex-col gap-6">
+        <span class="eyebrow text-[--color-primary] inline-flex items-center gap-2">
+          <Sparkle size="h-3 w-3" />
+          Diagnostics
+        </span>
+        <h1 class="m-0 text-white">
+          Four diagnostic stacks. One operating system for your health.
+        </h1>
+        <p class="m-0 text-lg lg:text-xl text-[--color-cream]/80 max-w-3xl leading-relaxed">
+          Each stack is engineered around a specific question — the foundational
+          baseline, the long view, performance under load, or the mental architecture.
+          Members move between them as their needs change.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service grid (cream) -->
+  <section class="bg-[--color-cream]">
+    <div class="container-main py-24 lg:py-36">
+      <ul class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8" role="list">
+        {diagnostics.map((d, i) => (
+          <li>
+            <a
+              href={`/diagnostics/${d.slug}/`}
+              class="group flex flex-col gap-6 p-8 lg:p-12 bg-[--color-surface] border border-[--color-border] hover:border-[--color-headline] transition-colors h-full"
+            >
+              <div class="flex items-center justify-between gap-4">
+                <span class="font-mono text-xs font-semibold uppercase tracking-widest text-[--color-caption]">
+                  0{i + 1} — {d.name}
+                </span>
+                <Sparkle size="h-4 w-4" color="var(--color-primary)" />
+              </div>
+              <h2 class="m-0 text-2xl lg:text-3xl font-extrabold text-[--color-headline] tracking-[-0.02em] leading-tight">
+                {d.summary}
+              </h2>
+              <p class="m-0 text-sm text-[--color-caption]">
+                {d.price}
+              </p>
+              <span class="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-[--color-headline]">
+                Read the stack
+                <span aria-hidden="true" class="transition-transform group-hover:translate-x-1">→</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Closing CTA -->
+  <section class="bg-[--color-cream] border-t border-[--color-border]">
+    <div class="container-main py-24 lg:py-36">
+      <div class="max-w-4xl flex flex-col gap-6">
+        <div aria-hidden="true" class="w-full max-w-[480px] mb-2">
+          <MeridianLine />
+        </div>
+        <span class="eyebrow text-[--color-caption] inline-flex items-center gap-2">
+          <Sparkle size="h-3 w-3" color="var(--color-primary)" />
+          Not sure where to start
+        </span>
+        <h2 class="m-0 text-[--color-headline]">
+          The discovery call decides.
+        </h2>
+        <p class="m-0 text-[--color-body] text-lg leading-relaxed max-w-2xl">
+          On the call, Dr Whitfield will recommend the starting stack based on what
+          you're trying to achieve, your existing baseline, and your timeline.
+        </p>
+        <a href="/book-call" class="btn btn-default mt-2 self-start">
+          Book a discovery call
+        </a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

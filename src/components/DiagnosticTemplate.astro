@@ -1,0 +1,247 @@
+---
+/**
+ * DiagnosticTemplate.astro
+ * ─────────────────────────────────────────────────────
+ * Shared layout for the four diagnostic service pages
+ * (brief Section 5.4). Each service page passes a
+ * DiagnosticService object + a list of related services.
+ *
+ * Standard structure:
+ *   1. Dark page hero with service name + summary line + price
+ *   2. "What we test" — cream, numbered grid of test markers
+ *   3. "Why it matters" — dark, 2-column with eyebrow + body
+ *   4. "What you get" — cream, 3-step process strip
+ *   5. "Who this is for" — dark inset panel
+ *   6. Related services strip — cream, links to other 3 services
+ *   7. Closing CTA — cream
+ */
+import Sparkle      from "./svg/Sparkle.astro";
+import MeridianLine from "./svg/MeridianLine.astro";
+import type { DiagnosticService } from "../data/diagnostics";
+
+interface Props {
+  service: DiagnosticService;
+  related: DiagnosticService[];
+}
+
+const { service, related } = Astro.props;
+
+const steps = [
+  {
+    num: "01",
+    title: "Book a discovery call",
+    body: "A 30-minute conversation with Dr Whitfield to confirm fit and agree the diagnostic stack relevant to you.",
+  },
+  {
+    num: "02",
+    title: "Attend the day",
+    body: "A single full-day session at the Mayfair clinic. Diagnostics run alongside each other, not back-to-back, to keep the day tolerable.",
+  },
+  {
+    num: "03",
+    title: "Receive the protocol",
+    body: "Within ten working days, a written protocol prioritising the two or three variables that matter most for you, plus a follow-up appointment to walk through it.",
+  },
+];
+---
+
+<!-- ════════════════════════════════════════════════════════════
+     1. Dark page hero
+     ════════════════════════════════════════════════════════════ -->
+<section class="relative bg-[--color-hero-dark] text-[--color-cream] overflow-hidden">
+  <div class="container-main py-24 lg:py-36">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-end">
+      <div class="lg:col-span-8 flex flex-col gap-6">
+        <span class="eyebrow text-[--color-primary] inline-flex items-center gap-2">
+          <Sparkle size="h-3 w-3" />
+          {service.name}
+        </span>
+        <h1 class="m-0 text-white">
+          {service.summary}
+        </h1>
+      </div>
+      <div class="lg:col-span-4 flex flex-col gap-3 lg:items-end">
+        <span class="text-xs font-semibold uppercase tracking-widest text-[--color-cream]/60">
+          Price
+        </span>
+        <p class="m-0 text-base text-[--color-cream]/90 leading-relaxed lg:text-right max-w-sm">
+          {service.price}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     2. What we test (cream)
+     ════════════════════════════════════════════════════════════ -->
+<section class="bg-[--color-cream]">
+  <div class="container-main py-24 lg:py-36">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+
+      <div class="lg:col-span-4 lg:sticky lg:top-28 self-start">
+        <span class="eyebrow text-[--color-caption]">What we test</span>
+        <h2 class="m-0 mt-4 text-[--color-headline] text-4xl lg:text-5xl">
+          The diagnostic stack.
+        </h2>
+        <p class="m-0 mt-6 text-[--color-body] leading-relaxed max-w-md">
+          Every marker on this list has a clear interpretive framework and a known
+          intervention pathway. Nothing is included because it sounds impressive.
+        </p>
+      </div>
+
+      <ol class="lg:col-span-7 lg:col-start-6 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4" role="list">
+        {service.tests.map((test, i) => (
+          <li class="flex items-start gap-4 py-3 border-t border-[--color-border] text-[--color-body] text-base leading-relaxed">
+            <span class="text-xs font-mono font-semibold text-[--color-caption] shrink-0 pt-1.5">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <span>{test}</span>
+          </li>
+        ))}
+      </ol>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     3. Why it matters (dark)
+     ════════════════════════════════════════════════════════════ -->
+<section class="bg-[--color-hero-dark] text-[--color-cream]">
+  <div class="container-main py-24 lg:py-36">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+      <div class="lg:col-span-4 lg:sticky lg:top-28 self-start">
+        <span class="eyebrow text-[--color-primary]">Why it matters</span>
+        <h2 class="m-0 mt-4 text-white text-4xl lg:text-5xl">
+          The case for doing this now.
+        </h2>
+      </div>
+      <div class="lg:col-span-7 lg:col-start-6 flex flex-col gap-6 text-lg leading-relaxed text-[--color-cream]/80">
+        {service.whyParas.map((p) => <p class="m-0">{p}</p>)}
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     4. What you get — 3-step process (cream)
+     ════════════════════════════════════════════════════════════ -->
+<section class="bg-[--color-cream]">
+  <div class="container-main py-24 lg:py-36">
+    <div class="max-w-3xl mb-12 lg:mb-16">
+      <span class="eyebrow text-[--color-caption] inline-flex items-center gap-2">
+        <Sparkle size="h-3 w-3" color="var(--color-primary)" />
+        What you get
+      </span>
+      <h2 class="m-0 mt-4 text-[--color-headline]">
+        The process, in three steps.
+      </h2>
+    </div>
+
+    <ol class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8" role="list">
+      {steps.map((step) => (
+        <li class="flex flex-col gap-4 p-8 lg:p-10 bg-[--color-surface] border border-[--color-border]">
+          <span class="font-mono text-sm font-semibold text-[--color-caption]">{step.num}</span>
+          <h3 class="m-0 text-2xl font-extrabold text-[--color-headline] tracking-[-0.02em] leading-tight">
+            {step.title}
+          </h3>
+          <p class="m-0 text-[--color-body] leading-relaxed">
+            {step.body}
+          </p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     5. Who this is for (dark inset panel)
+     ════════════════════════════════════════════════════════════ -->
+<section class="bg-[--color-cream]">
+  <div class="container-main pb-24 lg:pb-36">
+    <div class="bg-[--color-hero-dark] text-[--color-cream] p-10 lg:p-16">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+        <div class="lg:col-span-4 flex items-center gap-3">
+          <Sparkle size="h-5 w-5" color="var(--color-primary)" />
+          <span class="eyebrow text-[--color-primary]">Who this is for</span>
+        </div>
+        <p class="lg:col-span-8 m-0 text-xl lg:text-2xl font-heading font-bold text-white tracking-[-0.02em] leading-snug">
+          {service.whoFor}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     6. Related services (cream)
+     ════════════════════════════════════════════════════════════ -->
+<section class="bg-[--color-cream] border-t border-[--color-border]">
+  <div class="container-main py-24 lg:py-32">
+    <div class="flex items-end justify-between gap-6 mb-10 lg:mb-14">
+      <h2 class="m-0 text-[--color-headline] text-3xl lg:text-4xl">
+        Related diagnostics.
+      </h2>
+      <a
+        href="/diagnostics"
+        class="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-[--color-headline] border-b border-[--color-headline] hover:border-[--color-primary] pb-1 transition-colors"
+      >
+        View all <span aria-hidden="true">→</span>
+      </a>
+    </div>
+    <ul class="grid grid-cols-1 md:grid-cols-3 gap-6" role="list">
+      {related.map((r) => (
+        <li>
+          <a
+            href={`/diagnostics/${r.slug}/`}
+            class="group flex flex-col gap-3 p-8 bg-[--color-surface] border border-[--color-border] hover:border-[--color-headline] transition-colors h-full"
+          >
+            <span class="font-mono text-xs font-semibold uppercase tracking-widest text-[--color-caption]">
+              {r.name}
+            </span>
+            <p class="m-0 text-lg font-heading font-bold text-[--color-headline] tracking-[-0.02em] leading-snug group-hover:text-[--color-headline]">
+              {r.summary}
+            </p>
+            <span class="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-[--color-headline]">
+              Read more
+              <span aria-hidden="true" class="transition-transform group-hover:translate-x-1">→</span>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════
+     7. Closing CTA (cream)
+     ════════════════════════════════════════════════════════════ -->
+<section class="bg-[--color-cream]">
+  <div class="container-main pb-24 lg:pb-36">
+    <div class="max-w-4xl flex flex-col gap-6 items-start">
+      <div aria-hidden="true" class="w-full max-w-[480px] mb-2">
+        <MeridianLine />
+      </div>
+      <span class="eyebrow text-[--color-caption] inline-flex items-center gap-2">
+        <Sparkle size="h-3 w-3" color="var(--color-primary)" />
+        Next step
+      </span>
+      <h2 class="m-0 text-[--color-headline]">
+        Talk to a physician, not a salesperson.
+      </h2>
+      <p class="m-0 text-[--color-body] text-lg leading-relaxed max-w-2xl">
+        Every diagnostic starts with a 30-minute call. If we're not the right fit, we'll tell you.
+      </p>
+      <a href="/book-call" class="btn btn-default mt-2">
+        Book a discovery call
+      </a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,15 @@
+---
+import BaseLayout         from "../../layouts/BaseLayout.astro";
+import DiagnosticTemplate from "../../components/DiagnosticTemplate.astro";
+import { findService, relatedServices } from "../../data/diagnostics";
+
+const service = findService("longevity-screening")!;
+const related = relatedServices("longevity-screening");
+---
+
+<BaseLayout
+  title={`${service.name} — Meridian Health`}
+  description={service.summary}
+>
+  <DiagnosticTemplate service={service} related={related} />
+</BaseLayout>
