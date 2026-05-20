@@ -1,0 +1,23 @@
+---
+/**
+ * PortableText.astro
+ * ---------------------------------------------------------
+ * Thin wrapper around astro-portabletext for rendering Sanity
+ * block content (bio, FAQ answers, rich text fields).
+ *
+ * Usage: <PortableText value={blockContent} />
+ */
+import { PortableText as AstroPortableText } from 'astro-portabletext';
+
+interface Props {
+  value: unknown[];
+}
+
+const { value } = Astro.props;
+---
+
+{value && value.length > 0 && (
+  <div class="portable-text prose prose-slate max-w-none">
+    <AstroPortableText value={value} />
+  </div>
+)}
