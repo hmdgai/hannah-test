@@ -152,6 +152,12 @@ export default defineConfig({
     stripHtmlComments(),
   ],
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
+    optimizeDeps: {
+      exclude: ['sanity', '@sanity/vision', '@sanity/astro']
+    },
+    ssr: {
+      noExternal: ['@sanity/astro']
+    }
   }
 });
