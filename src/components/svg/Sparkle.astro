@@ -1,0 +1,42 @@
+---
+/**
+ * Sparkle.astro
+ * ─────────────────────────────────────────────────────
+ * The ✦ sparkle mark — Meridian's recurring decorative signature.
+ * Used in the wordmark, between trust-strip items, between section labels.
+ *
+ * Renders inline SVG (no glyph dependency), inherits currentColor by default
+ * so it follows the surrounding text colour. Pass `color` to override.
+ *
+ * Props:
+ *   size   — Tailwind text-size class equivalent (e.g. "h-4 w-4", "h-6 w-6").
+ *            Defaults to "h-4 w-4" (matches body text).
+ *   color  — Override fill colour. Defaults to "currentColor".
+ *   class  — Extra classes appended to the SVG root.
+ */
+
+interface Props {
+  size?: string;
+  color?: string;
+  class?: string;
+}
+
+const {
+  size = "h-4 w-4",
+  color = "currentColor",
+  class: extraClass = "",
+} = Astro.props;
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 24 24"
+  fill="none"
+  aria-hidden="true"
+  class:list={["inline-block shrink-0", size, extraClass]}
+>
+  <path
+    d="M12 2 L13.5 10.5 L22 12 L13.5 13.5 L12 22 L10.5 13.5 L2 12 L10.5 10.5 Z"
+    fill={color}
+  />
+</svg>

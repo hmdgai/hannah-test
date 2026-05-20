@@ -5,26 +5,16 @@
  * Global sticky navigation header. Used once in BaseLayout.astro.
  * Do NOT duplicate this component in individual pages.
  *
- * Per-client customisation:
- *   - Update the logo/clinic name text
- *   - Update nav links to match the site structure
- *   - The Book Now CTA href should point to the booking section or URL
+ * Meridian Health (test build) — wgb.agency-inspired minimal nav.
+ * Cream background, dark text, lime ✦ in the wordmark, single lime CTA.
  *
  * ── Active-state system (MANDATORY on every nav change) ─────────
- * Every nav link on the site must visually indicate the current
- * page using the helpers below. Applies to desktop + mobile.
- * See .claude/rules/frontend.md — "Navigation Active State".
+ * Every nav link must visually indicate the current page using the
+ * helpers below — desktop AND mobile. See .claude/rules/frontend.md.
  *
  *   isActive(href)    — exact-match leaf link or top-level plain link
  *   isSection(prefix) — dropdown / flyout triggers whose CHILDREN
  *                       should activate the parent trigger
- *
- * Tiers to cover on any dropdown/mega-menu change:
- *   1. Top-level plain links          → isActive
- *   2. Top-level dropdown triggers    → isSection
- *   3. Mid-level flyout triggers      → isSection  (MOST MISSED)
- *   4. Leaf links in dropdowns        → isActive
- *   5. Every mobile equivalent        → same helpers, no drift
  */
 
 const currentPath = Astro.url.pathname;
@@ -36,77 +26,116 @@ const isActive = (href: string): boolean => {
   return currentPath === norm || currentPath === norm.slice(0, -1);
 };
 
-// Prefix match — use for dropdown parents and mid-level flyout
-// triggers so children activate their ancestors. Kept in scope even
-// when the current nav has no dropdowns so the pattern is visible
-// to anyone adding a submenu later.
+// Prefix match — used so a child page like /diagnostics/executive-assessment
+// activates the parent /diagnostics nav item.
 const isSection = (prefix: string): boolean => currentPath.startsWith(prefix);
-void isSection; // reserved for future dropdown / mid-level flyout triggers
 
-// Per-link active booleans computed here so tier-checking is explicit.
-// Current base template has only hash links + /contact; expand when a
-// real nav hierarchy is added.
-const contactActive = isActive('/contact');
+// Per-link active booleans — keep these explicit so the checklist is visible.
+const homeActive        = isActive('/');
+const methodologyActive = isSection('/methodology');
+const membershipActive  = isSection('/membership');
+const diagnosticsActive = isSection('/diagnostics');
+const insightsActive    = isSection('/insights');
+const contactActive     = isActive('/contact');
 ---
 
-<header class="sticky top-0 z-50 bg-white border-b border-[--color-border] shadow-[--shadow-nav]">
-  <div class="container px-[--spacing-section-x] py-4 flex items-center justify-between">
+<header class="sticky top-0 z-50 bg-[--color-cream]/95 backdrop-blur-sm border-b border-[--color-border]">
+  <div class="container-main py-5 flex items-center justify-between gap-6">
 
-    <!-- Logo / Clinic Name -->
-    <a href="/" class="text-xl font-bold text-[--color-primary]">
-      ClinicName
+    <!-- Wordmark — Meridian ✦ -->
+    <a
+      href="/"
+      class="font-heading text-lg sm:text-xl font-extrabold text-[--color-headline] tracking-[-0.02em] hover:opacity-80 transition-opacity inline-flex items-center gap-2"
+      aria-label="Meridian Health — home"
+    >
+      <span>MERIDIAN</span>
+      <span aria-hidden="true" class="text-[--color-primary] text-xl sm:text-2xl leading-none">✦</span>
     </a>
 
     <!-- Desktop Navigation -->
     <nav
-      class="hidden md:flex items-center gap-8 text-sm font-medium text-[--color-body]"
+      class="hidden lg:flex items-center gap-10 text-sm font-medium text-[--color-body]"
       aria-label="Main navigation"
     >
-      <!-- Hash links scroll within the same page — no is-active (all live on /) -->
-      <a href="#services"     class="site-nav-item hover:text-[--color-primary] transition-colors">Services</a>
-      <a href="#testimonials" class="site-nav-item hover:text-[--color-primary] transition-colors">Reviews</a>
-      <a href="#team"         class="site-nav-item hover:text-[--color-primary] transition-colors">Team</a>
+      <a
+        href="/"
+        class:list={["site-nav-item hover:text-[--color-headline] transition-colors", { "is-active": homeActive }]}
+      >Home</a>
+      <a
+        href="/methodology"
+        class:list={["site-nav-item hover:text-[--color-headline] transition-colors", { "is-active": methodologyActive }]}
+      >Methodology</a>
+      <a
+        href="/membership"
+        class:list={["site-nav-item hover:text-[--color-headline] transition-colors", { "is-active": membershipActive }]}
+      >Membership</a>
+      <a
+        href="/diagnostics"
+        class:list={["site-nav-item hover:text-[--color-headline] transition-colors", { "is-active": diagnosticsActive }]}
+      >Diagnostics</a>
+      <a
+        href="/insights"
+        class:list={["site-nav-item hover:text-[--color-headline] transition-colors", { "is-active": insightsActive }]}
+      >Insights</a>
       <a
         href="/contact"
-        class:list={["site-nav-item hover:text-[--color-primary] transition-colors", { "is-active": contactActive }]}
+        class:list={["site-nav-item hover:text-[--color-headline] transition-colors", { "is-active": contactActive }]}
       >Contact</a>
     </nav>
 
-    <!-- Mobile Hamburger (visible on mobile only) -->
-    <button
-      class="md:hidden flex flex-col gap-1.5 p-2 -mr-2"
-      aria-label="Open navigation menu"
-      aria-expanded="false"
-      aria-controls="mobile-menu"
-      id="mobile-menu-toggle"
-    >
-      <span class="block w-6 h-0.5 bg-[--color-headline]"></span>
-      <span class="block w-6 h-0.5 bg-[--color-headline]"></span>
-      <span class="block w-6 h-0.5 bg-[--color-headline]"></span>
-    </button>
+    <!-- Right side: CTA + Hamburger -->
+    <div class="flex items-center gap-3">
+      <a href="/book-call" class="btn btn-default hidden md:inline-flex whitespace-nowrap">
+        Book a discovery call
+      </a>
 
-    <!-- Book Now CTA -->
-    <a href="#contact" class="btn btn-default hidden md:inline-flex">
-      Book Now
-    </a>
+      <button
+        class="lg:hidden flex flex-col gap-1.5 p-2 -mr-2"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        id="mobile-menu-toggle"
+      >
+        <span class="block w-6 h-0.5 bg-[--color-headline]"></span>
+        <span class="block w-6 h-0.5 bg-[--color-headline]"></span>
+        <span class="block w-6 h-0.5 bg-[--color-headline]"></span>
+      </button>
+    </div>
 
   </div>
 
   <!-- Mobile Menu Drawer -->
   <div
     id="mobile-menu"
-    class="md:hidden hidden border-t border-[--color-border] bg-white"
+    class="lg:hidden hidden border-t border-[--color-border] bg-[--color-cream]"
     aria-hidden="true"
   >
-    <nav class="flex flex-col px-[--spacing-section-x] py-4 gap-4 text-sm font-medium text-[--color-body]" aria-label="Mobile navigation">
-      <a href="#services"     class="mobile-nav-item site-nav-item hover:text-[--color-primary] transition-colors py-2">Services</a>
-      <a href="#testimonials" class="mobile-nav-item site-nav-item hover:text-[--color-primary] transition-colors py-2">Reviews</a>
-      <a href="#team"         class="mobile-nav-item site-nav-item hover:text-[--color-primary] transition-colors py-2">Team</a>
+    <nav class="container-main py-6 flex flex-col gap-4 text-base font-medium text-[--color-body]" aria-label="Mobile navigation">
+      <a
+        href="/"
+        class:list={["mobile-nav-item site-nav-item hover:text-[--color-headline] transition-colors py-2", { "is-active": homeActive }]}
+      >Home</a>
+      <a
+        href="/methodology"
+        class:list={["mobile-nav-item site-nav-item hover:text-[--color-headline] transition-colors py-2", { "is-active": methodologyActive }]}
+      >Methodology</a>
+      <a
+        href="/membership"
+        class:list={["mobile-nav-item site-nav-item hover:text-[--color-headline] transition-colors py-2", { "is-active": membershipActive }]}
+      >Membership</a>
+      <a
+        href="/diagnostics"
+        class:list={["mobile-nav-item site-nav-item hover:text-[--color-headline] transition-colors py-2", { "is-active": diagnosticsActive }]}
+      >Diagnostics</a>
+      <a
+        href="/insights"
+        class:list={["mobile-nav-item site-nav-item hover:text-[--color-headline] transition-colors py-2", { "is-active": insightsActive }]}
+      >Insights</a>
       <a
         href="/contact"
-        class:list={["mobile-nav-item site-nav-item hover:text-[--color-primary] transition-colors py-2", { "is-active": contactActive }]}
+        class:list={["mobile-nav-item site-nav-item hover:text-[--color-headline] transition-colors py-2", { "is-active": contactActive }]}
       >Contact</a>
-      <a href="#contact" class="btn btn-default self-start mt-2">Book Now</a>
+      <a href="/book-call" class="btn btn-default self-start mt-2">Book a discovery call</a>
     </nav>
   </div>
 </header>

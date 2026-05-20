@@ -5,18 +5,14 @@
  * Global site footer. Used once in BaseLayout.astro.
  * Do NOT duplicate this component in individual pages.
  *
- * Per-client customisation:
- *   - Update clinic name, address, phone, email, opening hours
- *   - Update Quick Links and Services to match site structure
- *   - Legal pages (privacy-policy, terms-conditions, cookie-policy) must exist
- *   - Dynamic copyright year is automatic via new Date()
+ * Meridian Health (test build) — dark background, cream text,
+ * lime accent on hover/active states.
  *
  * ── Active-state system (MANDATORY on every nav change) ─────────
- * Footer lives on a dark background so active state MUST differ
+ * Footer lives on a dark background, so active state MUST differ
  * visibly from hover. Design: active = white + semibold (600).
- * Hover = white + 400 weight. Default = --color-caption + 400.
+ * Hover = white + 400. Default = --color-caption + 400.
  * Uses the `.footer-link` base class + `.is-active` modifier.
- * See .claude/rules/frontend.md — "Navigation Active State".
  */
 
 const currentPath = Astro.url.pathname;
@@ -28,89 +24,145 @@ const isActive = (href: string): boolean => {
 };
 
 const isSection = (prefix: string): boolean => currentPath.startsWith(prefix);
-void isSection; // reserved for future grouped footer sections
 
-// Active state booleans — explicit to keep the checklist visible.
-// Hash links skipped (they are in-page anchors, not routes).
-const homeActive           = isActive('/');
-const contactActive        = isActive('/contact');
-const privacyActive        = isActive('/privacy-policy');
-const termsActive          = isActive('/terms-conditions');
-const cookieActive         = isActive('/cookie-policy');
+// Active state booleans — explicit per HMDG nav rules.
+const homeActive        = isActive('/');
+const methodologyActive = isSection('/methodology');
+const membershipActive  = isSection('/membership');
+const diagnosticsActive = isSection('/diagnostics');
+const teamActive        = isActive('/team');
+const contactActive     = isActive('/contact');
+const privacyActive     = isActive('/privacy-policy');
+const termsActive       = isActive('/terms-conditions');
+const cookieActive      = isActive('/cookie-policy');
+const accessibilityActive = isActive('/accessibility');
 ---
 
-<footer class="bg-[--color-headline]">
+<footer class="bg-[--color-hero-dark] text-[--color-cream]">
 
   <!-- ── Main columns ─────────────────────────────────────────── -->
-  <div class="px-[--spacing-section-x] py-16">
-    <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+  <div class="container-main py-20">
+    <div class="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
 
       <!-- Brand -->
-      <div class="flex-layout flex-layout--col gap-5">
-        <a href="/" class="font-heading text-xl font-bold text-white hover:text-[--color-caption] transition-colors">
-          ClinicName
+      <div class="flex flex-col gap-5 lg:col-span-1">
+        <a
+          href="/"
+          class="font-heading text-2xl font-extrabold text-white tracking-[-0.02em] hover:opacity-80 transition-opacity inline-flex items-center gap-2 self-start"
+          aria-label="Meridian Health — home"
+        >
+          <span>MERIDIAN</span>
+          <span aria-hidden="true" class="text-[--color-primary] text-3xl leading-none">✦</span>
         </a>
-        <p class="m-0 text-sm text-[--color-caption] leading-relaxed">
-          Your trusted clinic, helping patients recover faster, move better,
-          and live without pain. HCPC-registered and fully insured.
+        <p class="m-0 text-sm text-[--color-caption] leading-relaxed max-w-xs">
+          Concierge medicine for founders, executives, and professionals
+          who can't afford to be reactive about their health.
         </p>
-        <a href="#contact" class="btn btn-white self-start">Book Now</a>
+        <a href="/book-call" class="btn btn-default self-start mt-2">
+          Book a discovery call
+        </a>
       </div>
 
       <!-- Quick Links -->
-      <div class="flex-layout flex-layout--col gap-5">
-        <span class="text-xs font-semibold text-white uppercase tracking-widest">
-          Quick Links
+      <div class="flex flex-col gap-5">
+        <span class="text-xs font-semibold text-[--color-primary] uppercase tracking-widest">
+          Explore
         </span>
-        <nav class="flex-layout flex-layout--col gap-3" aria-label="Footer navigation">
+        <nav class="flex flex-col gap-3" aria-label="Footer navigation">
           <a
             href="/"
             class:list={["footer-link text-sm", { "is-active": homeActive }]}
           >Home</a>
-          <!-- Hash link — no is-active (anchor, not route) -->
-          <a href="#services"      class="footer-link text-sm">Services</a>
-          <a href="#team"          class="footer-link text-sm">Meet the Team</a>
-          <a href="#testimonials"  class="footer-link text-sm">Patient Reviews</a>
+          <a
+            href="/methodology"
+            class:list={["footer-link text-sm", { "is-active": methodologyActive }]}
+          >Methodology</a>
+          <a
+            href="/membership"
+            class:list={["footer-link text-sm", { "is-active": membershipActive }]}
+          >Membership</a>
+          <a
+            href="/team"
+            class:list={["footer-link text-sm", { "is-active": teamActive }]}
+          >Team</a>
           <a
             href="/contact"
             class:list={["footer-link text-sm", { "is-active": contactActive }]}
-          >Contact Us</a>
+          >Contact</a>
         </nav>
       </div>
 
-      <!-- Services -->
-      <div class="flex-layout flex-layout--col gap-5">
-        <span class="text-xs font-semibold text-white uppercase tracking-widest">
-          Our Services
+      <!-- Diagnostics -->
+      <div class="flex flex-col gap-5">
+        <span class="text-xs font-semibold text-[--color-primary] uppercase tracking-widest">
+          Diagnostics
         </span>
-        <nav class="flex-layout flex-layout--col gap-3" aria-label="Services navigation">
-          <!-- All hash-anchor for now; switch to real routes when service pages exist -->
-          <a href="#services" class="footer-link text-sm">Physiotherapy</a>
-          <a href="#services" class="footer-link text-sm">Sports Injuries</a>
-          <a href="#services" class="footer-link text-sm">Back &amp; Neck Pain</a>
-          <a href="#services" class="footer-link text-sm">Post-Surgery Rehab</a>
-          <a href="#services" class="footer-link text-sm">Injury Prevention</a>
+        <nav class="flex flex-col gap-3" aria-label="Diagnostics services">
+          <a
+            href="/diagnostics/executive-assessment"
+            class:list={["footer-link text-sm", { "is-active": isActive('/diagnostics/executive-assessment') }]}
+          >Executive Assessment</a>
+          <a
+            href="/diagnostics/longevity-screening"
+            class:list={["footer-link text-sm", { "is-active": isActive('/diagnostics/longevity-screening') }]}
+          >Longevity Screening</a>
+          <a
+            href="/diagnostics/performance-optimisation"
+            class:list={["footer-link text-sm", { "is-active": isActive('/diagnostics/performance-optimisation') }]}
+          >Performance Optimisation</a>
+          <a
+            href="/diagnostics/mental-wellness"
+            class:list={["footer-link text-sm", { "is-active": isActive('/diagnostics/mental-wellness') }]}
+          >Mental Wellness</a>
+          <a
+            href="/diagnostics"
+            class:list={["footer-link text-sm", { "is-active": diagnosticsActive && currentPath === '/diagnostics/' }]}
+          >All Diagnostics →</a>
         </nav>
       </div>
 
-      <!-- Contact — address/tel/email are NOT footer-link (not navigation) -->
-      <div class="flex-layout flex-layout--col gap-5">
-        <span class="text-xs font-semibold text-white uppercase tracking-widest">
+      <!-- Contact + Hours -->
+      <div class="flex flex-col gap-5">
+        <span class="text-xs font-semibold text-[--color-primary] uppercase tracking-widest">
           Contact
         </span>
-        <div class="flex-layout flex-layout--col gap-3">
-          <address class="not-italic flex-layout flex-layout--col gap-1">
-            <span class="text-sm text-[--color-caption]">123 High Street</span>
-            <span class="text-sm text-[--color-caption]">London, UK, EC1A 1BB</span>
+        <div class="flex flex-col gap-3">
+          <address class="not-italic flex flex-col gap-1">
+            <span class="text-sm text-[--color-caption]">14 South Audley Street</span>
+            <span class="text-sm text-[--color-caption]">Mayfair, London W1K 1JQ</span>
           </address>
-          <a href="tel:02012345678"              class="text-sm text-[--color-caption] hover:text-white transition-colors">020 1234 5678</a>
-          <a href="mailto:hello@clinicname.co.uk" class="text-sm text-[--color-caption] hover:text-white transition-colors">hello@clinicname.co.uk</a>
+          <a
+            href="tel:+442079461840"
+            class="text-sm text-[--color-caption] hover:text-white transition-colors"
+          >020 7946 1840</a>
+          <a
+            href="mailto:concierge@meridianhealth.fictitious"
+            class="text-sm text-[--color-caption] hover:text-white transition-colors break-all"
+          >concierge@meridianhealth.fictitious</a>
         </div>
-        <div class="flex-layout flex-layout--col gap-2">
-          <span class="text-xs font-semibold text-white uppercase tracking-widest">Opening Hours</span>
-          <span class="text-sm text-[--color-caption]">Mon – Fri &nbsp; 8:00am – 7:00pm</span>
-          <span class="text-sm text-[--color-caption]">Saturday &nbsp;&nbsp; 9:00am – 3:00pm</span>
-          <span class="text-sm text-[--color-caption]">Sunday &nbsp;&nbsp;&nbsp;&nbsp; Closed</span>
+        <div class="flex flex-col gap-2 mt-2">
+          <span class="text-xs font-semibold text-[--color-primary] uppercase tracking-widest">Opening Hours</span>
+          <span class="text-sm text-[--color-caption]">Mon – Wed&nbsp;&nbsp; 08:00 – 19:00</span>
+          <span class="text-sm text-[--color-caption]">Thursday&nbsp;&nbsp;&nbsp;&nbsp; 08:00 – 20:00</span>
+          <span class="text-sm text-[--color-caption]">Friday&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 08:00 – 18:00</span>
+          <span class="text-sm text-[--color-caption]">Saturday&nbsp;&nbsp;&nbsp;&nbsp; 09:00 – 14:00<span class="text-xs opacity-70"> (members)</span></span>
+          <span class="text-sm text-[--color-caption]">Sunday&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 24/7 phone line</span>
+        </div>
+        <div class="flex items-center gap-4 mt-2" aria-label="Social media">
+          <a
+            href="https://instagram.com/meridianhealth.fictitious"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sm text-[--color-caption] hover:text-[--color-primary] transition-colors"
+            aria-label="Meridian Health on Instagram"
+          >Instagram</a>
+          <a
+            href="https://linkedin.com/company/meridian-health.fictitious"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sm text-[--color-caption] hover:text-[--color-primary] transition-colors"
+            aria-label="Meridian Health on LinkedIn"
+          >LinkedIn</a>
         </div>
       </div>
 
@@ -119,26 +171,26 @@ const cookieActive         = isActive('/cookie-policy');
 
   <!-- ── Bottom bar ──────────────────────────────────────────── -->
   <div class="border-t border-white/10">
-    <div class="px-[--spacing-section-x] py-4 flex-layout flex-layout--between gap-4">
+    <div class="container-main py-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 
-      <!-- Copyright + credit (not navigation — plain hover styling) -->
-      <div class="flex-layout items-center gap-5 flex-wrap">
-        <span class="text-sm text-white/70">
-          © Copyright HMDG {new Date().getFullYear()}
+      <!-- Copyright + credit -->
+      <div class="flex flex-wrap items-center gap-5">
+        <span class="text-sm text-[--color-caption]">
+          © {new Date().getFullYear()} Meridian Health Ltd
         </span>
-        <span class="text-sm text-white/70">
+        <span class="text-sm text-[--color-caption]">
           Designed &amp; Developed by
           <a
             href="https://hmdg.co.uk/"
             target="_blank"
             rel="noopener noreferrer"
-            class="font-semibold text-white hover:text-white/90 transition-colors"
+            class="font-semibold text-white hover:text-[--color-primary] transition-colors ml-1"
           >HMDG</a>
         </span>
       </div>
 
-      <!-- Legal links — full footer-link active state treatment -->
-      <nav class="flex-layout items-center gap-5 flex-wrap" aria-label="Legal">
+      <!-- Legal links -->
+      <nav class="flex flex-wrap items-center gap-5" aria-label="Legal">
         <a
           href="/privacy-policy"
           class:list={["footer-link text-sm", { "is-active": privacyActive }]}
@@ -151,6 +203,10 @@ const cookieActive         = isActive('/cookie-policy');
           href="/cookie-policy"
           class:list={["footer-link text-sm", { "is-active": cookieActive }]}
         >Cookie Policy</a>
+        <a
+          href="/accessibility"
+          class:list={["footer-link text-sm", { "is-active": accessibilityActive }]}
+        >Accessibility</a>
       </nav>
 
     </div>

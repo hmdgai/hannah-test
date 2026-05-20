@@ -1,0 +1,85 @@
+---
+/**
+ * Orbital.astro
+ * ─────────────────────────────────────────────────────
+ * Concentric orbital paths — wgb.agency-style cosmic illustration.
+ * Used as the hero decorative graphic on the homepage and selected
+ * service pages.
+ *
+ * Three nested ellipses at different rotations + an off-centre node
+ * dot suggesting planetary motion. Lime accent on the outermost ring,
+ * caption-slate on the inner rings. Pure CSS — no animation here so
+ * it respects prefers-reduced-motion by default. Optional subtle
+ * rotation can be added at the parent via Tailwind animate utilities.
+ *
+ * Props:
+ *   accentColor  — defaults to var(--color-primary)
+ *   stroke       — defaults to var(--color-caption) for inner orbits
+ *   class        — extra classes appended to the SVG root
+ *   ariaLabel    — optional, otherwise treated as decorative
+ */
+
+interface Props {
+  accentColor?: string;
+  stroke?: string;
+  class?: string;
+  ariaLabel?: string;
+}
+
+const {
+  accentColor = "var(--color-primary)",
+  stroke = "var(--color-caption)",
+  class: extraClass = "",
+  ariaLabel,
+} = Astro.props;
+
+const isDecorative = !ariaLabel;
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 400 400"
+  fill="none"
+  role={isDecorative ? "presentation" : "img"}
+  aria-hidden={isDecorative ? "true" : undefined}
+  aria-label={ariaLabel}
+  class:list={["block w-full h-auto", extraClass]}
+>
+  <!-- Outer ring — lime accent -->
+  <ellipse
+    cx="200" cy="200" rx="195" ry="120"
+    transform="rotate(-12 200 200)"
+    stroke={accentColor}
+    stroke-width="1.5"
+    opacity="0.9"
+  />
+  <!-- Middle ring -->
+  <ellipse
+    cx="200" cy="200" rx="170" ry="90"
+    transform="rotate(18 200 200)"
+    stroke={stroke}
+    stroke-width="1"
+    opacity="0.5"
+  />
+  <!-- Inner ring -->
+  <ellipse
+    cx="200" cy="200" rx="140" ry="60"
+    transform="rotate(-32 200 200)"
+    stroke={stroke}
+    stroke-width="1"
+    opacity="0.35"
+  />
+  <!-- Tight inner circle -->
+  <circle
+    cx="200" cy="200" r="38"
+    stroke={stroke}
+    stroke-width="1"
+    opacity="0.4"
+  />
+  <!-- Centre dot -->
+  <circle cx="200" cy="200" r="4" fill={accentColor} />
+  <!-- Orbital nodes -->
+  <circle cx="394" cy="180" r="3" fill={accentColor} opacity="0.9" />
+  <circle cx="68"  cy="246" r="2.5" fill={stroke} opacity="0.6" />
+  <circle cx="298" cy="118" r="2" fill={stroke} opacity="0.5" />
+</svg>
