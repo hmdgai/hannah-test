@@ -1,0 +1,128 @@
+---
+/**
+ * /insights — Editorial / blog placeholder.
+ * Brief Section 4.1: "Phase 2 in a real build; static placeholder pages
+ * for the test." Placeholder cards with the planned editorial direction
+ * so the nav link doesn't 404.
+ */
+import BaseLayout    from "../layouts/BaseLayout.astro";
+import Sparkle       from "../components/svg/Sparkle.astro";
+import MeridianLine  from "../components/svg/MeridianLine.astro";
+
+const plannedPieces = [
+  {
+    eyebrow: "Coming soon",
+    category: "Methodology",
+    title: "Why a 20-minute GP appointment misses 80% of what matters.",
+    by: "Dr Eleanor Whitfield",
+  },
+  {
+    eyebrow: "Coming soon",
+    category: "Longevity",
+    title: "ApoB is the variable nobody is measuring. Here's why we do.",
+    by: "Dr Marcus Holloway",
+  },
+  {
+    eyebrow: "Coming soon",
+    category: "Performance",
+    title: "Sleep architecture, not sleep hours: what actually predicts cognition.",
+    by: "Dr Saskia Reinhardt",
+  },
+  {
+    eyebrow: "Coming soon",
+    category: "Mental Wellness",
+    title: "High-functioning anxiety doesn't get caught at the NHS pathway.",
+    by: "Dr James Okonkwo",
+  },
+];
+---
+
+<BaseLayout
+  title="Insights — Meridian Health"
+  description="Editorial writing from Meridian's physicians on diagnostic methodology, longevity medicine, and performance health."
+>
+
+  <!-- Hero (dark) -->
+  <section class="relative bg-[--color-hero-dark] text-[--color-cream] overflow-hidden">
+    <div class="container-main py-24 lg:py-36">
+      <div class="max-w-4xl flex flex-col gap-6">
+        <span class="eyebrow text-[--color-primary] inline-flex items-center gap-2">
+          <Sparkle size="h-3 w-3" />
+          Insights
+        </span>
+        <h1 class="m-0 text-white">
+          Writing from the physicians, not the marketing team.
+        </h1>
+        <p class="m-0 text-lg lg:text-xl text-[--color-cream]/80 max-w-3xl leading-relaxed">
+          The editorial archive — methodology pieces, diagnostic deep-dives, and
+          notes on the slow-moving variables that matter in senior careers. New
+          pieces launching alongside the full site.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Placeholder cards (cream) -->
+  <section class="bg-[--color-cream]">
+    <div class="container-main py-24 lg:py-36">
+
+      <div class="flex items-end justify-between gap-6 mb-12 lg:mb-16">
+        <h2 class="m-0 text-[--color-headline] text-3xl lg:text-4xl">
+          The first pieces, in production.
+        </h2>
+        <span class="hidden sm:inline-flex text-sm text-[--color-caption]">
+          Launching Q3 2026
+        </span>
+      </div>
+
+      <ul class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8" role="list">
+        {plannedPieces.map((piece, i) => (
+          <li class="flex flex-col gap-5 p-8 lg:p-10 bg-[--color-surface] border border-[--color-border] opacity-90">
+            <div class="flex items-center justify-between gap-4">
+              <span class="font-mono text-xs font-semibold uppercase tracking-widest text-[--color-caption]">
+                0{i + 1} — {piece.category}
+              </span>
+              <span class="text-xs font-semibold uppercase tracking-widest text-[--color-caption] inline-flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[--color-primary]"></span>
+                {piece.eyebrow}
+              </span>
+            </div>
+            <h3 class="m-0 text-2xl font-extrabold text-[--color-headline] tracking-[-0.02em] leading-tight">
+              {piece.title}
+            </h3>
+            <span class="mt-auto text-sm text-[--color-caption]">
+              by {piece.by}
+            </span>
+          </li>
+        ))}
+      </ul>
+
+    </div>
+  </section>
+
+  <!-- Closing CTA -->
+  <section class="bg-[--color-cream] border-t border-[--color-border]">
+    <div class="container-main py-24 lg:py-36">
+      <div class="max-w-4xl flex flex-col gap-6">
+        <div aria-hidden="true" class="w-full max-w-[480px] mb-2">
+          <MeridianLine />
+        </div>
+        <span class="eyebrow text-[--color-caption] inline-flex items-center gap-2">
+          <Sparkle size="h-3 w-3" color="var(--color-headline)" />
+          In the meantime
+        </span>
+        <h2 class="m-0 text-[--color-headline]">
+          The most useful conversation is one-to-one.
+        </h2>
+        <p class="m-0 text-[--color-body] text-lg leading-relaxed max-w-2xl">
+          Book a 30-minute discovery call with Dr Whitfield. Most of what we'd
+          write about, she'll happily discuss with you in person first.
+        </p>
+        <a href="/book-call" class="btn btn-default mt-2 self-start">
+          Book a discovery call
+        </a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
