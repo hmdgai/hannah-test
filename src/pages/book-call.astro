@@ -1,0 +1,122 @@
+---
+/**
+ * /book-call — Discovery call booking page.
+ * Brief Section 7.3. Real Cliniko widget would embed here; for the
+ * test build we stub a placeholder per Section 14 (out of scope) and
+ * fall back to a direct CTA + ContactForm so the page is usable.
+ */
+import BaseLayout  from "../layouts/BaseLayout.astro";
+import Sparkle     from "../components/svg/Sparkle.astro";
+import ContactForm from "../components/ContactForm.astro";
+---
+
+<BaseLayout
+  title="Book a discovery call — Meridian Health"
+  description="A 30-minute conversation with Dr Whitfield. No sales pitch."
+>
+
+  <!-- Hero (dark) -->
+  <section class="relative bg-[--color-hero-dark] text-[--color-cream] overflow-hidden">
+    <div class="container-main py-24 lg:py-36">
+      <div class="max-w-4xl flex flex-col gap-6">
+        <span class="eyebrow text-[--color-primary] inline-flex items-center gap-2">
+          <Sparkle size="h-3 w-3" />
+          Book a discovery call
+        </span>
+        <h1 class="m-0 text-white">
+          30 minutes with Dr Whitfield.
+        </h1>
+        <p class="m-0 text-lg lg:text-xl text-[--color-cream]/80 max-w-3xl leading-relaxed">
+          Pick a slot below. The call is held on Zoom unless you would prefer the
+          phone or in-person at the Mayfair clinic. No sales pitch, no pressure,
+          and no commitment to membership.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking widget (cream) -->
+  <section class="bg-[--color-cream]">
+    <div class="container-main py-24 lg:py-36">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+
+        <!-- Left: what to expect -->
+        <div class="lg:col-span-4 flex flex-col gap-8">
+          <div class="flex flex-col gap-3">
+            <span class="eyebrow text-[--color-caption]">What to expect</span>
+            <h2 class="m-0 text-[--color-headline] text-3xl lg:text-4xl">
+              A real conversation, not a pitch.
+            </h2>
+          </div>
+          <ul class="flex flex-col gap-5 text-[--color-body]" role="list">
+            <li class="flex items-start gap-3">
+              <span aria-hidden="true" class="text-[--color-primary] mt-1.5 shrink-0">
+                <Sparkle size="h-3 w-3" />
+              </span>
+              <span><span class="font-semibold text-[--color-headline]">30 minutes.</span> Dr Whitfield runs the call herself.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span aria-hidden="true" class="text-[--color-primary] mt-1.5 shrink-0">
+                <Sparkle size="h-3 w-3" />
+              </span>
+              <span><span class="font-semibold text-[--color-headline]">Confidential.</span> No notes shared beyond the clinical team without your consent.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span aria-hidden="true" class="text-[--color-primary] mt-1.5 shrink-0">
+                <Sparkle size="h-3 w-3" />
+              </span>
+              <span><span class="font-semibold text-[--color-headline]">Honest.</span> If we're not the right fit, she will say so on the call.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span aria-hidden="true" class="text-[--color-primary] mt-1.5 shrink-0">
+                <Sparkle size="h-3 w-3" />
+              </span>
+              <span><span class="font-semibold text-[--color-headline]">No commitment.</span> The call exists to confirm fit, not to convert.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Right: Cliniko widget placeholder + fallback form -->
+        <div class="lg:col-span-7 lg:col-start-6 flex flex-col gap-8">
+          <div
+            class="relative aspect-[4/3] lg:aspect-[5/4] w-full bg-[--color-surface] border border-[--color-border] flex flex-col items-center justify-center text-center p-10 lg:p-14"
+            aria-label="Discovery call booking calendar"
+          >
+            <Sparkle size="h-8 w-8" color="var(--color-primary)" />
+            <p class="m-0 mt-6 font-heading text-2xl lg:text-3xl font-extrabold text-[--color-headline] tracking-[-0.02em] leading-tight max-w-md">
+              Booking calendar placeholder
+            </p>
+            <p class="m-0 mt-4 text-sm text-[--color-caption] leading-relaxed max-w-md">
+              The live Cliniko booking widget will load here on the production site.
+              For now, use the enquiry form below and Dr Whitfield's PA will offer
+              you a slot within one working day.
+            </p>
+            <noscript>
+              <p class="m-0 mt-4 text-xs text-[--color-caption]">
+                JavaScript is required to load the booking calendar.
+              </p>
+            </noscript>
+          </div>
+
+          <details class="bg-[--color-surface] border border-[--color-border]">
+            <summary class="cursor-pointer list-none flex items-center justify-between gap-4 p-6 lg:p-8 text-base font-semibold text-[--color-headline]">
+              <span>Or request a slot by email</span>
+              <span aria-hidden="true" class="text-xl text-[--color-caption]">+</span>
+            </summary>
+            <div class="p-6 lg:p-8 pt-0">
+              <ContactForm
+                subjectPrefix="Meridian Health — Discovery call request"
+                brandName="Meridian Health"
+                submitLabel="Request a slot"
+                id="book-call"
+              />
+            </div>
+          </details>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

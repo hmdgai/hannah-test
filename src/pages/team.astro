@@ -1,0 +1,132 @@
+---
+/**
+ * /team — Meridian's team page.
+ * Brief Section 5.5. Four physicians, each with a bio from the brief.
+ *
+ * Photo placeholders are solid lime blocks with initials (brief Section
+ * 6.2 — "Will be replaced with real photos in production").
+ */
+import BaseLayout    from "../layouts/BaseLayout.astro";
+import Sparkle       from "../components/svg/Sparkle.astro";
+import MeridianLine  from "../components/svg/MeridianLine.astro";
+
+const team = [
+  {
+    name: "Dr Eleanor Whitfield",
+    role: "Founder & Medical Director",
+    initials: "EW",
+    bio: "Trained at Oxford, completed her residency at Mayo Clinic, and spent six years as a private GP in Mayfair before founding Meridian in 2018. She built the methodology that the rest of the practice now operates on.",
+  },
+  {
+    name: "Dr Marcus Holloway",
+    role: "Senior Physician — Longevity",
+    initials: "MH",
+    bio: "Background in endocrinology and metabolic medicine. Specialises in the slow-moving variables — cardiovascular silent decline, insulin sensitivity, mitochondrial health.",
+  },
+  {
+    name: "Dr Saskia Reinhardt",
+    role: "Senior Physician — Performance",
+    initials: "SR",
+    bio: "Former Olympic team doctor. Brings the sports medicine evidence base to senior professional clients — sleep architecture, recovery protocols, cognitive performance under load.",
+  },
+  {
+    name: "Dr James Okonkwo",
+    role: "Mental Wellness Lead",
+    initials: "JO",
+    bio: "CBT and ACT trained. Specialises in high-functioning anxiety and the burnout patterns that show up in founder and executive populations.",
+  },
+];
+---
+
+<BaseLayout
+  title="The team — Meridian Health"
+  description="The physicians behind your care. Small team by design."
+>
+
+  <!-- Hero (dark) -->
+  <section class="relative bg-[--color-hero-dark] text-[--color-cream] overflow-hidden">
+    <div class="container-main py-24 lg:py-36">
+      <div class="max-w-4xl flex flex-col gap-6">
+        <span class="eyebrow text-[--color-primary] inline-flex items-center gap-2">
+          <Sparkle size="h-3 w-3" />
+          The team
+        </span>
+        <h1 class="m-0 text-white">
+          The people behind your protocol.
+        </h1>
+        <p class="m-0 text-lg lg:text-xl text-[--color-cream]/80 max-w-2xl leading-relaxed">
+          Meridian is a small team by design. Every member sees the same physicians,
+          and the team behind your care knows your full history before they walk into
+          the room.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team grid (cream) -->
+  <section class="bg-[--color-cream]">
+    <div class="container-main py-24 lg:py-36">
+      <ul class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-x-16 lg:gap-y-20" role="list">
+        {team.map((member, i) => (
+          <li class="flex flex-col gap-6">
+            <!-- Placeholder photo: lime block with initials -->
+            <div
+              class="aspect-square w-full bg-[--color-primary] flex items-center justify-center relative overflow-hidden"
+              role="img"
+              aria-label={`Placeholder for ${member.name}`}
+            >
+              <span class="font-heading font-extrabold text-[--color-hero-dark] text-[clamp(6rem,12vw,12rem)] tracking-[-0.05em] leading-none">
+                {member.initials}
+              </span>
+              <span
+                aria-hidden="true"
+                class="absolute top-4 right-4 text-[--color-hero-dark] opacity-50 text-xs font-mono font-semibold uppercase tracking-widest"
+              >
+                0{i + 1} / {team.length}
+              </span>
+            </div>
+
+            <div class="flex flex-col gap-3">
+              <span class="font-mono text-xs font-semibold uppercase tracking-widest text-[--color-caption]">
+                {member.role}
+              </span>
+              <h2 class="m-0 text-3xl lg:text-4xl font-extrabold text-[--color-headline] tracking-[-0.02em] leading-tight">
+                {member.name}
+              </h2>
+              <p class="m-0 text-[--color-body] text-base lg:text-lg leading-relaxed max-w-xl">
+                {member.bio}
+              </p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Closing CTA -->
+  <section class="bg-[--color-cream] border-t border-[--color-border]">
+    <div class="container-main py-24 lg:py-36">
+      <div class="max-w-4xl flex flex-col gap-6">
+        <div aria-hidden="true" class="w-full max-w-[480px] mb-2">
+          <MeridianLine />
+        </div>
+        <span class="eyebrow text-[--color-caption] inline-flex items-center gap-2">
+          <Sparkle size="h-3 w-3" color="var(--color-primary)" />
+          Talk to the team
+        </span>
+        <h2 class="m-0 text-[--color-headline]">
+          Start with the physician, not the brochure.
+        </h2>
+        <p class="m-0 text-[--color-body] text-lg leading-relaxed max-w-2xl">
+          The discovery call is 30 minutes with Dr Whitfield. If your case is
+          better placed with one of the other physicians, she will route you
+          to them directly.
+        </p>
+        <a href="/book-call" class="btn btn-default mt-2 self-start">
+          Book a discovery call
+        </a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
