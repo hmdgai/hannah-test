@@ -38,29 +38,38 @@
        --color-primary-hover → bg-primary-hover / text-primary-hover
        --color-accent        → bg-accent   / text-accent   / border-accent
      ────────────────────────────────────────────────────────── */
-  --color-primary:        #DB003E;   /* main brand — buttons, links, accents    */
-  --color-primary-hover:  #dd0d48;   /* hover state — slightly lighter red      */
-  --color-accent:         #FDF2F5;   /* light brand tint — section backgrounds  */
+  /* MERIDIAN HEALTH (test build) — wgb.agency-derived palette.
+     Lime accent on warm cream / deep dark alternating sections.
+     CRITICAL: lime (#E8FF3D) fails 4.5:1 against cream (#F5F2EC).
+     Never use lime as text on cream — only as button fill (dark text on lime)
+     or as text/stroke on dark sections. See design plan §F.2. */
+  --color-primary:        #E8FF3D;   /* vivid lime — CTAs, highlights, hover     */
+  --color-primary-hover:  #D4EB29;   /* slightly darker lime for hover           */
+  --color-accent:         #F7FFD9;   /* pale lime tint — sparing background use  */
 
   /* ──────────────────────────────────────────────────────────
      CONTENT COLOURS
      Text colours for headings, body, and captions.
-     Consistent across all clinic builds.
      ────────────────────────────────────────────────────────── */
-  --color-headline:  #040303;   /* near-black — all headings h1–h6            */
-  --color-body:      #151515;   /* near-black — paragraphs and body text      */
-  --color-caption:   #94a3b8;   /* light grey — captions, labels, meta text   */
+  --color-headline:  #0A0A0B;   /* near-black — all headings h1–h6            */
+  --color-body:      #1A1A1C;   /* near-black — paragraphs and body text      */
+  --color-caption:   #6B7280;   /* warm slate — captions, labels, meta text   */
 
   /* ──────────────────────────────────────────────────────────
      SURFACE & LAYOUT COLOURS
      Background and border colours for sections, cards, inputs.
+     Background strategy: every section is either --color-muted (cream)
+     or --color-hero-dark (deep cosmic dark), full-bleed. White
+     (--color-surface) is reserved for card surfaces only.
      ────────────────────────────────────────────────────────── */
-  --color-muted:    #F2F2F2;   /* light grey — alternating section backgrounds */
-  --color-surface:  #f8fafc;   /* off-white — cards, form backgrounds          */
-  --color-border:   #e2e8f0;   /* subtle borders and dividers                  */
-  --color-white:    #ffffff;   /* pure white — card backgrounds, nav           */
-  --color-black:    #000000;   /* pure black — use sparingly                   */
-  --color-hero-dark: #0a0f1a;  /* deep navy-black — legal page hero backgrounds */
+  --color-muted:    #F5F2EC;   /* WARM CREAM — alternating section background */
+  --color-cream:    #F5F2EC;   /* alias of muted — clarity in templates       */
+  --color-surface:  #FFFFFF;   /* pure white — card surfaces ONLY             */
+  --color-border:   #E5E3DC;   /* warm beige — thin borders, dividers         */
+  --color-white:    #FFFFFF;   /* pure white — backgrounds, nav               */
+  --color-black:    #000000;   /* pure black — use sparingly                  */
+  --color-hero-dark: #0A0F1A;  /* DEEP COSMIC DARK — alt section bg, footer  */
+  --color-accent-dark: #0A0F1A; /* alias for dark inversions                  */
 
   /* ──────────────────────────────────────────────────────────
      TYPOGRAPHY — FONT FAMILIES
@@ -116,17 +125,18 @@
      ────────────────────────────────────────────────────────── */
 
   /* H1 — Hero headlines, page titles
-     Mobile: ~40px  →  Desktop: ~72px
-     Tight line-height for impactful large type              */
-  --text-h1:                  clamp(2.5rem, 3vw + 1.8rem, 4.5rem);
-  --text-h1--line-height:     1.08;
+     Mobile: ~48px  →  Desktop: ~96px
+     Oversized display scale per the Meridian / wgb.agency brief.
+     Tight line-height for impactful large type.              */
+  --text-h1:                  clamp(3rem, 5vw + 1rem, 6rem);
+  --text-h1--line-height:     1.05;
   --text-h1--letter-spacing:  -0.03em;
 
   /* H2 — Section headings
-     Mobile: ~32px  →  Desktop: ~56px                       */
-  --text-h2:                  clamp(2rem, 2.25vw + 1.47rem, 3.5rem);
-  --text-h2--line-height:     1.12;
-  --text-h2--letter-spacing:  -0.025em;
+     Mobile: ~40px  →  Desktop: ~72px                        */
+  --text-h2:                  clamp(2.5rem, 3vw + 1rem, 4.5rem);
+  --text-h2--line-height:     1.08;
+  --text-h2--letter-spacing:  -0.03em;
 
   /* H3 — Sub-section titles, card headings
      Mobile: ~24px  →  Desktop: ~40px                       */

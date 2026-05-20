@@ -102,7 +102,7 @@ export const cookieConsentConfig = {
    * policy. Uses PUBLIC_SITE_NAME from .env so the clinic/business name
    * adapts automatically when cloned to a new client project.
    */
-  bannerText: `At ${ENV_SITE_NAME}, we use cookies to improve your experience, personalise content, and understand how visitors use our site. You can choose which cookies you accept.`,
+  bannerText: `At ${ENV_SITE_NAME}, we use cookies and similar technologies to improve your experience, analyse traffic, and personalise content. You can choose which cookies you accept.`,
 
   /** Button labels — UK English spelling required */
   acceptAllLabel:       'Accept All',
