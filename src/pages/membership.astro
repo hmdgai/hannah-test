@@ -104,7 +104,7 @@ const faqs = [
   <section class="relative bg-[--color-hero-dark] text-[--color-cream] overflow-hidden">
     <div class="container-main py-24 lg:py-36">
       <div class="max-w-4xl flex flex-col gap-6">
-        <span class="eyebrow text-[--color-primary] inline-flex items-center gap-2">
+        <span class="eyebrow text-[--color-orange] inline-flex items-center gap-2">
           <Sparkle size="h-3 w-3" />
           Membership
         </span>
@@ -137,8 +137,8 @@ const faqs = [
             ]}
           >
             {p.featured && (
-              <span class="self-start inline-flex items-center gap-2 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-[--color-hero-dark] bg-[--color-primary] rounded-full">
-                <Sparkle size="h-3 w-3" color="var(--color-hero-dark)" />
+              <span class="self-start inline-flex items-center gap-2 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-white bg-[--color-orange] rounded-full">
+                <Sparkle size="h-3 w-3" color="white" />
                 Most chosen
               </span>
             )}
@@ -146,7 +146,7 @@ const faqs = [
             <div class="flex flex-col gap-2">
               <span class:list={[
                 "text-xs font-semibold uppercase tracking-widest",
-                p.featured ? "text-[--color-primary]" : "text-[--color-caption]",
+                p.featured ? "text-[--color-orange]" : "text-[--color-caption]",
               ]}>
                 {p.name}
               </span>
@@ -180,7 +180,7 @@ const faqs = [
               {p.inclusionsHeading && (
                 <span class:list={[
                   "text-xs font-semibold uppercase tracking-widest",
-                  p.featured ? "text-[--color-primary]" : "text-[--color-caption]",
+                  p.featured ? "text-[--color-orange]" : "text-[--color-caption]",
                 ]}>
                   {p.inclusionsHeading}
                 </span>
@@ -192,7 +192,7 @@ const faqs = [
                       aria-hidden="true"
                       class:list={[
                         "mt-1.5 shrink-0",
-                        p.featured ? "text-[--color-primary]" : "text-[--color-headline]",
+                        p.featured ? "text-[--color-orange]" : "text-[--color-headline]",
                       ]}
                     >
                       <Sparkle size="h-3 w-3" />
@@ -208,7 +208,7 @@ const faqs = [
               class:list={[
                 "mt-4 inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-[--radius-btn] text-sm font-semibold transition-colors",
                 p.featured
-                  ? "bg-[--color-primary] text-[--color-hero-dark] hover:bg-[--color-primary-hover]"
+                  ? "bg-[--color-primary] text-white hover:bg-[--color-primary-hover]"
                   : "bg-[--color-headline] text-white hover:bg-[--color-body]",
               ]}
             >
@@ -229,7 +229,7 @@ const faqs = [
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
 
         <div class="lg:col-span-4 lg:sticky lg:top-28 self-start">
-          <span class="eyebrow text-[--color-primary] inline-flex items-center gap-2">
+          <span class="eyebrow text-[--color-orange] inline-flex items-center gap-2">
             <Sparkle size="h-3 w-3" />
             FAQ
           </span>
@@ -244,7 +244,7 @@ const faqs = [
               <details class="group">
                 <summary class="flex items-start justify-between gap-6 py-6 cursor-pointer list-none">
                   <span class="flex items-start gap-4">
-                    <span class="text-sm font-mono font-semibold text-[--color-primary] shrink-0 pt-1">
+                    <span class="text-sm font-mono font-semibold text-[--color-orange] shrink-0 pt-1">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span class="text-lg lg:text-xl font-heading font-bold text-white tracking-[-0.02em] leading-snug">

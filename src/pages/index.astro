@@ -162,7 +162,7 @@ const schema = {
     <div class="container-main relative py-28 lg:py-44">
       <div class="max-w-3xl flex flex-col gap-8">
 
-        <span class="eyebrow text-[--color-primary] inline-flex items-center gap-2">
+        <span class="eyebrow text-[--color-orange] inline-flex items-center gap-2">
           <Sparkle size="h-3 w-3" />
           Concierge medicine · Mayfair
         </span>
@@ -182,7 +182,7 @@ const schema = {
           </a>
           <a
             href="/membership"
-            class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-[--radius-btn] border border-[--color-cream]/30 text-[--color-cream] text-sm font-semibold hover:border-[--color-primary] hover:text-[--color-primary] transition-colors"
+            class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-[--radius-btn] border border-[--color-cream]/30 text-[--color-cream] text-sm font-semibold hover:border-[--color-orange] hover:text-[--color-orange] transition-colors"
           >
             View membership
           </a>
@@ -200,12 +200,12 @@ const schema = {
           {trustItems.map((item, i) => (
             <>
               {i > 0 && (
-                <li aria-hidden="true" class="text-[--color-primary]">
+                <li aria-hidden="true" class="text-[--color-orange]">
                   <Sparkle size="h-3 w-3" />
                 </li>
               )}
               <li class="inline-flex items-center gap-2">
-                <Sparkle size="h-3 w-3" color="var(--color-primary)" />
+                <Sparkle size="h-3 w-3" color="var(--color-orange)" />
                 <span>{item}</span>
               </li>
             </>
@@ -258,7 +258,7 @@ const schema = {
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
         {stats.map((stat) => (
           <div class="flex flex-col gap-3">
-            <span class="font-heading text-5xl lg:text-7xl font-extrabold text-[--color-primary] tracking-[-0.03em] leading-none">
+            <span class="font-heading text-5xl lg:text-7xl font-extrabold text-[--color-orange] tracking-[-0.03em] leading-none">
               {stat.number}
             </span>
             <span class="text-sm text-[--color-cream]/70 uppercase tracking-wider font-medium leading-snug">
@@ -331,7 +331,7 @@ const schema = {
 
       <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12 lg:mb-20">
         <div class="flex flex-col gap-4 max-w-2xl">
-          <span class="eyebrow text-[--color-primary] inline-flex items-center gap-2">
+          <span class="eyebrow text-[--color-orange] inline-flex items-center gap-2">
             <Sparkle size="h-3 w-3" />
             What members say
           </span>
@@ -341,13 +341,13 @@ const schema = {
         </div>
         <div class="hidden sm:flex items-center gap-2 shrink-0">
           <button
-            class="meridian-prev w-12 h-12 rounded-full border border-[--color-cream]/30 text-[--color-cream] hover:border-[--color-primary] hover:text-[--color-primary] transition-colors inline-flex items-center justify-center"
+            class="meridian-prev w-12 h-12 rounded-full border border-[--color-cream]/30 text-[--color-cream] hover:border-[--color-orange] hover:text-[--color-orange] transition-colors inline-flex items-center justify-center"
             aria-label="Previous testimonial"
           >
             <span aria-hidden="true">←</span>
           </button>
           <button
-            class="meridian-next w-12 h-12 rounded-full border border-[--color-cream]/30 text-[--color-cream] hover:border-[--color-primary] hover:text-[--color-primary] transition-colors inline-flex items-center justify-center"
+            class="meridian-next w-12 h-12 rounded-full border border-[--color-cream]/30 text-[--color-cream] hover:border-[--color-orange] hover:text-[--color-orange] transition-colors inline-flex items-center justify-center"
             aria-label="Next testimonial"
           >
             <span aria-hidden="true">→</span>
@@ -364,7 +364,7 @@ const schema = {
                   {Array.from({ length: 5 }).map((_, i) => (
                     <span
                       aria-hidden="true"
-                      class={i < t.rating ? "text-[--color-primary]" : "text-[--color-cream]/20"}
+                      class={i < t.rating ? "text-[--color-orange]" : "text-[--color-cream]/20"}
                     >
                       <Sparkle size="h-4 w-4" />
                     </span>
@@ -466,20 +466,20 @@ const schema = {
 
   <style is:global>
     /* Meridian testimonial pagination bullets — sit on dark section,
-       lime active, cream inactive. Local to this page. */
+       orange active, cream inactive. Local to this page. */
     .meridian-bullet {
       width: 8px;
       height: 8px;
       border-radius: 9999px;
-      background: rgba(245, 242, 236, 0.25);
+      background: rgba(248, 237, 219, 0.25);
       border: 0;
       padding: 0;
       cursor: pointer;
       transition: background-color 0.2s ease, transform 0.2s ease;
     }
-    .meridian-bullet:hover { background: rgba(245, 242, 236, 0.5); }
+    .meridian-bullet:hover { background: rgba(248, 237, 219, 0.5); }
     .meridian-bullet--active {
-      background: var(--color-primary);
+      background: var(--color-orange);
       transform: scale(1.15);
     }
   </style>

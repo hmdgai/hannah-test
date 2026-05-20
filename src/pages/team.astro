@@ -47,7 +47,7 @@ const team = [
   <section class="relative bg-[--color-hero-dark] text-[--color-cream] overflow-hidden">
     <div class="container-main py-24 lg:py-36">
       <div class="max-w-4xl flex flex-col gap-6">
-        <span class="eyebrow text-[--color-primary] inline-flex items-center gap-2">
+        <span class="eyebrow text-[--color-orange] inline-flex items-center gap-2">
           <Sparkle size="h-3 w-3" />
           The team
         </span>
@@ -75,12 +75,12 @@ const team = [
               role="img"
               aria-label={`Placeholder for ${member.name}`}
             >
-              <span class="font-heading font-extrabold text-[--color-hero-dark] text-[clamp(6rem,12vw,12rem)] tracking-[-0.05em] leading-none">
+              <span class="font-heading font-extrabold text-white text-[clamp(6rem,12vw,12rem)] tracking-[-0.05em] leading-none">
                 {member.initials}
               </span>
               <span
                 aria-hidden="true"
-                class="absolute top-4 right-4 text-[--color-hero-dark] opacity-50 text-xs font-mono font-semibold uppercase tracking-widest"
+                class="absolute top-4 right-4 text-white opacity-60 text-xs font-mono font-semibold uppercase tracking-widest"
               >
                 0{i + 1} / {team.length}
               </span>

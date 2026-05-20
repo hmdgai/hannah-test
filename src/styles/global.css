@@ -38,14 +38,22 @@
        --color-primary-hover → bg-primary-hover / text-primary-hover
        --color-accent        → bg-accent   / text-accent   / border-accent
      ────────────────────────────────────────────────────────── */
-  /* MERIDIAN HEALTH (test build) — wgb.agency-derived palette.
-     Lime accent on warm cream / deep dark alternating sections.
-     CRITICAL: lime (#E8FF3D) fails 4.5:1 against cream (#F5F2EC).
-     Never use lime as text on cream — only as button fill (dark text on lime)
-     or as text/stroke on dark sections. See design plan §F.2. */
-  --color-primary:        #E8FF3D;   /* vivid lime — CTAs, highlights, hover     */
-  --color-primary-hover:  #D4EB29;   /* slightly darker lime for hover           */
-  --color-accent:         #F7FFD9;   /* pale lime tint — sparing background use  */
+  /* MERIDIAN HEALTH (test build) — wgb.agency palette v2.
+     Cobalt blue primary on a warm peachy cream, with a punchy orange
+     as the secondary accent. Blue (#1F2BEB) reads at 6.3:1 on cream
+     and gives the brand its CTA pop. Orange (#E55A22) reads at 5.4:1
+     on the deep dark — used for small accent marks (✦, X-icons,
+     numerals) where lime used to live. */
+  --color-primary:        #1F2BEB;   /* cobalt blue — CTAs, links, focus rings */
+  --color-primary-hover:  #1822C2;   /* darker cobalt for hover                */
+  --color-accent:         #ECEEFF;   /* pale blue tint — sparing background use*/
+
+  /* Secondary accent — used for small marks (sparkles, X-icons, ratings,
+     stats) where blue would fail contrast on the dark sections. Orange
+     reads at ~5.4:1 on --color-hero-dark and ~3:1 on cream (graphic-only,
+     never used as readable text on cream). */
+  --color-orange:         #E55A22;
+  --color-orange-hover:   #C9491A;
 
   /* ──────────────────────────────────────────────────────────
      CONTENT COLOURS
@@ -57,15 +65,14 @@
 
   /* ──────────────────────────────────────────────────────────
      SURFACE & LAYOUT COLOURS
-     Background and border colours for sections, cards, inputs.
-     Background strategy: every section is either --color-muted (cream)
-     or --color-hero-dark (deep cosmic dark), full-bleed. White
-     (--color-surface) is reserved for card surfaces only.
+     Background strategy: every section is either --color-muted (warm
+     peachy cream) or --color-hero-dark (deep cosmic dark), full-bleed.
+     White (--color-surface) is reserved for card surfaces only.
      ────────────────────────────────────────────────────────── */
-  --color-muted:    #F5F2EC;   /* WARM CREAM — alternating section background */
-  --color-cream:    #F5F2EC;   /* alias of muted — clarity in templates       */
+  --color-muted:    #F8EDDB;   /* WARM PEACHY CREAM — alt section background */
+  --color-cream:    #F8EDDB;   /* alias of muted — clarity in templates       */
   --color-surface:  #FFFFFF;   /* pure white — card surfaces ONLY             */
-  --color-border:   #E5E3DC;   /* warm beige — thin borders, dividers         */
+  --color-border:   #E8DEC8;   /* warm beige — thin borders, dividers         */
   --color-white:    #FFFFFF;   /* pure white — backgrounds, nav               */
   --color-black:    #000000;   /* pure black — use sparingly                  */
   --color-hero-dark: #0A0F1A;  /* DEEP COSMIC DARK — alt section bg, footer  */

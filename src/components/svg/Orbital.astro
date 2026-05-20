@@ -27,7 +27,10 @@ interface Props {
 }
 
 const {
-  accentColor = "var(--color-primary)",
+  // Default to orange — Orbital is most often used on dark hero sections
+  // where the cobalt primary fails contrast against --color-hero-dark.
+  // Override with `accentColor="var(--color-primary)"` on cream sections.
+  accentColor = "var(--color-orange)",
   stroke = "var(--color-caption)",
   class: extraClass = "",
   ariaLabel,
