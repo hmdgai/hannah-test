@@ -1,0 +1,146 @@
+---
+/**
+ * /accessibility — Meridian Health Accessibility Statement.
+ * Brief Section 10.2 — "Generate boilerplate WCAG 2.1 AA statement."
+ *
+ * Conforms to the UK Public Sector Bodies Accessibility Regulations
+ * 2018 voluntary template style and WCAG 2.1 Level AA.
+ */
+import BaseLayout    from "../layouts/BaseLayout.astro";
+import Sparkle       from "../components/svg/Sparkle.astro";
+
+const sections = [
+  {
+    heading: "Using this website",
+    paras: [
+      "We have built meridianhealth.fictitious so that as many people as possible can use it. You should be able to:",
+    ],
+    list: [
+      "Resize text up to 200 percent without the layout breaking",
+      "Navigate the entire site using only a keyboard",
+      "Navigate the entire site using a screen reader (including the latest versions of NVDA, VoiceOver, and JAWS)",
+      "Adjust contrast and colour settings in your browser without losing content",
+      "Listen to most of the content using screen-reading software",
+    ],
+  },
+  {
+    heading: "Our conformance status",
+    paras: [
+      "This website aims to conform to Web Content Accessibility Guidelines (WCAG) 2.1 at Level AA. The colour palette, typography, focus indicators, and interactive components have been chosen and tested with this standard in mind.",
+      "All text meets the 4.5:1 contrast ratio against its background. Large text (over 18.66px bold or 24px regular) meets the 3:1 ratio. Touch targets on mobile are a minimum of 44 by 44 pixels.",
+    ],
+  },
+  {
+    heading: "Known limitations",
+    paras: [
+      "We are aware of the following limitations and are working to resolve them:",
+    ],
+    list: [
+      "Some third-party embeds (notably the Cliniko booking widget) inherit their own accessibility behaviour from the provider. We monitor these and raise issues with the vendor when they fall short of WCAG 2.1 AA.",
+      "Decorative SVG illustrations carry an aria-hidden attribute and are skipped by screen readers, which is the correct behaviour. Where an SVG conveys information (e.g. star ratings), it carries an accessible label.",
+    ],
+  },
+  {
+    heading: "Reporting an issue",
+    paras: [
+      "If you find a problem with the accessibility of this site, or need information presented in a different format, please contact us:",
+    ],
+    list: [
+      "Email: concierge@meridianhealth.fictitious",
+      "Phone: 020 7946 1840",
+    ],
+  },
+  {
+    heading: "How we test",
+    paras: [
+      "The site is reviewed against WCAG 2.1 AA at every build using a combination of automated tooling (Lighthouse, axe-core) and manual checks against the WebAIM checklist. Keyboard navigation, focus order, screen-reader output, and contrast are checked on every page before release.",
+    ],
+  },
+  {
+    heading: "Preparation of this statement",
+    paras: [
+      "This statement was prepared on 20 May 2026 and last reviewed on 20 May 2026. It reflects the state of the site at that date and is reviewed at least annually.",
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Accessibility — Meridian Health"
+  description="Our accessibility statement, WCAG 2.1 AA conformance, and how to report a problem."
+>
+
+  <!-- Hero (dark) -->
+  <section class="relative bg-[--color-hero-dark] text-[--color-cream] overflow-hidden">
+    <div class="container-main py-24 lg:py-36">
+      <div class="max-w-4xl flex flex-col gap-6">
+        <span class="eyebrow text-[--color-primary] inline-flex items-center gap-2">
+          <Sparkle size="h-3 w-3" />
+          Accessibility
+        </span>
+        <h1 class="m-0 text-white">
+          Built so you can use it. All of you.
+        </h1>
+        <p class="m-0 text-lg lg:text-xl text-[--color-cream]/80 max-w-3xl leading-relaxed">
+          Meridian Health is committed to ensuring digital accessibility for everyone.
+          This statement explains how we conform to WCAG 2.1 Level AA, the known
+          limitations, and how to report a problem.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Body (cream) -->
+  <section class="bg-[--color-cream]">
+    <div class="container-main py-24 lg:py-36">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+
+        <aside class="lg:col-span-3 lg:sticky lg:top-28 self-start">
+          <span class="eyebrow text-[--color-caption]">Contents</span>
+          <ul class="flex flex-col gap-2 mt-4 text-sm" role="list">
+            {sections.map((s, i) => (
+              <li>
+                <a
+                  href={`#section-${i + 1}`}
+                  class="text-[--color-body] hover:text-[--color-headline] hover:border-[--color-primary] border-b border-transparent pb-0.5 transition-colors"
+                >
+                  {String(i + 1).padStart(2, "0")} — {s.heading}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </aside>
+
+        <div class="lg:col-span-8 lg:col-start-5 flex flex-col gap-16 text-[--color-body]">
+          {sections.map((s, i) => (
+            <section id={`section-${i + 1}`} class="flex flex-col gap-5">
+              <span class="font-mono text-sm font-semibold text-[--color-caption]">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h2 class="m-0 text-[--color-headline] text-3xl lg:text-4xl">
+                {s.heading}
+              </h2>
+              {s.paras.map((p) => (
+                <p class="m-0 text-lg leading-relaxed max-w-2xl">{p}</p>
+              ))}
+              {s.list && (
+                <ul class="flex flex-col gap-3 mt-2 max-w-2xl" role="list">
+                  {s.list.map((item) => (
+                    <li class="flex items-start gap-3">
+                      <span aria-hidden="true" class="text-[--color-primary] mt-1.5 shrink-0">
+                        <Sparkle size="h-3 w-3" />
+                      </span>
+                      <span class="text-base leading-relaxed">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          ))}
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
