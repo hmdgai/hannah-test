@@ -3,17 +3,13 @@
  * Footer.astro
  * ─────────────────────────────────────────────────────
  * Global site footer. Used once in BaseLayout.astro.
- * Do NOT duplicate this component in individual pages.
  *
- * Meridian Health (test build) — dark background, cream text,
- * lime accent on hover/active states.
- *
- * ── Active-state system (MANDATORY on every nav change) ─────────
- * Footer lives on a dark background, so active state MUST differ
- * visibly from hover. Design: active = white + semibold (600).
- * Hover = white + 400. Default = --color-caption + 400.
- * Uses the `.footer-link` base class + `.is-active` modifier.
+ * All colour rules live in global.css under .site-footer —
+ * scoped CSS to guarantee the dark surface + brand-tinted
+ * column labels render reliably regardless of Tailwind
+ * arbitrary-value resolution.
  */
+import PlusButton from "./PlusButton.astro";
 
 const currentPath = Astro.url.pathname;
 
@@ -22,23 +18,21 @@ const isActive = (href: string): boolean => {
   const norm = href.endsWith('/') ? href : href + '/';
   return currentPath === norm || currentPath === norm.slice(0, -1);
 };
-
 const isSection = (prefix: string): boolean => currentPath.startsWith(prefix);
 
-// Active state booleans — explicit per HMDG nav rules.
-const homeActive        = isActive('/');
-const methodologyActive = isSection('/methodology');
-const membershipActive  = isSection('/membership');
-const diagnosticsActive = isSection('/diagnostics');
-const teamActive        = isActive('/team');
-const contactActive     = isActive('/contact');
-const privacyActive     = isActive('/privacy-policy');
-const termsActive       = isActive('/terms-conditions');
-const cookieActive      = isActive('/cookie-policy');
+const homeActive          = isActive('/');
+const methodologyActive   = isSection('/methodology');
+const membershipActive    = isSection('/membership');
+const diagnosticsActive   = isSection('/diagnostics');
+const teamActive          = isActive('/team');
+const contactActive       = isActive('/contact');
+const privacyActive       = isActive('/privacy-policy');
+const termsActive         = isActive('/terms-conditions');
+const cookieActive        = isActive('/cookie-policy');
 const accessibilityActive = isActive('/accessibility');
 ---
 
-<footer class="bg-[--color-hero-dark] text-[--color-cream]">
+<footer class="site-footer">
 
   <!-- ── Main columns ─────────────────────────────────────────── -->
   <div class="container-main py-20">
@@ -46,123 +40,65 @@ const accessibilityActive = isActive('/accessibility');
 
       <!-- Brand -->
       <div class="flex flex-col gap-5 lg:col-span-1">
-        <a
-          href="/"
-          class="font-heading text-2xl font-extrabold text-white tracking-[-0.02em] hover:opacity-80 transition-opacity inline-flex items-center gap-2 self-start"
-          aria-label="Meridian Health — home"
-        >
+        <a href="/" class="wordmark font-heading text-2xl font-extrabold tracking-[-0.02em] hover:opacity-80 transition-opacity inline-flex items-center gap-2 self-start" aria-label="Meridian Health — home">
           <span>MERIDIAN</span>
-          <span aria-hidden="true" class="text-[--color-orange] text-3xl leading-none">✦</span>
+          <span aria-hidden="true" class="spark text-3xl leading-none">✦</span>
         </a>
-        <p class="m-0 text-sm text-[--color-caption] leading-relaxed max-w-xs">
+        <p class="m-0 text-sm leading-relaxed max-w-xs opacity-80">
           Concierge medicine for founders, executives, and professionals
           who can't afford to be reactive about their health.
         </p>
-        <a href="/book-call" class="btn btn-default self-start mt-2">
-          Book a discovery call
-        </a>
+        <PlusButton href="/book-call" variant="blue" label="Book a discovery call" class="self-start mt-2" />
       </div>
 
       <!-- Quick Links -->
       <div class="flex flex-col gap-5">
-        <span class="text-xs font-semibold text-[--color-orange] uppercase tracking-widest">
-          Explore
-        </span>
+        <span class="footer-column-label text-xs font-semibold uppercase tracking-widest">Explore</span>
         <nav class="flex flex-col gap-3" aria-label="Footer navigation">
-          <a
-            href="/"
-            class:list={["footer-link text-sm", { "is-active": homeActive }]}
-          >Home</a>
-          <a
-            href="/methodology"
-            class:list={["footer-link text-sm", { "is-active": methodologyActive }]}
-          >Methodology</a>
-          <a
-            href="/membership"
-            class:list={["footer-link text-sm", { "is-active": membershipActive }]}
-          >Membership</a>
-          <a
-            href="/team"
-            class:list={["footer-link text-sm", { "is-active": teamActive }]}
-          >Team</a>
-          <a
-            href="/contact"
-            class:list={["footer-link text-sm", { "is-active": contactActive }]}
-          >Contact</a>
+          <a href="/"             class:list={["footer-link text-sm", { "is-active": homeActive }]}>Home</a>
+          <a href="/methodology"  class:list={["footer-link text-sm", { "is-active": methodologyActive }]}>Methodology</a>
+          <a href="/membership"   class:list={["footer-link text-sm", { "is-active": membershipActive }]}>Membership</a>
+          <a href="/team"         class:list={["footer-link text-sm", { "is-active": teamActive }]}>Team</a>
+          <a href="/contact"      class:list={["footer-link text-sm", { "is-active": contactActive }]}>Contact</a>
         </nav>
       </div>
 
       <!-- Diagnostics -->
       <div class="flex flex-col gap-5">
-        <span class="text-xs font-semibold text-[--color-orange] uppercase tracking-widest">
-          Diagnostics
-        </span>
+        <span class="footer-column-label text-xs font-semibold uppercase tracking-widest">Diagnostics</span>
         <nav class="flex flex-col gap-3" aria-label="Diagnostics services">
-          <a
-            href="/diagnostics/executive-assessment"
-            class:list={["footer-link text-sm", { "is-active": isActive('/diagnostics/executive-assessment') }]}
-          >Executive Assessment</a>
-          <a
-            href="/diagnostics/longevity-screening"
-            class:list={["footer-link text-sm", { "is-active": isActive('/diagnostics/longevity-screening') }]}
-          >Longevity Screening</a>
-          <a
-            href="/diagnostics/performance-optimisation"
-            class:list={["footer-link text-sm", { "is-active": isActive('/diagnostics/performance-optimisation') }]}
-          >Performance Optimisation</a>
-          <a
-            href="/diagnostics/mental-wellness"
-            class:list={["footer-link text-sm", { "is-active": isActive('/diagnostics/mental-wellness') }]}
-          >Mental Wellness</a>
-          <a
-            href="/diagnostics"
-            class:list={["footer-link text-sm", { "is-active": diagnosticsActive && currentPath === '/diagnostics/' }]}
-          >All Diagnostics →</a>
+          <a href="/diagnostics/executive-assessment"      class:list={["footer-link text-sm", { "is-active": isActive('/diagnostics/executive-assessment') }]}>Executive Assessment</a>
+          <a href="/diagnostics/longevity-screening"       class:list={["footer-link text-sm", { "is-active": isActive('/diagnostics/longevity-screening') }]}>Longevity Screening</a>
+          <a href="/diagnostics/performance-optimisation"  class:list={["footer-link text-sm", { "is-active": isActive('/diagnostics/performance-optimisation') }]}>Performance Optimisation</a>
+          <a href="/diagnostics/mental-wellness"           class:list={["footer-link text-sm", { "is-active": isActive('/diagnostics/mental-wellness') }]}>Mental Wellness</a>
+          <a href="/diagnostics"                           class:list={["footer-link text-sm", { "is-active": diagnosticsActive && currentPath === '/diagnostics/' }]}>All Diagnostics →</a>
         </nav>
       </div>
 
       <!-- Contact + Hours -->
       <div class="flex flex-col gap-5">
-        <span class="text-xs font-semibold text-[--color-orange] uppercase tracking-widest">
-          Contact
-        </span>
+        <span class="footer-column-label text-xs font-semibold uppercase tracking-widest">Contact</span>
         <div class="flex flex-col gap-3">
-          <address class="not-italic flex flex-col gap-1">
-            <span class="text-sm text-[--color-caption]">14 South Audley Street</span>
-            <span class="text-sm text-[--color-caption]">Mayfair, London W1K 1JQ</span>
+          <address class="not-italic flex flex-col gap-1 text-sm opacity-80">
+            <span>14 South Audley Street</span>
+            <span>Mayfair, London W1K 1JQ</span>
           </address>
-          <a
-            href="tel:+442079461840"
-            class="text-sm text-[--color-caption] hover:text-white transition-colors"
-          >020 7946 1840</a>
-          <a
-            href="mailto:concierge@meridianhealth.fictitious"
-            class="text-sm text-[--color-caption] hover:text-white transition-colors break-all"
-          >concierge@meridianhealth.fictitious</a>
+          <a href="tel:+442079461840"                    class="footer-link text-sm">020 7946 1840</a>
+          <a href="mailto:concierge@meridianhealth.fictitious" class="footer-link text-sm break-all">concierge@meridianhealth.fictitious</a>
         </div>
         <div class="flex flex-col gap-2 mt-2">
-          <span class="text-xs font-semibold text-[--color-orange] uppercase tracking-widest">Opening Hours</span>
-          <span class="text-sm text-[--color-caption]">Mon – Wed&nbsp;&nbsp; 08:00 – 19:00</span>
-          <span class="text-sm text-[--color-caption]">Thursday&nbsp;&nbsp;&nbsp;&nbsp; 08:00 – 20:00</span>
-          <span class="text-sm text-[--color-caption]">Friday&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 08:00 – 18:00</span>
-          <span class="text-sm text-[--color-caption]">Saturday&nbsp;&nbsp;&nbsp;&nbsp; 09:00 – 14:00<span class="text-xs opacity-70"> (members)</span></span>
-          <span class="text-sm text-[--color-caption]">Sunday&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 24/7 phone line</span>
+          <span class="footer-column-label text-xs font-semibold uppercase tracking-widest">Opening Hours</span>
+          <ul class="flex flex-col gap-1.5 text-sm opacity-80" role="list">
+            <li class="flex justify-between gap-4"><span>Mon – Wed</span><span>08:00 – 19:00</span></li>
+            <li class="flex justify-between gap-4"><span>Thursday</span><span>08:00 – 20:00</span></li>
+            <li class="flex justify-between gap-4"><span>Friday</span><span>08:00 – 18:00</span></li>
+            <li class="flex justify-between gap-4"><span>Saturday</span><span>09:00 – 14:00</span></li>
+            <li class="flex justify-between gap-4"><span>Sunday</span><span>24/7 phone line</span></li>
+          </ul>
         </div>
         <div class="flex items-center gap-4 mt-2" aria-label="Social media">
-          <a
-            href="https://instagram.com/meridianhealth.fictitious"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-sm text-[--color-caption] hover:text-[--color-orange] transition-colors"
-            aria-label="Meridian Health on Instagram"
-          >Instagram</a>
-          <a
-            href="https://linkedin.com/company/meridian-health.fictitious"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-sm text-[--color-caption] hover:text-[--color-orange] transition-colors"
-            aria-label="Meridian Health on LinkedIn"
-          >LinkedIn</a>
+          <a href="https://instagram.com/meridianhealth.fictitious" target="_blank" rel="noopener noreferrer" class="footer-link text-sm" aria-label="Meridian Health on Instagram">Instagram</a>
+          <a href="https://linkedin.com/company/meridian-health.fictitious" target="_blank" rel="noopener noreferrer" class="footer-link text-sm" aria-label="Meridian Health on LinkedIn">LinkedIn</a>
         </div>
       </div>
 
@@ -170,43 +106,22 @@ const accessibilityActive = isActive('/accessibility');
   </div>
 
   <!-- ── Bottom bar ──────────────────────────────────────────── -->
-  <div class="border-t border-white/10">
+  <div style="border-top: 1px solid rgb(255 255 255 / 0.10);">
     <div class="container-main py-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 
-      <!-- Copyright + credit -->
-      <div class="flex flex-wrap items-center gap-5">
-        <span class="text-sm text-[--color-caption]">
-          © {new Date().getFullYear()} Meridian Health Ltd
-        </span>
-        <span class="text-sm text-[--color-caption]">
+      <div class="flex flex-wrap items-center gap-5 footer-meta text-sm">
+        <span>© {new Date().getFullYear()} Meridian Health Ltd</span>
+        <span>
           Designed &amp; Developed by
-          <a
-            href="https://hmdg.co.uk/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="font-semibold text-white hover:text-[--color-orange] transition-colors ml-1"
-          >HMDG</a>
+          <a href="https://hmdg.co.uk/" target="_blank" rel="noopener noreferrer" class="font-semibold ml-1 text-white hover:opacity-80 transition-opacity">HMDG</a>
         </span>
       </div>
 
-      <!-- Legal links -->
       <nav class="flex flex-wrap items-center gap-5" aria-label="Legal">
-        <a
-          href="/privacy-policy"
-          class:list={["footer-link text-sm", { "is-active": privacyActive }]}
-        >Privacy Policy</a>
-        <a
-          href="/terms-conditions"
-          class:list={["footer-link text-sm", { "is-active": termsActive }]}
-        >Terms &amp; Conditions</a>
-        <a
-          href="/cookie-policy"
-          class:list={["footer-link text-sm", { "is-active": cookieActive }]}
-        >Cookie Policy</a>
-        <a
-          href="/accessibility"
-          class:list={["footer-link text-sm", { "is-active": accessibilityActive }]}
-        >Accessibility</a>
+        <a href="/privacy-policy"   class:list={["footer-link text-sm", { "is-active": privacyActive }]}>Privacy Policy</a>
+        <a href="/terms-conditions" class:list={["footer-link text-sm", { "is-active": termsActive }]}>Terms &amp; Conditions</a>
+        <a href="/cookie-policy"    class:list={["footer-link text-sm", { "is-active": cookieActive }]}>Cookie Policy</a>
+        <a href="/accessibility"    class:list={["footer-link text-sm", { "is-active": accessibilityActive }]}>Accessibility</a>
       </nav>
 
     </div>

@@ -3,35 +3,23 @@
  * Header.astro
  * ─────────────────────────────────────────────────────
  * Global sticky navigation header. Used once in BaseLayout.astro.
- * Do NOT duplicate this component in individual pages.
  *
- * Meridian Health (test build) — wgb.agency-inspired minimal nav.
- * Cream background, dark text, lime ✦ in the wordmark, single lime CTA.
- *
- * ── Active-state system (MANDATORY on every nav change) ─────────
- * Every nav link must visually indicate the current page using the
- * helpers below — desktop AND mobile. See .claude/rules/frontend.md.
- *
- *   isActive(href)    — exact-match leaf link or top-level plain link
- *   isSection(prefix) — dropdown / flyout triggers whose CHILDREN
- *                       should activate the parent trigger
+ * Colour rules live in global.css under .site-header /
+ * .site-header-mobile — scoped CSS so the nav text + wordmark
+ * render reliably regardless of any Tailwind v4 arbitrary-value
+ * quirks. Markup just carries semantic classes + active-state
+ * helpers per HMDG nav rules.
  */
+import PlusButton from "./PlusButton.astro";
 
 const currentPath = Astro.url.pathname;
 
-// Exact match — '/' is homepage-only; trailing slash normalised
 const isActive = (href: string): boolean => {
   if (href === '/') return currentPath === '/';
   const norm = href.endsWith('/') ? href : href + '/';
   return currentPath === norm || currentPath === norm.slice(0, -1);
 };
-
-// Prefix match — used so a child page like /diagnostics/executive-assessment
-// activates the parent /diagnostics nav item.
 const isSection = (prefix: string): boolean => currentPath.startsWith(prefix);
-
-// Per-link active booleans — keep these explicit so the checklist is visible.
-import PlusButton from "./PlusButton.astro";
 
 const homeActive        = isActive('/');
 const methodologyActive = isSection('/methodology');
@@ -41,48 +29,23 @@ const insightsActive    = isSection('/insights');
 const contactActive     = isActive('/contact');
 ---
 
-<header class="sticky top-0 z-50 bg-[--color-cream]/95 backdrop-blur-sm border-b border-[--color-border]">
+<header class="site-header sticky top-0 z-50">
   <div class="container-main py-5 flex items-center justify-between gap-6">
 
-    <!-- Wordmark — Meridian ✦ -->
-    <a
-      href="/"
-      class="font-heading text-lg sm:text-xl font-extrabold text-[--color-headline] tracking-[-0.02em] hover:opacity-80 transition-opacity inline-flex items-center gap-2"
-      aria-label="Meridian Health — home"
-    >
+    <!-- Wordmark -->
+    <a href="/" class="wordmark font-heading text-lg sm:text-xl font-extrabold tracking-[-0.02em] hover:opacity-80 transition-opacity inline-flex items-center gap-2" aria-label="Meridian Health — home">
       <span>MERIDIAN</span>
-      <span aria-hidden="true" class="text-[--color-orange] text-xl sm:text-2xl leading-none">✦</span>
+      <span aria-hidden="true" class="spark text-xl sm:text-2xl leading-none">✦</span>
     </a>
 
     <!-- Desktop Navigation -->
-    <nav
-      class="hidden lg:flex items-center gap-10 text-sm font-medium text-[--color-body]"
-      aria-label="Main navigation"
-    >
-      <a
-        href="/"
-        class:list={["site-nav-item hover:text-[--color-headline] transition-colors", { "is-active": homeActive }]}
-      >Home</a>
-      <a
-        href="/methodology"
-        class:list={["site-nav-item hover:text-[--color-headline] transition-colors", { "is-active": methodologyActive }]}
-      >Methodology</a>
-      <a
-        href="/membership"
-        class:list={["site-nav-item hover:text-[--color-headline] transition-colors", { "is-active": membershipActive }]}
-      >Membership</a>
-      <a
-        href="/diagnostics"
-        class:list={["site-nav-item hover:text-[--color-headline] transition-colors", { "is-active": diagnosticsActive }]}
-      >Diagnostics</a>
-      <a
-        href="/insights"
-        class:list={["site-nav-item hover:text-[--color-headline] transition-colors", { "is-active": insightsActive }]}
-      >Insights</a>
-      <a
-        href="/contact"
-        class:list={["site-nav-item hover:text-[--color-headline] transition-colors", { "is-active": contactActive }]}
-      >Contact</a>
+    <nav class="hidden lg:flex items-center gap-10 text-sm" aria-label="Main navigation">
+      <a href="/"             class:list={[ "site-nav-item transition-colors", { "is-active": homeActive } ]}>Home</a>
+      <a href="/methodology"  class:list={[ "site-nav-item transition-colors", { "is-active": methodologyActive } ]}>Methodology</a>
+      <a href="/membership"   class:list={[ "site-nav-item transition-colors", { "is-active": membershipActive } ]}>Membership</a>
+      <a href="/diagnostics"  class:list={[ "site-nav-item transition-colors", { "is-active": diagnosticsActive } ]}>Diagnostics</a>
+      <a href="/insights"     class:list={[ "site-nav-item transition-colors", { "is-active": insightsActive } ]}>Insights</a>
+      <a href="/contact"      class:list={[ "site-nav-item transition-colors", { "is-active": contactActive } ]}>Contact</a>
     </nav>
 
     <!-- Right side: CTA + Hamburger -->
@@ -101,52 +64,29 @@ const contactActive     = isActive('/contact');
         aria-controls="mobile-menu"
         id="mobile-menu-toggle"
       >
-        <span class="block w-6 h-0.5 bg-[--color-headline]"></span>
-        <span class="block w-6 h-0.5 bg-[--color-headline]"></span>
-        <span class="block w-6 h-0.5 bg-[--color-headline]"></span>
+        <span class="hamburger-line block w-6 h-0.5"></span>
+        <span class="hamburger-line block w-6 h-0.5"></span>
+        <span class="hamburger-line block w-6 h-0.5"></span>
       </button>
     </div>
 
   </div>
 
   <!-- Mobile Menu Drawer -->
-  <div
-    id="mobile-menu"
-    class="lg:hidden hidden border-t border-[--color-border] bg-[--color-cream]"
-    aria-hidden="true"
-  >
-    <nav class="container-main py-6 flex flex-col gap-4 text-base font-medium text-[--color-body]" aria-label="Mobile navigation">
-      <a
-        href="/"
-        class:list={["mobile-nav-item site-nav-item hover:text-[--color-headline] transition-colors py-2", { "is-active": homeActive }]}
-      >Home</a>
-      <a
-        href="/methodology"
-        class:list={["mobile-nav-item site-nav-item hover:text-[--color-headline] transition-colors py-2", { "is-active": methodologyActive }]}
-      >Methodology</a>
-      <a
-        href="/membership"
-        class:list={["mobile-nav-item site-nav-item hover:text-[--color-headline] transition-colors py-2", { "is-active": membershipActive }]}
-      >Membership</a>
-      <a
-        href="/diagnostics"
-        class:list={["mobile-nav-item site-nav-item hover:text-[--color-headline] transition-colors py-2", { "is-active": diagnosticsActive }]}
-      >Diagnostics</a>
-      <a
-        href="/insights"
-        class:list={["mobile-nav-item site-nav-item hover:text-[--color-headline] transition-colors py-2", { "is-active": insightsActive }]}
-      >Insights</a>
-      <a
-        href="/contact"
-        class:list={["mobile-nav-item site-nav-item hover:text-[--color-headline] transition-colors py-2", { "is-active": contactActive }]}
-      >Contact</a>
+  <div id="mobile-menu" class="site-header-mobile lg:hidden hidden" aria-hidden="true">
+    <nav class="container-main py-6 flex flex-col gap-4 text-base font-medium" aria-label="Mobile navigation">
+      <a href="/"             class:list={[ "mobile-nav-item site-nav-item transition-colors py-2", { "is-active": homeActive } ]}>Home</a>
+      <a href="/methodology"  class:list={[ "mobile-nav-item site-nav-item transition-colors py-2", { "is-active": methodologyActive } ]}>Methodology</a>
+      <a href="/membership"   class:list={[ "mobile-nav-item site-nav-item transition-colors py-2", { "is-active": membershipActive } ]}>Membership</a>
+      <a href="/diagnostics"  class:list={[ "mobile-nav-item site-nav-item transition-colors py-2", { "is-active": diagnosticsActive } ]}>Diagnostics</a>
+      <a href="/insights"     class:list={[ "mobile-nav-item site-nav-item transition-colors py-2", { "is-active": insightsActive } ]}>Insights</a>
+      <a href="/contact"      class:list={[ "mobile-nav-item site-nav-item transition-colors py-2", { "is-active": contactActive } ]}>Contact</a>
       <PlusButton href="/book-call" variant="blue" label="Book a discovery call" class="self-start mt-2" />
     </nav>
   </div>
 </header>
 
 <script>
-  // Mobile menu toggle — progressive enhancement
   const toggle = document.getElementById('mobile-menu-toggle');
   const menu   = document.getElementById('mobile-menu');
   if (toggle && menu) {

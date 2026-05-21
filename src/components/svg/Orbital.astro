@@ -55,7 +55,11 @@ const {
     { name: "Stay close", x: 640, y: 580 },
   ],
   glow = "none",
-  accentColor = "var(--color-orange)",
+  // Default accent is the cobalt primary — on the dark hero / pillar
+  // sections this reads as a soft blue halo around the orbital rings.
+  // Override with `accentColor="var(--color-orange)"` on cream surfaces
+  // or anywhere you want an orange highlight instead.
+  accentColor = "var(--color-primary)",
   stroke = "var(--color-cream)",
   sparkleColor = "var(--color-cream)",
   labelColor = "var(--color-cream)",
@@ -79,8 +83,8 @@ const ringTransform = "rotate(-22 400 400)";
   <defs>
     <radialGradient id="orbital-inner-glow" cx="50%" cy="50%" r="50%">
       <stop offset="0%"  stop-color={accentColor} stop-opacity="0.0" />
-      <stop offset="55%" stop-color={accentColor} stop-opacity="0.55" />
-      <stop offset="85%" stop-color={accentColor} stop-opacity="0.25" />
+      <stop offset="55%" stop-color={accentColor} stop-opacity="0.30" />
+      <stop offset="85%" stop-color={accentColor} stop-opacity="0.12" />
       <stop offset="100%" stop-color={accentColor} stop-opacity="0" />
     </radialGradient>
   </defs>

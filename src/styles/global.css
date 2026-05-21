@@ -271,6 +271,22 @@
     scrollbar-color: var(--color-border) transparent;
   }
 
+  /* Safety-net page surface — guarantees the cream/body palette even
+     if a Tailwind utility class fails to resolve. Section-level surface
+     classes (.surface-cream / .surface-dark) override per-section. */
+  body {
+    background-color: var(--color-cream);
+    color:            var(--color-body);
+  }
+
+  /* Anchor reset — browsers apply a default link colour that overrides
+     inherited colour from a parent <nav> or <div>. This rule lets anchors
+     inherit their parent's text colour, so utility classes on the parent
+     actually take effect on links. Buttons (.btn) reapply explicit colour. */
+  a:not(.btn) {
+    color: inherit;
+  }
+
   html {
     font-family:              var(--font-body);
     font-size:                1rem;
@@ -833,6 +849,57 @@
     font-weight: 600;
   }
 
+
+  /* ── Surface helpers — bulletproof cream/dark section backgrounds
+     Tailwind v4 arbitrary-value shorthand (bg-[--color-foo]) was
+     silently failing on some sections in this build. These classes
+     set background + foreground together with regular CSS so the
+     layered cream/dark page rhythm is guaranteed regardless of any
+     Tailwind utility quirk.
+     ────────────────────────────────────────────────────────*/
+  .surface-cream {
+    background-color: var(--color-cream);
+    color:            var(--color-body);
+  }
+  .surface-dark {
+    background-color: var(--color-hero-dark);
+    color:            var(--color-cream);
+  }
+  /* Subtle dark variant — slightly lifted so adjacent dark sections
+     get a visible break. Used between pillar sections. */
+  .surface-dark-2 {
+    background-color: #11172a;
+    color:            var(--color-cream);
+  }
+
+  /* ── Header / Footer scoped colour rules
+     Browsers apply a default link colour to <a> tags that beats
+     inherited colour from parents. These explicit rules guarantee
+     the nav links render in the brand palette regardless of any
+     Tailwind utility resolution quirk.
+     ────────────────────────────────────────────────────────*/
+  .site-header {
+    background-color: var(--color-cream);
+    border-bottom:    1px solid var(--color-border);
+  }
+  .site-header .wordmark         { color: var(--color-headline); }
+  .site-header .wordmark .spark  { color: var(--color-orange);   }
+  .site-header nav a             { color: var(--color-body); font-weight: 500; }
+  .site-header nav a:hover       { color: var(--color-headline); }
+  .site-header nav a.is-active   { color: var(--color-headline); font-weight: 600; }
+  .site-header .hamburger-line   { background-color: var(--color-headline); }
+  .site-header-mobile            { background-color: var(--color-cream); border-top: 1px solid var(--color-border); }
+  .site-header-mobile nav a      { color: var(--color-body); }
+  .site-header-mobile nav a:hover, .site-header-mobile nav a.is-active { color: var(--color-headline); }
+
+  .site-footer                       { background-color: var(--color-hero-dark); color: var(--color-cream); }
+  .site-footer .wordmark             { color: #ffffff; }
+  .site-footer .wordmark .spark      { color: var(--color-orange); }
+  .site-footer .footer-column-label  { color: var(--color-orange); }
+  .site-footer .footer-link          { color: rgb(245 242 236 / 0.65); transition: color 0.2s ease; }
+  .site-footer .footer-link:hover    { color: #ffffff; }
+  .site-footer .footer-link.is-active{ color: #ffffff; font-weight: 600; }
+  .site-footer .footer-meta          { color: rgb(245 242 236 / 0.6); }
 
   /* ── Accent typography — italic serif inside sans headlines
      Used for emphasis words inside sans-serif display headlines.

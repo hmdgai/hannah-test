@@ -212,7 +212,7 @@ const schema = {
           </div>
         </div>
 
-        <div class="lg:col-span-6 order-1 lg:order-2 -mr-[10%] sm:-mr-[5%] lg:-mr-[15%]">
+        <div class="lg:col-span-6 order-1 lg:order-2 mx-auto w-full max-w-[640px] lg:-mr-8 lg:max-w-none">
           <Orbital
             stroke="var(--color-headline)"
             sparkleColor="var(--color-headline)"
@@ -253,15 +253,15 @@ const schema = {
   <!-- ════════════════════════════════════════════════════════════
        3. SUB-HERO (dark) — methodology intro
        ════════════════════════════════════════════════════════════ -->
-  <section class="bg-[--color-hero-dark] text-[--color-cream] overflow-hidden">
-    <div class="container-main py-24 lg:py-36">
+  <section class="surface-dark overflow-hidden">
+    <div class="container-main py-20 lg:py-28">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
 
         <div class="lg:col-span-6 flex flex-col gap-7">
           <h2 class="m-0 text-white">
-            <Accent>Proactive medicine</Accent> for senior careers, engineered around how you actually work.
+            <Accent>Proactive medicine</Accent> for senior careers.
           </h2>
-          <p class="m-0 text-lg lg:text-xl leading-relaxed text-[--color-cream]/80 max-w-xl">
+          <p class="m-0 text-lg lg:text-xl leading-relaxed opacity-80 max-w-xl">
             The Meridian Methodology replaces the chaos of fragmented healthcare — your GP,
             your therapist, your nutritionist, your gym, your wearable — with one coordinated
             team and one engineered protocol.
@@ -271,7 +271,7 @@ const schema = {
           </div>
         </div>
 
-        <div class="lg:col-span-6 -mr-[10%] sm:-mr-[5%] lg:-mr-[15%]">
+        <div class="lg:col-span-6 mx-auto w-full max-w-[520px] lg:max-w-[620px]">
           <Orbital glow="middle" />
         </div>
 
@@ -365,22 +365,6 @@ const schema = {
           </p>
         </div>
 
-        <!-- Connecting curve between the two columns (desktop only) -->
-        <svg
-          aria-hidden="true"
-          class="absolute inset-0 w-full h-full pointer-events-none hidden lg:block"
-          viewBox="0 0 100 100"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M 25 40 Q 50 0, 75 40 Q 50 100, 25 60"
-            stroke="var(--color-primary)"
-            stroke-width="0.15"
-            fill="none"
-            opacity="0.5"
-          />
-        </svg>
-
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 relative">
 
           <!-- Left column: Generic concierge -->
@@ -450,19 +434,19 @@ const schema = {
        6. THREE PILLAR SECTIONS (dark) — Diagnose / Intervene / Stay close
        ════════════════════════════════════════════════════════════ -->
   {pillars.map((p) => (
-    <section class="bg-[--color-hero-dark] text-[--color-cream] overflow-hidden border-t border-white/5">
-      <div class="container-main py-24 lg:py-36">
+    <section class="surface-dark overflow-hidden border-t border-white/5">
+      <div class="container-main py-20 lg:py-28">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
 
-          <div class="lg:col-span-5 flex flex-col gap-7">
-            <span class="eyebrow text-[--color-orange] inline-flex items-center gap-2">
+          <div class="lg:col-span-5 flex flex-col gap-6 order-2 lg:order-1">
+            <span class="eyebrow inline-flex items-center gap-2" style="color: var(--color-orange);">
               <Sparkle size="h-3 w-3" />
               {p.eyebrow}
             </span>
             <h2 class="m-0 text-white">
               {p.nameLead} <Accent>{p.nameAccent}</Accent>
             </h2>
-            <p class="m-0 text-lg leading-relaxed text-[--color-cream]/80 max-w-lg">
+            <p class="m-0 text-lg leading-relaxed opacity-80 max-w-lg">
               {p.body}
             </p>
             <div class="flex flex-wrap gap-3 mt-2">
@@ -470,7 +454,7 @@ const schema = {
             </div>
           </div>
 
-          <div class="lg:col-span-7 -mr-[10%] sm:-mr-[5%] lg:-mr-[15%]">
+          <div class="lg:col-span-7 order-1 lg:order-2 mx-auto w-full max-w-[480px] lg:max-w-[640px]">
             <Orbital glow={p.glow} labels={p.labels} />
           </div>
 
@@ -545,32 +529,33 @@ const schema = {
   <!-- ════════════════════════════════════════════════════════════
        8. CLOSING CTA (dark) — founder card + dual CTA
        ════════════════════════════════════════════════════════════ -->
-  <section class="bg-[--color-hero-dark] text-[--color-cream] relative overflow-hidden">
+  <section class="surface-dark relative overflow-hidden">
 
     <!-- Diagonal blue sweep -->
     <div
       aria-hidden="true"
       class="absolute inset-0 pointer-events-none"
-      style="background: linear-gradient(115deg, transparent 30%, rgb(31 43 235 / 0.35) 50%, transparent 70%);"
+      style="background: linear-gradient(115deg, transparent 30%, rgb(31 43 235 / 0.28) 50%, transparent 70%);"
     ></div>
 
-    <div class="container-main relative py-28 lg:py-40">
+    <div class="container-main relative py-24 lg:py-32">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
 
         <!-- Left: Founder placeholder card -->
         <div class="lg:col-span-5">
-          <div class="bg-black/40 backdrop-blur-sm border border-white/10 rounded-2xl p-3 max-w-sm">
+          <div class="border border-white/15 rounded-2xl p-3 max-w-sm" style="background-color: rgb(0 0 0 / 0.4);">
             <div
-              class="aspect-[4/5] w-full bg-[--color-primary] rounded-xl flex flex-col items-center justify-center text-white"
+              class="aspect-[4/5] w-full rounded-xl flex flex-col items-center justify-center text-white"
               role="img"
               aria-label="Placeholder portrait for Dr Eleanor Whitfield"
+              style="background-color: var(--color-primary);"
             >
               <span class="font-heading font-extrabold text-[clamp(4rem,8vw,8rem)] tracking-[-0.05em] leading-none">EW</span>
               <span class="mt-4 font-mono text-xs uppercase tracking-widest opacity-80">Founder photo</span>
             </div>
             <div class="px-4 py-4">
               <span class="block text-base font-semibold text-white">Dr Eleanor Whitfield</span>
-              <span class="block text-sm text-[--color-cream]/70">Founder & Medical Director</span>
+              <span class="block text-sm opacity-70">Founder & Medical Director</span>
             </div>
           </div>
         </div>
@@ -580,7 +565,7 @@ const schema = {
           <h2 class="m-0 text-white">
             Talk to a <Accent>physician</Accent>, not a salesperson.
           </h2>
-          <p class="m-0 text-lg lg:text-xl leading-relaxed text-[--color-cream]/80 max-w-xl">
+          <p class="m-0 text-lg lg:text-xl leading-relaxed opacity-80 max-w-xl">
             Every membership conversation starts with a 30-minute call with Dr Whitfield.
             No sales pitch. No pressure. If we're not the right fit, she'll tell you on
             the call and suggest alternatives.
