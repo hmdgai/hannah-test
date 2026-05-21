@@ -2,87 +2,142 @@
 /**
  * Orbital.astro
  * ─────────────────────────────────────────────────────
- * Concentric orbital paths — wgb.agency-style cosmic illustration.
- * Used as the hero decorative graphic on the homepage and selected
- * service pages.
+ * Three concentric tilted ellipses with the Meridian
+ * diamond at centre and three labeled positions on the
+ * rings. Used as the hero illustration on dark sections
+ * and selected service pages.
  *
- * Three nested ellipses at different rotations + an off-centre node
- * dot suggesting planetary motion. Lime accent on the outermost ring,
- * caption-slate on the inner rings. Pure CSS — no animation here so
- * it respects prefers-reduced-motion by default. Optional subtle
- * rotation can be added at the parent via Tailwind animate utilities.
+ * The "glow" prop progressively fills the innermost ring
+ * with a soft radial blue — used on the three pillar
+ * sections to visually represent each pillar's emphasis.
  *
  * Props:
- *   accentColor  — defaults to var(--color-primary)
- *   stroke       — defaults to var(--color-caption) for inner orbits
- *   class        — extra classes appended to the SVG root
- *   ariaLabel    — optional, otherwise treated as decorative
+ *   labels       — Array of { name, x, y } for orbit points
+ *                  (default uses Meridian's three pillars)
+ *   glow         — "none" | "inner" | "middle" | "all"
+ *                  Determines how many rings are filled
+ *   accentColor  — Stroke for the highlighted ring + glow
+ *                  (default --color-orange on dark surfaces)
+ *   stroke       — Stroke for the non-highlighted rings
+ *                  (default --color-cream)
+ *   sparkleColor — Fill for the central diamond
+ *                  (default --color-cream)
+ *   labelColor   — Text colour for the labels
+ *                  (default --color-cream)
+ *   class        — Extra classes appended to the SVG root
+ *   ariaLabel    — Optional, otherwise treated as decorative
  */
+import Sparkle from "./Sparkle.astro";
+
+interface OrbitLabel {
+  name: string;
+  /** x position in viewBox units (0–800) */
+  x: number;
+  /** y position in viewBox units (0–800) */
+  y: number;
+}
 
 interface Props {
+  labels?: OrbitLabel[];
+  glow?: "none" | "inner" | "middle" | "all";
   accentColor?: string;
   stroke?: string;
+  sparkleColor?: string;
+  labelColor?: string;
   class?: string;
   ariaLabel?: string;
 }
 
 const {
-  // Default to orange — Orbital is most often used on dark hero sections
-  // where the cobalt primary fails contrast against --color-hero-dark.
-  // Override with `accentColor="var(--color-primary)"` on cream sections.
+  labels = [
+    { name: "Diagnose", x: 700, y: 280 },
+    { name: "Intervene", x: 740, y: 410 },
+    { name: "Stay close", x: 640, y: 580 },
+  ],
+  glow = "none",
   accentColor = "var(--color-orange)",
-  stroke = "var(--color-caption)",
+  stroke = "var(--color-cream)",
+  sparkleColor = "var(--color-cream)",
+  labelColor = "var(--color-cream)",
   class: extraClass = "",
   ariaLabel,
 } = Astro.props;
 
 const isDecorative = !ariaLabel;
+const ringTransform = "rotate(-22 400 400)";
 ---
 
 <svg
   xmlns="http://www.w3.org/2000/svg"
-  viewBox="0 0 400 400"
+  viewBox="0 0 800 800"
   fill="none"
   role={isDecorative ? "presentation" : "img"}
   aria-hidden={isDecorative ? "true" : undefined}
   aria-label={ariaLabel}
-  class:list={["block w-full h-auto", extraClass]}
+  class:list={["block w-full h-auto overflow-visible", extraClass]}
 >
-  <!-- Outer ring — lime accent -->
-  <ellipse
-    cx="200" cy="200" rx="195" ry="120"
-    transform="rotate(-12 200 200)"
-    stroke={accentColor}
-    stroke-width="1.5"
-    opacity="0.9"
-  />
-  <!-- Middle ring -->
-  <ellipse
-    cx="200" cy="200" rx="170" ry="90"
-    transform="rotate(18 200 200)"
-    stroke={stroke}
-    stroke-width="1"
-    opacity="0.5"
-  />
-  <!-- Inner ring -->
-  <ellipse
-    cx="200" cy="200" rx="140" ry="60"
-    transform="rotate(-32 200 200)"
-    stroke={stroke}
-    stroke-width="1"
-    opacity="0.35"
-  />
-  <!-- Tight inner circle -->
-  <circle
-    cx="200" cy="200" r="38"
-    stroke={stroke}
-    stroke-width="1"
-    opacity="0.4"
-  />
-  <!-- Centre dot -->
-  <circle cx="200" cy="200" r="4" fill={accentColor} />
-  <!-- Orbital nodes -->
-  <circle cx="394" cy="180" r="3" fill={accentColor} opacity="0.9" />
-  <circle cx="68"  cy="246" r="2.5" fill={stroke} opacity="0.6" />
-  <circle cx="298" cy="118" r="2" fill={stroke} opacity="0.5" />
+  <defs>
+    <radialGradient id="orbital-inner-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"  stop-color={accentColor} stop-opacity="0.0" />
+      <stop offset="55%" stop-color={accentColor} stop-opacity="0.55" />
+      <stop offset="85%" stop-color={accentColor} stop-opacity="0.25" />
+      <stop offset="100%" stop-color={accentColor} stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <g transform={ringTransform}>
+    <!-- Inner blue glow (conditional) — sits behind the rings -->
+    {(glow === "inner" || glow === "middle" || glow === "all") && (
+      <ellipse cx="400" cy="400" rx="220" ry="120" fill="url(#orbital-inner-glow)" />
+    )}
+    {(glow === "middle" || glow === "all") && (
+      <ellipse cx="400" cy="400" rx="290" ry="160" fill="url(#orbital-inner-glow)" opacity="0.7" />
+    )}
+    {glow === "all" && (
+      <ellipse cx="400" cy="400" rx="360" ry="200" fill="url(#orbital-inner-glow)" opacity="0.5" />
+    )}
+
+    <!-- Three concentric rings — same tilt, different sizes -->
+    <ellipse cx="400" cy="400" rx="370" ry="200" stroke={stroke} stroke-width="1" opacity="0.55" />
+    <ellipse cx="400" cy="400" rx="300" ry="160" stroke={stroke} stroke-width="1" opacity="0.45" />
+    <ellipse cx="400" cy="400" rx="230" ry="120" stroke={stroke} stroke-width="1" opacity="0.35" />
+  </g>
+
+  <!-- Labeled orbit dots — sit outside the rotated group so labels
+       remain horizontal even though the rings are tilted. -->
+  {labels.map((l) => (
+    <g>
+      <circle cx={l.x} cy={l.y} r="4" fill={stroke} />
+      <text
+        x={l.x + 14}
+        y={l.y + 4}
+        font-family="var(--font-body)"
+        font-size="18"
+        fill={labelColor}
+        opacity="0.85"
+      >{l.name}</text>
+    </g>
+  ))}
+
+  <!-- Decorative + marks scattered (subtle "starfield" effect) -->
+  <g opacity="0.4" stroke={stroke} stroke-width="1.5" stroke-linecap="round">
+    <line x1="120" y1="180" x2="120" y2="200" />
+    <line x1="110" y1="190" x2="130" y2="190" />
+    <line x1="680" y1="120" x2="680" y2="140" />
+    <line x1="670" y1="130" x2="690" y2="130" />
+    <line x1="200" y1="620" x2="200" y2="640" />
+    <line x1="190" y1="630" x2="210" y2="630" />
+    <line x1="600" y1="700" x2="600" y2="720" />
+    <line x1="590" y1="710" x2="610" y2="710" />
+  </g>
+
+  <!-- Centre diamond/sparkle -->
+  <g transform="translate(360 360)">
+    <svg width="80" height="80" viewBox="0 0 24 24">
+      <path
+        d="M12 1 Q 13 9, 23 12 Q 13 15, 12 23 Q 11 15, 1 12 Q 11 9, 12 1 Z"
+        fill={sparkleColor}
+      />
+    </svg>
+  </g>
 </svg>

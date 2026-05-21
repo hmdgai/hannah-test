@@ -1,0 +1,16 @@
+---
+/**
+ * Accent.astro
+ * ─────────────────────────────────────────────────────
+ * Tiny wrapper for italic-serif emphasis inside a sans
+ * display headline. Usage:
+ *
+ *   <h1>Engineering longer, <Accent>better</Accent>, sharper lives.</h1>
+ *
+ * Renders <span class="accent">…</span>. The `.accent`
+ * utility is defined in global.css and applies the
+ * --font-accent (Instrument Serif) at italic weight.
+ */
+---
+
+<span class="accent"><slot /></span>

@@ -1,24 +1,31 @@
 ---
 /**
- * index.astro — Meridian Health homepage
- * ─────────────────────────────────────────────────────────
- * Seven-section homepage per brief Section 5.1. Alternating
- * cream / deep-dark rhythm, lime accents, oversized display
- * type, geometric SVG illustrations only.
+ * index.astro — Meridian Health homepage (wgb-style rebuild).
+ * ─────────────────────────────────────────────────────────────
+ * Eight sections, alternating cream / dark rhythm. Layout language
+ * mirrors wgb.agency's editorial home: oversized sans-display
+ * headlines with italic-serif accent words, "+" icon pill CTAs,
+ * tilted orbital illustration on dark sections, X-card pain points
+ * + a single blue feature card, three-pillar services with growing
+ * orbital glow, masonry testimonials, dark closing CTA.
  *
- * Build order on this page (top → bottom):
- *   1. Dark hero (Orbital SVG + H1 + dual CTA)
- *   2. Trust strip on dark
- *   3. The Problem on cream (5 pain points)
- *   4. Stats strip on dark (4 numbers)
- *   5. Methodology teaser on cream (3 pillars)
- *   6. Testimonials on dark (Swiper fade carousel, 6 quotes)
- *   7. Closing CTA on cream
+ * All copy is Meridian's (from the project brief), not wgb's.
+ *
+ * Section map:
+ *   1. Hero (cream) — H1 + body + dual PlusButton + Orbital
+ *   2. Trust strip (cream divider) — 4 items separated by ✦
+ *   3. Sub-hero (dark) — Methodology intro + Orbital
+ *   4. Pain points (cream) — 5 X-cards + 1 blue feature CTA card
+ *   5. Comparison (cream) — Generic concierge vs Meridian methodology
+ *   6. Three pillar sections (dark) — Diagnose / Intervene / Stay close
+ *   7. Testimonials (cream) — Editorial heading + masonry of 6 cards
+ *   8. Closing CTA (dark) — Founder card + "Talk to a physician" CTA
  */
 import BaseLayout    from "../layouts/BaseLayout.astro";
 import Sparkle       from "../components/svg/Sparkle.astro";
 import Orbital       from "../components/svg/Orbital.astro";
-import MeridianLine  from "../components/svg/MeridianLine.astro";
+import PlusButton    from "../components/PlusButton.astro";
+import Accent        from "../components/Accent.astro";
 
 const trustItems = [
   "CQC Registered",
@@ -50,67 +57,107 @@ const painPoints = [
   },
 ];
 
-const stats = [
-  { number: "300+",    caption: "active members" },
-  { number: "£8,500",  caption: "from / membership / year" },
-  { number: "94%",     caption: "retention rate" },
-  { number: "4hr",     caption: "average response time" },
-];
+const comparison = {
+  left: {
+    title: "Generic concierge",
+    sub: "Faster GP visits, same protocols",
+    items: [
+      "20-minute appointments with a generalist you've never met.",
+      "Annual bloods limited to the standard NHS panel.",
+      "Reactive — you book when something hurts.",
+      "No coordination with the rest of your healthcare.",
+    ],
+  },
+  right: {
+    title: "The Meridian Methodology",
+    sub: "A coordinated system, engineered for senior careers",
+    items: [
+      "A full-day diagnostic deep-dive with a senior physician.",
+      "Cardiac CT, advanced lipids, CGM, sleep, cognition — every year.",
+      "Proactive — quarterly review with a doctor who knows your case.",
+      "One coordinated team across diagnostics, intervention, and follow-up.",
+    ],
+  },
+};
 
 const pillars = [
   {
-    num: "01",
-    heading: "Diagnose deeply",
-    body: "We build a baseline using advanced diagnostics most clinics don't have access to. Cardiac CT, advanced lipid panels, continuous glucose monitoring, sleep architecture studies, cognitive baselining.",
+    eyebrow: "Pillar 01",
+    nameLead: "Diagnose",
+    nameAccent: "deeply",
+    body: "We build a baseline using diagnostics most clinics don't routinely have access to. Cardiac CT, advanced lipid panels, continuous glucose monitoring, sleep architecture studies, cognitive baselining. Nothing is included because it sounds impressive — every marker has a clear interpretive framework and a known intervention pathway.",
+    glow: "inner" as const,
+    href: "/diagnostics",
+    labels: [
+      { name: "Cardiac", x: 700, y: 280 },
+      { name: "Metabolic", x: 740, y: 410 },
+      { name: "Cognitive", x: 640, y: 580 },
+    ],
   },
   {
-    num: "02",
-    heading: "Intervene precisely",
-    body: "Once we know what's actually happening in your body, we intervene on the specific variables that matter — not a generic wellness plan.",
+    eyebrow: "Pillar 02",
+    nameLead: "Intervene",
+    nameAccent: "precisely",
+    body: "Once we know what's actually happening in your body, we intervene on the specific variables that matter — not a generic wellness plan. If overnight glucose excursions are the dominant variable, we engineer around that. If it's sleep architecture, we engineer around sleep. One protocol, one priority, measured monthly.",
+    glow: "middle" as const,
+    href: "/methodology",
+    labels: [
+      { name: "Sleep", x: 700, y: 280 },
+      { name: "Recovery", x: 740, y: 410 },
+      { name: "Cognition", x: 640, y: 580 },
+    ],
   },
   {
-    num: "03",
-    heading: "Stay close",
-    body: "Your physician is reachable by direct line. Quarterly check-ins are the floor, not the ceiling.",
+    eyebrow: "Pillar 03",
+    nameLead: "Stay",
+    nameAccent: "close",
+    body: "Your physician is reachable by direct line. Quarterly check-ins are the floor, not the ceiling. The aim is not more touchpoints — it is the right touchpoint at the moment a decision actually needs to be made. You always speak to the same team, and the team behind your care knows your full history before they walk into the room.",
+    glow: "all" as const,
+    href: "/membership",
+    labels: [
+      { name: "Direct line", x: 700, y: 280 },
+      { name: "Quarterly", x: 740, y: 410 },
+      { name: "On-call", x: 640, y: 580 },
+    ],
   },
 ];
 
 const testimonials = [
   {
     author: "Marcus K.",
+    role: "Founder, fintech",
     rating: 5,
     quote: "Spent 15 years going to Harley Street private GPs and the difference here is the methodology, not the office. Dr Holloway picked up something on my last bloods that two previous doctors had missed.",
-    when: "2 weeks ago",
   },
   {
     author: "Sarah L.",
+    role: "Managing partner",
     rating: 5,
     quote: "The Executive Assessment was the first day I've ever spent at a doctor's that felt thorough. I left with a list of specific things to actually do, not vague advice.",
-    when: "1 month ago",
   },
   {
     author: "James T.",
+    role: "Operating partner",
     rating: 5,
     quote: "Their on-call line is the real value. Called at 9pm on a Sunday from Singapore and had a physician on the phone in under ten minutes.",
-    when: "1 month ago",
   },
   {
     author: "Priya M.",
+    role: "CEO, biotech",
     rating: 5,
     quote: "Dr Whitfield's discovery call is unlike any sales call. She told me my situation didn't actually warrant the full membership and to come back in two years. Won me as a customer there and then.",
-    when: "2 months ago",
   },
   {
     author: "Daniel R.",
+    role: "Founder, consultancy",
     rating: 4,
     quote: "Pricey, and not for everyone. But for what we do and the hours we work, the proactive approach is the only thing that's worked for me. Three years in now.",
-    when: "3 months ago",
   },
   {
     author: "Olivia C.",
+    role: "Chief of staff",
     rating: 5,
     quote: "The mental wellness side gets overlooked when people talk about Meridian. James saved my year, honestly.",
-    when: "4 months ago",
   },
 ];
 
@@ -145,98 +192,120 @@ const schema = {
 >
 
   <!-- ════════════════════════════════════════════════════════════
-       1. DARK HERO
+       1. HERO (cream)
        ════════════════════════════════════════════════════════════ -->
-  <section class="relative bg-[--color-hero-dark] text-[--color-cream] overflow-hidden">
+  <section class="bg-[--color-cream] overflow-hidden">
+    <div class="container-main py-20 lg:py-28">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
 
-    <!-- Orbital backdrop — absolute, behind content -->
-    <div class="absolute top-12 right-[-10%] w-[60%] max-w-[760px] opacity-70 pointer-events-none hidden lg:block" aria-hidden="true">
-      <Orbital />
-    </div>
+        <div class="lg:col-span-6 flex flex-col gap-7 lg:gap-9 order-2 lg:order-1">
+          <h1 class="m-0 text-[--color-headline]">
+            Engineering longer, <Accent>better</Accent>, sharper lives.
+          </h1>
+          <p class="m-0 text-[--color-body] text-lg lg:text-xl leading-relaxed max-w-xl">
+            Concierge medicine for founders, executives, and professionals who can't
+            afford to be reactive about their health. Membership starts at £8,500 a year.
+          </p>
+          <div class="flex flex-wrap gap-3 mt-2">
+            <PlusButton href="/membership" variant="dark" label="Explore membership" />
+            <PlusButton href="/book-call"  variant="blue" label="Book a discovery call" />
+          </div>
+        </div>
 
-    <!-- Subtle mobile orbital — smaller, top-right -->
-    <div class="absolute top-6 right-[-30%] w-[80%] opacity-30 pointer-events-none lg:hidden" aria-hidden="true">
-      <Orbital />
-    </div>
-
-    <div class="container-main relative py-28 lg:py-44">
-      <div class="max-w-3xl flex flex-col gap-8">
-
-        <span class="eyebrow text-[--color-orange] inline-flex items-center gap-2">
-          <Sparkle size="h-3 w-3" />
-          Concierge medicine · Mayfair
-        </span>
-
-        <h1 class="m-0 text-white">
-          Engineering longer, better, sharper lives.
-        </h1>
-
-        <p class="m-0 text-lg lg:text-xl text-[--color-cream]/80 max-w-2xl leading-relaxed">
-          Concierge medicine for founders, executives, and professionals who can't afford
-          to be reactive about their health. Membership starts at £8,500 a year.
-        </p>
-
-        <div class="flex flex-wrap gap-4 mt-2">
-          <a href="/book-call" class="btn btn-default">
-            Book a discovery call
-          </a>
-          <a
-            href="/membership"
-            class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-[--radius-btn] border border-[--color-cream]/30 text-[--color-cream] text-sm font-semibold hover:border-[--color-orange] hover:text-[--color-orange] transition-colors"
-          >
-            View membership
-          </a>
+        <div class="lg:col-span-6 order-1 lg:order-2 -mr-[10%] sm:-mr-[5%] lg:-mr-[15%]">
+          <Orbital
+            stroke="var(--color-headline)"
+            sparkleColor="var(--color-headline)"
+            labelColor="var(--color-headline)"
+            glow="none"
+          />
         </div>
 
       </div>
     </div>
-
-    <!-- ════════════════════════════════════════════════════════════
-         2. TRUST STRIP (continues on dark)
-         ════════════════════════════════════════════════════════════ -->
-    <div class="border-t border-white/10">
-      <div class="container-main py-6">
-        <ul class="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-xs sm:text-sm text-[--color-cream]/80 font-medium" role="list">
-          {trustItems.map((item, i) => (
-            <>
-              {i > 0 && (
-                <li aria-hidden="true" class="text-[--color-orange]">
-                  <Sparkle size="h-3 w-3" />
-                </li>
-              )}
-              <li class="inline-flex items-center gap-2">
-                <Sparkle size="h-3 w-3" color="var(--color-orange)" />
-                <span>{item}</span>
-              </li>
-            </>
-          ))}
-        </ul>
-      </div>
-    </div>
-
   </section>
 
 
   <!-- ════════════════════════════════════════════════════════════
-       3. THE PROBLEM (cream)
+       2. TRUST STRIP (cream with thin divider lines)
+       ════════════════════════════════════════════════════════════ -->
+  <section class="bg-[--color-cream] border-y border-[--color-border]">
+    <div class="container-main">
+      <ul class="grid grid-cols-2 lg:grid-cols-4 divide-x divide-[--color-border]" role="list">
+        {trustItems.map((item, i) => (
+          <li
+            class:list={[
+              "flex items-center justify-center gap-3 py-6 px-4 text-sm font-medium text-[--color-headline] text-center",
+              i >= 2 && "border-t lg:border-t-0 border-[--color-border]",
+            ]}
+          >
+            <span aria-hidden="true" class="text-[--color-orange]">
+              <Sparkle size="h-3.5 w-3.5" />
+            </span>
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════════════
+       3. SUB-HERO (dark) — methodology intro
+       ════════════════════════════════════════════════════════════ -->
+  <section class="bg-[--color-hero-dark] text-[--color-cream] overflow-hidden">
+    <div class="container-main py-24 lg:py-36">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+
+        <div class="lg:col-span-6 flex flex-col gap-7">
+          <h2 class="m-0 text-white">
+            <Accent>Proactive medicine</Accent> for senior careers, engineered around how you actually work.
+          </h2>
+          <p class="m-0 text-lg lg:text-xl leading-relaxed text-[--color-cream]/80 max-w-xl">
+            The Meridian Methodology replaces the chaos of fragmented healthcare — your GP,
+            your therapist, your nutritionist, your gym, your wearable — with one coordinated
+            team and one engineered protocol.
+          </p>
+          <div class="flex flex-wrap gap-3 mt-2">
+            <PlusButton href="/methodology" variant="blue" label="Read the methodology" />
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 -mr-[10%] sm:-mr-[5%] lg:-mr-[15%]">
+          <Orbital glow="middle" />
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════════════
+       4. PAIN POINTS (cream) — 5 X-cards + 1 blue feature card
        ════════════════════════════════════════════════════════════ -->
   <section class="bg-[--color-cream]">
     <div class="container-main py-24 lg:py-36">
 
-      <div class="max-w-4xl mb-16 lg:mb-24">
-        <span class="eyebrow text-[--color-caption] mb-6 inline-block">The problem</span>
+      <div class="max-w-4xl mb-14 lg:mb-20">
         <h2 class="m-0 text-[--color-headline]">
-          Your career depends on your output. Your output depends on a body and brain you treat as an afterthought.
+          Your career is engineered.<br />Your <Accent>health protocol</Accent> isn't.
         </h2>
       </div>
 
-      <ol class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12" role="list">
-        {painPoints.map((point, i) => (
-          <li class="border-t border-[--color-headline] pt-8 flex flex-col gap-4">
-            <span class="text-sm font-mono font-semibold text-[--color-caption]">
-              {String(i + 1).padStart(2, "0")}
+      <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" role="list">
+        {painPoints.map((point) => (
+          <li class="flex flex-col gap-5 p-8 lg:p-9 bg-[--color-surface] rounded-2xl">
+            <span
+              aria-hidden="true"
+              class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-[--color-accent] text-[--color-orange]"
+            >
+              <!-- X icon -->
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                <line x1="4" y1="4" x2="14" y2="14" />
+                <line x1="14" y1="4" x2="4" y2="14" />
+              </svg>
             </span>
-            <h3 class="m-0 text-2xl lg:text-3xl font-extrabold text-[--color-headline] tracking-[-0.02em] leading-tight">
+            <h3 class="m-0 text-xl lg:text-2xl font-extrabold text-[--color-headline] tracking-[-0.02em] leading-snug">
               {point.heading}
             </h3>
             <p class="m-0 text-[--color-body] leading-relaxed">
@@ -244,244 +313,285 @@ const schema = {
             </p>
           </li>
         ))}
-      </ol>
 
-    </div>
-  </section>
-
-
-  <!-- ════════════════════════════════════════════════════════════
-       4. STATS STRIP (dark)
-       ════════════════════════════════════════════════════════════ -->
-  <section class="bg-[--color-hero-dark] text-[--color-cream]">
-    <div class="container-main py-24 lg:py-32">
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
-        {stats.map((stat) => (
-          <div class="flex flex-col gap-3">
-            <span class="font-heading text-5xl lg:text-7xl font-extrabold text-[--color-orange] tracking-[-0.03em] leading-none">
-              {stat.number}
-            </span>
-            <span class="text-sm text-[--color-cream]/70 uppercase tracking-wider font-medium leading-snug">
-              {stat.caption}
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ════════════════════════════════════════════════════════════
-       5. METHODOLOGY TEASER (cream)
-       ════════════════════════════════════════════════════════════ -->
-  <section class="bg-[--color-cream]">
-    <div class="container-main py-24 lg:py-36">
-
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 mb-16 lg:mb-20 items-end">
-        <div class="lg:col-span-7 flex flex-col gap-6">
-          <span class="eyebrow text-[--color-caption] inline-flex items-center gap-2">
-            <Sparkle size="h-3 w-3" color="var(--color-headline)" />
-            The Meridian Methodology
+        <!-- Blue feature CTA card (replaces the 6th pain point) -->
+        <li class="relative flex flex-col justify-between gap-8 p-8 lg:p-9 bg-[--color-primary] text-white rounded-2xl overflow-hidden min-h-[280px]">
+          <!-- Decorative sparkle illustration top-left -->
+          <span aria-hidden="true" class="absolute top-6 left-6 opacity-90">
+            <Sparkle size="h-10 w-10" color="white" />
           </span>
-          <h2 class="m-0 text-[--color-headline]">
-            One coordinated team. One engineered protocol.
-          </h2>
-        </div>
-        <div class="lg:col-span-5">
-          <p class="m-0 text-[--color-body] text-lg leading-relaxed">
-            We replace the chaos of fragmented healthcare — your GP, your therapist, your
-            nutritionist, your gym, your wearable — with one coordinated team and one
-            engineered protocol. Designed around how senior careers actually work.
-          </p>
-          <a
-            href="/methodology"
-            class="inline-flex items-center gap-2 mt-6 text-sm font-semibold text-[--color-headline] border-b border-[--color-headline] hover:border-[--color-primary] hover:text-[--color-headline] pb-1 transition-colors"
+          <!-- Decorative curve bottom-right -->
+          <svg
+            aria-hidden="true"
+            class="absolute -bottom-12 -right-12 w-72 h-72 opacity-40"
+            viewBox="0 0 200 200"
+            fill="none"
           >
-            Read the methodology in detail
-            <span aria-hidden="true">→</span>
-          </a>
-        </div>
-      </div>
+            <path d="M-20 200 Q 100 60, 220 -20" stroke="white" stroke-width="1" />
+            <path d="M-20 220 Q 120 80, 240 0" stroke="white" stroke-width="1" />
+          </svg>
 
-      <ol class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8" role="list">
-        {pillars.map((pillar) => (
-          <li class="card bg-[--color-surface] border border-[--color-border] flex flex-col gap-5 p-8 lg:p-10">
-            <span class="font-mono text-sm font-semibold text-[--color-caption]">
-              {pillar.num}
-            </span>
-            <h3 class="m-0 text-2xl lg:text-3xl font-extrabold text-[--color-headline] tracking-[-0.02em] leading-tight">
-              {pillar.heading}
+          <div class="relative pt-16 lg:pt-20">
+            <h3 class="m-0 text-2xl lg:text-3xl font-extrabold text-white tracking-[-0.02em] leading-snug">
+              Sound familiar? Here's how we engineer the answer.
             </h3>
-            <p class="m-0 text-[--color-body] leading-relaxed">
-              {pillar.body}
-            </p>
-          </li>
-        ))}
-      </ol>
+          </div>
+          <div class="relative">
+            <PlusButton href="/methodology" variant="dark" label="Read the methodology" class="bg-white text-[--color-headline] hover:bg-[--color-cream]" />
+          </div>
+        </li>
+      </ul>
 
     </div>
   </section>
 
 
   <!-- ════════════════════════════════════════════════════════════
-       6. TESTIMONIALS (dark, Swiper fade carousel)
-       ════════════════════════════════════════════════════════════ -->
-  <section class="bg-[--color-hero-dark] text-[--color-cream]" id="testimonials">
-    <div class="container-main py-24 lg:py-36">
-
-      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12 lg:mb-20">
-        <div class="flex flex-col gap-4 max-w-2xl">
-          <span class="eyebrow text-[--color-orange] inline-flex items-center gap-2">
-            <Sparkle size="h-3 w-3" />
-            What members say
-          </span>
-          <h2 class="m-0 text-white">
-            From founders, executives, and senior professionals.
-          </h2>
-        </div>
-        <div class="hidden sm:flex items-center gap-2 shrink-0">
-          <button
-            class="meridian-prev w-12 h-12 rounded-full border border-[--color-cream]/30 text-[--color-cream] hover:border-[--color-orange] hover:text-[--color-orange] transition-colors inline-flex items-center justify-center"
-            aria-label="Previous testimonial"
-          >
-            <span aria-hidden="true">←</span>
-          </button>
-          <button
-            class="meridian-next w-12 h-12 rounded-full border border-[--color-cream]/30 text-[--color-cream] hover:border-[--color-orange] hover:text-[--color-orange] transition-colors inline-flex items-center justify-center"
-            aria-label="Next testimonial"
-          >
-            <span aria-hidden="true">→</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="swiper meridian-testimonials" aria-roledescription="carousel" aria-label="Member testimonials">
-        <div class="swiper-wrapper">
-          {testimonials.map((t) => (
-            <article class="swiper-slide" aria-roledescription="slide">
-              <div class="max-w-4xl flex flex-col gap-8">
-                <div class="flex items-center gap-1" aria-label={`Rating: ${t.rating} out of 5`}>
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <span
-                      aria-hidden="true"
-                      class={i < t.rating ? "text-[--color-orange]" : "text-[--color-cream]/20"}
-                    >
-                      <Sparkle size="h-4 w-4" />
-                    </span>
-                  ))}
-                </div>
-                <blockquote class="m-0">
-                  <p class="m-0 text-2xl lg:text-4xl font-heading font-bold text-white tracking-[-0.02em] leading-snug">
-                    “{t.quote}”
-                  </p>
-                </blockquote>
-                <footer class="flex items-center gap-4 text-sm text-[--color-cream]/70">
-                  <cite class="not-italic font-semibold text-white">{t.author}</cite>
-                  <span aria-hidden="true">·</span>
-                  <span>{t.when}</span>
-                </footer>
-              </div>
-            </article>
-          ))}
-        </div>
-
-        <!-- Mobile pagination dots -->
-        <div class="meridian-pagination sm:hidden flex items-center justify-center gap-2 mt-8"></div>
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- ════════════════════════════════════════════════════════════
-       7. CLOSING CTA (cream)
+       5. COMPARISON (cream) — Generic vs Meridian
        ════════════════════════════════════════════════════════════ -->
   <section class="bg-[--color-cream]">
-    <div class="container-main py-28 lg:py-44">
+    <div class="container-main pb-24 lg:pb-36">
+      <div class="bg-[--color-accent]/40 rounded-3xl p-10 lg:p-16 relative overflow-hidden">
 
-      <div class="max-w-4xl flex flex-col gap-8 items-start">
-        <div aria-hidden="true" class="w-full max-w-[480px] mb-4">
-          <MeridianLine />
+        <div class="text-center max-w-3xl mx-auto mb-16 lg:mb-20 relative">
+          <h2 class="m-0 text-[--color-headline]">
+            Stop accepting <Accent>faster GP visits</Accent> as concierge medicine.
+          </h2>
+          <p class="m-0 mt-6 text-[--color-body] leading-relaxed">
+            You cannot engineer better health outcomes with a 12-minute appointment and a
+            standard blood panel. To intervene early, you need to replace the generalist
+            model with one built around continuous physician contact and a deep diagnostic
+            baseline.
+          </p>
         </div>
-        <span class="eyebrow text-[--color-caption] inline-flex items-center gap-2">
-          <Sparkle size="h-3 w-3" color="var(--color-headline)" />
-          Talk to a physician
-        </span>
-        <h2 class="m-0 text-[--color-headline]">
-          Talk to a physician, not a salesperson.
-        </h2>
-        <p class="m-0 text-[--color-body] text-lg lg:text-xl leading-relaxed max-w-2xl">
-          All membership conversations start with a 30-minute call with Dr Whitfield.
-          No sales pitch. No pressure. If we're not the right fit, she'll tell you.
-        </p>
-        <a href="/book-call" class="btn btn-default mt-2">
-          Book a discovery call
-        </a>
-      </div>
 
+        <!-- Connecting curve between the two columns (desktop only) -->
+        <svg
+          aria-hidden="true"
+          class="absolute inset-0 w-full h-full pointer-events-none hidden lg:block"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M 25 40 Q 50 0, 75 40 Q 50 100, 25 60"
+            stroke="var(--color-primary)"
+            stroke-width="0.15"
+            fill="none"
+            opacity="0.5"
+          />
+        </svg>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 relative">
+
+          <!-- Left column: Generic concierge -->
+          <div class="flex flex-col gap-6">
+            <div class="text-center">
+              <h3 class="m-0 text-2xl lg:text-3xl font-extrabold text-[--color-headline] tracking-[-0.02em]">
+                {comparison.left.title}
+              </h3>
+              <p class="m-0 mt-2 text-sm text-[--color-caption]">{comparison.left.sub}</p>
+            </div>
+            <ul class="flex flex-col gap-3" role="list">
+              {comparison.left.items.map((item) => (
+                <li class="flex items-start gap-4 p-5 bg-[--color-surface] rounded-xl">
+                  <span
+                    aria-hidden="true"
+                    class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-[--color-accent] text-[--color-orange] shrink-0"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                      <line x1="4" y1="4" x2="14" y2="14" />
+                      <line x1="14" y1="4" x2="4" y2="14" />
+                    </svg>
+                  </span>
+                  <span class="text-[--color-body] leading-relaxed">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- Right column: Meridian methodology -->
+          <div class="flex flex-col gap-6">
+            <div class="text-center">
+              <div class="inline-flex items-center justify-center gap-2 mb-1">
+                <span aria-hidden="true" class="text-[--color-primary]">
+                  <Sparkle size="h-5 w-5" />
+                </span>
+                <h3 class="m-0 text-2xl lg:text-3xl font-extrabold text-[--color-headline] tracking-[-0.02em]">
+                  {comparison.right.title}
+                </h3>
+              </div>
+              <p class="m-0 mt-2 text-sm text-[--color-caption]">{comparison.right.sub}</p>
+            </div>
+            <ul class="flex flex-col gap-3" role="list">
+              {comparison.right.items.map((item) => (
+                <li class="flex items-start gap-4 p-5 bg-[--color-surface] rounded-xl">
+                  <span
+                    aria-hidden="true"
+                    class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-[--color-primary]/10 text-[--color-primary] shrink-0"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                      <line x1="9" y1="3" x2="9" y2="15" />
+                      <line x1="3" y1="9" x2="15" y2="9" />
+                    </svg>
+                  </span>
+                  <span class="text-[--color-body] leading-relaxed">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+        </div>
+      </div>
     </div>
   </section>
 
 
-  <!-- ── Swiper init (loaded only on this page) ──────────────────── -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-  <script is:inline src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <script is:inline>
-    (function () {
-      function init() {
-        if (typeof window.Swiper === 'undefined') return;
-        new window.Swiper('.meridian-testimonials', {
-          effect: 'fade',
-          fadeEffect: { crossFade: true },
-          loop: true,
-          speed: 600,
-          autoHeight: true,
-          slidesPerView: 1,
-          navigation: {
-            prevEl: '.meridian-prev',
-            nextEl: '.meridian-next',
-          },
-          pagination: {
-            el: '.meridian-pagination',
-            clickable: true,
-            bulletClass: 'meridian-bullet',
-            bulletActiveClass: 'meridian-bullet--active',
-            renderBullet: function (_, cls) {
-              return '<button class="' + cls + '" aria-label="Go to testimonial"></button>';
-            },
-          },
-          a11y: {
-            prevSlideMessage: 'Previous testimonial',
-            nextSlideMessage: 'Next testimonial',
-          },
-        });
-      }
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-      } else {
-        init();
-      }
-    })();
-  </script>
+  <!-- ════════════════════════════════════════════════════════════
+       6. THREE PILLAR SECTIONS (dark) — Diagnose / Intervene / Stay close
+       ════════════════════════════════════════════════════════════ -->
+  {pillars.map((p) => (
+    <section class="bg-[--color-hero-dark] text-[--color-cream] overflow-hidden border-t border-white/5">
+      <div class="container-main py-24 lg:py-36">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
 
-  <style is:global>
-    /* Meridian testimonial pagination bullets — sit on dark section,
-       orange active, cream inactive. Local to this page. */
-    .meridian-bullet {
-      width: 8px;
-      height: 8px;
-      border-radius: 9999px;
-      background: rgba(248, 237, 219, 0.25);
-      border: 0;
-      padding: 0;
-      cursor: pointer;
-      transition: background-color 0.2s ease, transform 0.2s ease;
-    }
-    .meridian-bullet:hover { background: rgba(248, 237, 219, 0.5); }
-    .meridian-bullet--active {
-      background: var(--color-orange);
-      transform: scale(1.15);
-    }
-  </style>
+          <div class="lg:col-span-5 flex flex-col gap-7">
+            <span class="eyebrow text-[--color-orange] inline-flex items-center gap-2">
+              <Sparkle size="h-3 w-3" />
+              {p.eyebrow}
+            </span>
+            <h2 class="m-0 text-white">
+              {p.nameLead} <Accent>{p.nameAccent}</Accent>
+            </h2>
+            <p class="m-0 text-lg leading-relaxed text-[--color-cream]/80 max-w-lg">
+              {p.body}
+            </p>
+            <div class="flex flex-wrap gap-3 mt-2">
+              <PlusButton href={p.href} variant="blue" label="Discover the protocol" />
+            </div>
+          </div>
+
+          <div class="lg:col-span-7 -mr-[10%] sm:-mr-[5%] lg:-mr-[15%]">
+            <Orbital glow={p.glow} labels={p.labels} />
+          </div>
+
+        </div>
+      </div>
+    </section>
+  ))}
+
+
+  <!-- ════════════════════════════════════════════════════════════
+       7. TESTIMONIALS (cream) — editorial heading + masonry
+       ════════════════════════════════════════════════════════════ -->
+  <section class="bg-[--color-cream]">
+    <div class="container-main py-24 lg:py-36">
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+
+        <!-- Sticky editorial column -->
+        <div class="lg:col-span-5 lg:sticky lg:top-28 self-start flex flex-col gap-7">
+          <h2 class="m-0 text-[--color-headline]">
+            We treat your <Accent>health protocol</Accent> like our own family's.
+          </h2>
+          <p class="m-0 text-[--color-body] leading-relaxed max-w-md">
+            You don't just hire a doctor. You hire a team that applies the same
+            obsession to your health that you apply to your own business.
+            300+ active members. 4.9 average rating across 287 reviews.
+          </p>
+          <div class="flex flex-wrap gap-3 mt-2">
+            <PlusButton href="/team"      variant="dark" label="Meet the team" />
+            <PlusButton href="/book-call" variant="blue" label="Book a discovery call" />
+          </div>
+        </div>
+
+        <!-- Masonry of testimonial cards -->
+        <ul class="lg:col-span-7 columns-1 sm:columns-2 gap-5 space-y-5" role="list">
+          {testimonials.map((t) => (
+            <li class="break-inside-avoid bg-[--color-surface] rounded-2xl p-6 lg:p-7 flex flex-col gap-4">
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-10 h-10 rounded-full bg-[--color-primary] text-white flex items-center justify-center font-heading font-bold text-sm"
+                  aria-hidden="true"
+                >
+                  {t.author.charAt(0)}
+                </div>
+                <div class="flex flex-col">
+                  <span class="text-sm font-semibold text-[--color-headline]">{t.author}</span>
+                  <span class="text-xs text-[--color-caption]">{t.role}</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-1" aria-label={`Rating: ${t.rating} out of 5`}>
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <span
+                    aria-hidden="true"
+                    class={i < t.rating ? "text-[--color-orange]" : "text-[--color-border]"}
+                  >
+                    <Sparkle size="h-3.5 w-3.5" />
+                  </span>
+                ))}
+              </div>
+              <blockquote class="m-0">
+                <p class="m-0 text-[--color-body] leading-relaxed">{t.quote}</p>
+              </blockquote>
+            </li>
+          ))}
+        </ul>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════════════
+       8. CLOSING CTA (dark) — founder card + dual CTA
+       ════════════════════════════════════════════════════════════ -->
+  <section class="bg-[--color-hero-dark] text-[--color-cream] relative overflow-hidden">
+
+    <!-- Diagonal blue sweep -->
+    <div
+      aria-hidden="true"
+      class="absolute inset-0 pointer-events-none"
+      style="background: linear-gradient(115deg, transparent 30%, rgb(31 43 235 / 0.35) 50%, transparent 70%);"
+    ></div>
+
+    <div class="container-main relative py-28 lg:py-40">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+
+        <!-- Left: Founder placeholder card -->
+        <div class="lg:col-span-5">
+          <div class="bg-black/40 backdrop-blur-sm border border-white/10 rounded-2xl p-3 max-w-sm">
+            <div
+              class="aspect-[4/5] w-full bg-[--color-primary] rounded-xl flex flex-col items-center justify-center text-white"
+              role="img"
+              aria-label="Placeholder portrait for Dr Eleanor Whitfield"
+            >
+              <span class="font-heading font-extrabold text-[clamp(4rem,8vw,8rem)] tracking-[-0.05em] leading-none">EW</span>
+              <span class="mt-4 font-mono text-xs uppercase tracking-widest opacity-80">Founder photo</span>
+            </div>
+            <div class="px-4 py-4">
+              <span class="block text-base font-semibold text-white">Dr Eleanor Whitfield</span>
+              <span class="block text-sm text-[--color-cream]/70">Founder & Medical Director</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Closing message -->
+        <div class="lg:col-span-7 flex flex-col gap-7">
+          <h2 class="m-0 text-white">
+            Talk to a <Accent>physician</Accent>, not a salesperson.
+          </h2>
+          <p class="m-0 text-lg lg:text-xl leading-relaxed text-[--color-cream]/80 max-w-xl">
+            Every membership conversation starts with a 30-minute call with Dr Whitfield.
+            No sales pitch. No pressure. If we're not the right fit, she'll tell you on
+            the call and suggest alternatives.
+          </p>
+          <div class="flex flex-wrap gap-3 mt-2">
+            <PlusButton href="/book-call" variant="blue" label="Book a discovery call" />
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
 
 </BaseLayout>

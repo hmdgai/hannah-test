@@ -2,17 +2,19 @@
 /**
  * Sparkle.astro
  * ─────────────────────────────────────────────────────
- * The ✦ sparkle mark — Meridian's recurring decorative signature.
- * Used in the wordmark, between trust-strip items, between section labels.
+ * 4-pointed diamond/kite mark with slightly concave sides.
+ * Used as Meridian's recurring brand signature — in the
+ * wordmark, the orbital centre, decorative dots in trust
+ * strips, and accent positions throughout the site.
  *
- * Renders inline SVG (no glyph dependency), inherits currentColor by default
- * so it follows the surrounding text colour. Pass `color` to override.
+ * Renders inline SVG, inherits currentColor by default so
+ * it follows the surrounding text colour. Pass `color` to
+ * override explicitly.
  *
  * Props:
- *   size   — Tailwind text-size class equivalent (e.g. "h-4 w-4", "h-6 w-6").
- *            Defaults to "h-4 w-4" (matches body text).
- *   color  — Override fill colour. Defaults to "currentColor".
- *   class  — Extra classes appended to the SVG root.
+ *   size   — Tailwind sizing classes (default "h-4 w-4")
+ *   color  — Override fill (default "currentColor")
+ *   class  — Extra classes appended to the SVG root
  */
 
 interface Props {
@@ -35,8 +37,16 @@ const {
   aria-hidden="true"
   class:list={["inline-block shrink-0", size, extraClass]}
 >
+  <!-- 4-point diamond with concave (inward-curving) sides.
+       Curves use a midpoint pulled toward the centre so each
+       quadrant edge bows inward — gives the mark its star-like
+       silhouette without being a true 4-pointed star. -->
   <path
-    d="M12 2 L13.5 10.5 L22 12 L13.5 13.5 L12 22 L10.5 13.5 L2 12 L10.5 10.5 Z"
+    d="M12 1
+       Q 13 9, 23 12
+       Q 13 15, 12 23
+       Q 11 15, 1 12
+       Q 11 9, 12 1 Z"
     fill={color}
   />
 </svg>

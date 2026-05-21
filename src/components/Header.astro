@@ -31,6 +31,8 @@ const isActive = (href: string): boolean => {
 const isSection = (prefix: string): boolean => currentPath.startsWith(prefix);
 
 // Per-link active booleans — keep these explicit so the checklist is visible.
+import PlusButton from "./PlusButton.astro";
+
 const homeActive        = isActive('/');
 const methodologyActive = isSection('/methodology');
 const membershipActive  = isSection('/membership');
@@ -85,9 +87,12 @@ const contactActive     = isActive('/contact');
 
     <!-- Right side: CTA + Hamburger -->
     <div class="flex items-center gap-3">
-      <a href="/book-call" class="btn btn-default hidden md:inline-flex whitespace-nowrap">
-        Book a discovery call
-      </a>
+      <PlusButton
+        href="/book-call"
+        variant="blue"
+        label="Book a discovery call"
+        class="hidden md:inline-flex whitespace-nowrap"
+      />
 
       <button
         class="lg:hidden flex flex-col gap-1.5 p-2 -mr-2"
@@ -135,7 +140,7 @@ const contactActive     = isActive('/contact');
         href="/contact"
         class:list={["mobile-nav-item site-nav-item hover:text-[--color-headline] transition-colors py-2", { "is-active": contactActive }]}
       >Contact</a>
-      <a href="/book-call" class="btn btn-default self-start mt-2">Book a discovery call</a>
+      <PlusButton href="/book-call" variant="blue" label="Book a discovery call" class="self-start mt-2" />
     </nav>
   </div>
 </header>

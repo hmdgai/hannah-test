@@ -1,0 +1,75 @@
+---
+/**
+ * PlusButton.astro
+ * ─────────────────────────────────────────────────────
+ * Pill-shaped CTA with a "+" icon prefix inside a soft
+ * rounded square, then the label. Used site-wide for
+ * primary and secondary calls to action.
+ *
+ * Two visual variants:
+ *   blue  → primary CTA (filled cobalt, white text)
+ *   dark  → secondary CTA (filled near-black, white text)
+ *
+ * Renders as an <a> when `href` is supplied, otherwise
+ * as a <button>. Inherits the standard .btn focus ring.
+ *
+ * Props:
+ *   href      — Anchor href (omit for <button>)
+ *   label     — Visible text
+ *   variant   — "blue" (default) | "dark"
+ *   type      — Button type when no href ("button" | "submit" | "reset")
+ *   class     — Extra classes appended to the root
+ *   target    — Optional anchor target (e.g. "_blank")
+ *   rel       — Optional anchor rel
+ *   ariaLabel — Optional override label for screen readers
+ */
+
+interface Props {
+  href?: string;
+  label: string;
+  variant?: "blue" | "dark";
+  type?: "button" | "submit" | "reset";
+  class?: string;
+  target?: string;
+  rel?: string;
+  ariaLabel?: string;
+}
+
+const {
+  href,
+  label,
+  variant = "blue",
+  type = "button",
+  class: extraClass = "",
+  target,
+  rel,
+  ariaLabel,
+} = Astro.props;
+
+const variantClass = variant === "dark" ? "btn-dark" : "btn-default";
+const classes = ["btn", "btn-pill", variantClass, extraClass];
+const Tag = href ? "a" : "button";
+---
+
+<Tag
+  href={href}
+  type={!href ? type : undefined}
+  target={target}
+  rel={rel ?? (target === "_blank" ? "noopener noreferrer" : undefined)}
+  class:list={classes}
+  aria-label={ariaLabel}
+>
+  <span class="btn-icon" aria-hidden="true">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      fill="none"
+    >
+      <line x1="7" y1="2" x2="7" y2="12" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" />
+      <line x1="2" y1="7" x2="12" y2="7" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" />
+    </svg>
+  </span>
+  <span>{label}</span>
+</Tag>
