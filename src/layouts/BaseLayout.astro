@@ -185,22 +185,8 @@ const gscVerify = tracking.gscVerification;
           (document.head || document.body).appendChild(s);
         }
 
-        var INTERACTION_EVENTS = ['mouseenter', 'touchstart', 'scroll', 'keydown'];
-        function onInteraction() {
-          loadGtm();
-          INTERACTION_EVENTS.forEach(function (ev) {
-            window.removeEventListener(ev, onInteraction, { passive: true });
-          });
-        }
-        INTERACTION_EVENTS.forEach(function (ev) {
-          window.addEventListener(ev, onInteraction, { passive: true });
-        });
-
-        if ('requestIdleCallback' in window) {
-          window.requestIdleCallback(loadGtm, { timeout: 10000 });
-        } else {
-          window.setTimeout(loadGtm, 6000);
-        }
+        // Include short visits without waiting for idle time or interaction.
+        loadGtm();
       </script>
     )}
 
